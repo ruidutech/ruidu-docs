@@ -6,10 +6,10 @@
 
 1. 通过手机或平板连接机器人无线WIFI
    - WIFI密码：12345678
-   ![WIFI连接](/images/app/image1.png)
+   ![WIFI连接](/images/dr01-app/image1.png)
 
 2. 连接WIFI后，打开机器人操作平台APP
-   ![打开APP](/images/app/image2.png)
+   ![打开APP](/images/dr01-app/image2.png)
 
 3. 在登录界面的选择机器人名称栏，选择"本地连接"选项
    - 每次退出到登录界面时，都会默认选择"本地连接"选项
@@ -20,13 +20,13 @@
 
 2. 打开APP后，进行机器人配置：
    1. 点击【机器人配置】，进入设备配置界面
-      ![设备配置](/images/app/image3.png)
+      ![设备配置](/images/dr01-app/image3.png)
    
    2. 点击【添加】按钮，输入以下信息：
       - 机器人名称
       - IP地址
       - 端口
-      ![添加设备](/images/app/image4.png)
+      ![添加设备](/images/dr01-app/image4.png)
 
    3. 点击【返回】退出设备配置界面
 
@@ -34,7 +34,7 @@
    - 选择添加的机器名称
    - 用户名：admin
    - 密码：123456
-   ![APP首页](/images/app/image5.png)
+   ![APP首页](/images/dr01-app/image5.png)
 
 ::: warning 连接故障处理
 如果连接WIFI后APP无法连接登录控制器，可以尝试修改WIFI连接方式为静态连接/手动设置：

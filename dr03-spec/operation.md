@@ -2,7 +2,7 @@
 
 ## 遥控器使用说明
 
-![](/images/gt01/image6.png)
+![](/images/dr03-spec/image6.png)
 
 **电源开关**：同时按下左右两边电源开关开启/关闭遥控器  
 **遥控解锁**：电源开启后，需要将SWA/B/C/D四个开关拨到最上面的位置，解锁遥控器  
@@ -35,8 +35,8 @@
 
 ### 充电
 
-![](/images/gt01/image7.png)
-![](/images/gt01/image8.png)
+![](/images/dr03-spec/image7.png)
+![](/images/dr03-spec/image8.png)
 
 底盘采用48V电池，电压范围45 - 54.6V，当电压低于45V时应停止使用并充电。充电具体流程如下：
 1. 关闭底盘电源

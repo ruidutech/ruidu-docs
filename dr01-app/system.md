@@ -2,8 +2,8 @@
 
 ## 参数配置
 
-1. 在APP首页，点击左下角的 ![](/images/app/image24.png) 点击【导航配置】，进入导航配置功能界面
-   ![导航配置](/images/app/image55.png)
+1. 在APP首页，点击左下角的 ![](/images/dr01-app/image24.png) 点击【导航配置】，进入导航配置功能界面
+   ![导航配置](/images/dr01-app/image55.png)
 
 2. 参数修改方法：
    - 点击表格行，进入编辑状态
@@ -17,15 +17,15 @@
 
 ## 录包管理
 
-1. 在APP首页，点击左下角的 ![](/images/app/image24.png) 点击【录包管理】，进入【录包管理】功能界面
-   ![录包管理](/images/app/image56.png)
+1. 在APP首页，点击左下角的 ![](/images/dr01-app/image24.png) 点击【录包管理】，进入【录包管理】功能界面
+   ![录包管理](/images/dr01-app/image56.png)
 
 2. 在此界面可查看已录制完成的包名信息，以及可以删除废弃的包
 
 ## 系统信息
 
-1. 在APP首页，点击左下角的 ![](/images/app/image24.png) 点击【系统信息】，进入【系统信息】功能界面
-   ![系统信息](/images/app/image57.png)
+1. 在APP首页，点击左下角的 ![](/images/dr01-app/image24.png) 点击【系统信息】，进入【系统信息】功能界面
+   ![系统信息](/images/dr01-app/image57.png)
 
 2. 功能说明：
    - **固件升级**：查看APP版本，固件版本信息，进行固件升级

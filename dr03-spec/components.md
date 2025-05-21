@@ -2,7 +2,7 @@
 
 ## 部件标注
 
-![](/images/gt01/image3.png)
+![](/images/dr03-spec/image3.png)
 
 1. BMS 通讯接口：USB-B 母座
 2. 电源输出接口：XT60 母座
@@ -23,11 +23,11 @@
 ## 电源盒
 
 ### 48V 输入
-![](/images/gt01/image4.png)
+![](/images/dr03-spec/image4.png)
 
 带线引出，接头为XT60 公头，接入电源通讯面板中的电源输出口。
 
-![](/images/gt01/image5.png)
+![](/images/dr03-spec/image5.png)
 
 ### 48V 接口定义
 

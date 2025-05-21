@@ -2,7 +2,7 @@
 
 ## 界面布局与功能区域介绍
 
-![](/images/rtk-navigation/image2.png)
+![](/images/dr03-app/image2.png)
 
 *rtk_robot 上位机导航界面*
 

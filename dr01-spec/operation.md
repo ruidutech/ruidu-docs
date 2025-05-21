@@ -2,7 +2,7 @@
 
 ## 遥控器操作
 
-![遥控器说明](/images/searobot/image7.png)
+![遥控器说明](/images/dr01-spec/image7.png)
 
 ### 遥控器功能介绍
 

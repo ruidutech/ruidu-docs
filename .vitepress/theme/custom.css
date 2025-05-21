@@ -1,0 +1,6 @@
+/* Custom CSS to make images display inline */
+p img, li img {
+  display: inline;
+  vertical-align: middle;
+  margin: 0;
+} 

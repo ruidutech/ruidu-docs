@@ -2,15 +2,15 @@
 
 ## 部件标注
 
-以下是 SeaRobot 01 主要部件的位置标注图：
+以下是 DeepRobot 01 主要部件的位置标注图：
 
-![部件标注1](/images/searobot/image3.png)
+![部件标注1](/images/dr01-spec/image3.png)
 
-![部件标注2](/images/searobot/image4.png)
+![部件标注2](/images/dr01-spec/image4.png)
 
 ## 电池仓
 
-![电池仓](/images/searobot/image5.png)
+![电池仓](/images/dr01-spec/image5.png)
 
 底盘电池支持快拆，按下电池仓盖板即可打开盖板。电池接口定义如下：
 
@@ -24,7 +24,7 @@
 
 ## 电源盒
 
-![电源盒](/images/searobot/image6.png)
+![电源盒](/images/dr01-spec/image6.png)
 
 ### 48V 输入
 

@@ -1,6 +1,6 @@
-# SeaRobot 文档中心
+# 睿度文档中心
 
-本项目是使用 [VitePress](https://vitepress.dev/) 构建的 SeaRobot 产品技术文档，包含机器人和APP相关的使用说明文档。
+本项目是使用 [VitePress](https://vitepress.dev/) 构建的睿度产品技术文档，包含机器人和APP相关的使用说明文档。
 
 ## 前置条件
 
@@ -13,8 +13,8 @@
 
 1. **克隆仓库**
    ```bash
-   git clone https://github.com/ushisoft/searobot-docs.git
-   cd searobot-docs
+   git clone git@github.com:ruidutech/ruidu-docs.git
+   cd ruidu-docs
    ```
 
 2. **安装依赖**
@@ -50,7 +50,7 @@
 ## 目录结构
 
 ```
-searobot-docs/
+ruidu-docs/
 ├── .github/              # GitHub相关配置
 ├── .vitepress/           # VitePress配置目录
 │   ├── cache/            # VitePress缓存
@@ -72,13 +72,13 @@ searobot-docs/
 
 ## 内容摘要
 
-### SeaRobot 01 系列文档 (`/searobot/`)
+### DeepRobot 01 系列文档 (`/dr01-spce/`)
 
-包含 SeaRobot 01 系列机器人的相关文档。
+包含 DeepRobot 01 系列机器人的相关规格参数。
 
-### APP 2.0.0 文档 (`/app/`)
+### DeepRobot APP 文档 (`/dr01-app/`)
 
-包含 SeaRobot APP 2.0.0 的使用指南。
+包含 DeepRobot 相关的软件使用指南。
 
 ### 静态资源 (`/public/`)
 
@@ -97,4 +97,4 @@ searobot-docs/
 
 ## 许可证
 
-Copyright © 2024 SeaRobot 
+Copyright © 2025 RuiduTech

@@ -15,12 +15,12 @@ roslaunch ros_mqtt_control ros_mqtt_control.launch
 
 2. **启动程序**：双击打开exe文件
 
-   ![](/images/rtk-navigation/image3.png)
+   ![](/images/dr03-app/image3.png)
    
    *exe文件程序所在位置*
 
 3. **连接IP**：在URL输入框中输入小车IP地址：如http://192.168.1.102:1883（请以实际为准），然后点击【连接】。当连接成功后，连接状态变为断开状态，连接成功后其他按钮解除禁用，此时界面才算正常初始化。
 
-   ![](/images/rtk-navigation/image4.png)
+   ![](/images/dr03-app/image4.png)
    
    *界面连接成功，初始化状态* 

@@ -8,17 +8,17 @@ hero:
   tagline: 为室内外全地形场景提供专业的自主移动无人车解决方案
   actions:
     - theme: brand
-      text: DeepMind01
-      link: /searobot/introduction
+      text: DeepRobot01
+      link: /dr01-spec/introduction
     - theme: alt
-      text: DeepMind01 配套软件
-      link: /app/notices
+      text: DeepRobot01 配套软件
+      link: /dr01-app/notices
     - theme: brand
-      text: DeepMind03
-      link: /gt01/introduction
+      text: DeepRobot03
+      link: /dr03-spec/introduction
     - theme: alt
-      text: DeepMind03 配套软件
-      link: /rtk-navigation/notices
+      text: DeepRobot03 配套软件
+      link: /dr03-app/notices
 
 features:
   - icon: 🚀
@@ -35,7 +35,7 @@ features:
     details: 80KG超大载重，3小时长续航，电池快速更换，多路电压输出，为外设供电
   - icon: 🚜
     title: 履带底盘
-    details: GT-01 Mini系列履带式底盘，具有强大越野能力，适用于室外、农业和地下坑道等场景
+    details: DeepRobot03 系列履带式底盘，具有强大越野能力，适用于室外、农业和地下坑道等场景
   - icon: 🛰️
     title: RTK高精定位
     details: RTK导航系统提供厘米级定位精度，实现复杂环境下的精准自主导航
