@@ -58,12 +58,12 @@ ruidu-docs/
 │   │   ├── custom.css    # 自定义CSS样式
 │   │   └── index.js      # 主题入口文件
 │   └── config.mts        # VitePress配置文件
-├── app/                  # APP 2.0.0 文档
+├── xxx-spec              # 具体产品的规格参数
+├── xxx-app               # 具体产品配套的软件使用指南（如有）
 ├── public/               # 静态资源目录
 │   └── images/           # 图片资源
-│       ├── app/          # APP相关图片
-│       └── searobot/     # 机器人相关图片  
-├── searobot/             # SeaRobot 01 系列文档
+│       ├── xxx-spec/     # 和产品说明文档保持一致
+│       └── xxx-app/      # 同上，保持一致  
 ├── .gitignore            # Git忽略文件
 ├── index.md              # 文档首页
 ├── package.json          # 项目依赖和脚本
@@ -71,14 +71,6 @@ ruidu-docs/
 ```
 
 ## 内容摘要
-
-### DeepRobot 01 系列文档 (`/dr01-spce/`)
-
-包含 DeepRobot 01 系列机器人的相关规格参数。
-
-### DeepRobot APP 文档 (`/dr01-app/`)
-
-包含 DeepRobot 相关的软件使用指南。
 
 ### 静态资源 (`/public/`)
 
