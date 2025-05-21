@@ -1,1 +1,0 @@
-import{_ as a,c as i,o as e,ae as n}from"./chunks/framework.Asma3tvo.js";const k=JSON.parse('{"title":"睿度文档中心","description":"","frontmatter":{},"headers":[],"relativePath":"README.md","filePath":"README.md"}'),p={name:"README.md"};function l(t,s,h,o,r,d){return e(),i("div",null,s[0]||(s[0]=[n("",21)]))}const b=a(p,[["render",l]]);export{k as __pageData,b as default};
