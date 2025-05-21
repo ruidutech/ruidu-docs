@@ -1,0 +1,1 @@
+import{_ as a,c as i,o as n,ae as e}from"./chunks/framework.Dh1jimFm.js";const k=JSON.parse('{"title":"SeaRobot 文档中心","description":"","frontmatter":{},"headers":[],"relativePath":"README.md","filePath":"README.md"}'),p={name:"README.md"};function t(l,s,o,h,r,d){return n(),i("div",null,s[0]||(s[0]=[e("",21)]))}const b=a(p,[["render",t]]);export{k as __pageData,b as default};
