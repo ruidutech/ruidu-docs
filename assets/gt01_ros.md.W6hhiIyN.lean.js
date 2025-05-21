@@ -1,1 +1,0 @@
-import{_ as i,c as a,o as t,ae as h}from"./chunks/framework.Dh1jimFm.js";const F=JSON.parse('{"title":"ROS 通讯包使用说明","description":"","frontmatter":{},"headers":[],"relativePath":"gt01/ros.md","filePath":"gt01/ros.md"}'),e={name:"gt01/ros.md"};function n(p,s,l,k,d,o){return t(),a("div",null,s[0]||(s[0]=[h("",52)]))}const c=i(e,[["render",n]]);export{F as __pageData,c as default};

@@ -1,1 +1,0 @@
-import{_ as l,c as e,o as t,ae as a}from"./chunks/framework.Dh1jimFm.js";const m=JSON.parse('{"title":"注意事项","description":"","frontmatter":{},"headers":[],"relativePath":"app/notices.md","filePath":"app/notices.md"}'),o={name:"app/notices.md"};function r(n,i,s,_,c,p){return t(),e("div",null,i[0]||(i[0]=[a("",2)]))}const f=l(o,[["render",r]]);export{m as __pageData,f as default};
