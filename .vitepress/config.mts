@@ -62,7 +62,6 @@ export default defineConfig({
             { text: '版本更新记录', link: '/dr01-dev/version' },
             { text: '错误代码汇总', link: '/dr01-dev/error-codes' },
             { text: '坐标计算相关', link: '/dr01-dev/coordinate' },
-            { text: '参数配置', link: '/dr01-dev/parameters' },
           ]
         },
         {
@@ -84,6 +83,7 @@ export default defineConfig({
             { text: '数据包录制', link: '/dr01-dev/api/data-recording' },
             { text: '机器人数据获取', link: '/dr01-dev/api/robot-data-acquisition' },
             { text: '停车位管理', link: '/dr01-dev/api/parking' },
+            { text: '参数配置', link: '/dr01-dev/api/parameter-configuration' },
             { text: '消息推送', link: '/dr01-dev/api/message-push' },
             { text: '系统设置', link: '/dr01-dev/api/system-settings' },
             { text: '激光消息', link: '/dr01-dev/api/laser-messages' },
