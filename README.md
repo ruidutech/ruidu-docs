@@ -60,6 +60,7 @@ ruidu-docs/
 │   └── config.mts        # VitePress配置文件
 ├── xxx-spec              # 具体产品的规格参数
 ├── xxx-app               # 具体产品配套的软件使用指南（如有）
+├── xxx-dev               # 具体产品配套的开发指南（设计说明、接口文档等）
 ├── public/               # 静态资源目录
 │   └── images/           # 图片资源
 │       ├── xxx-spec/     # 和产品说明文档保持一致

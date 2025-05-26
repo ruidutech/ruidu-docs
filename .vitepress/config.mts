@@ -9,10 +9,18 @@ export default defineConfig({
   srcExclude: ['temp/**/*'],  // 忽略temp目录下的所有文件
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    
+    // 配置右侧导航以显示h2和h3级别标题
+    outline: {
+      level: [2, 3], // 显示h2和h3标题
+      label: '本页目录'
+    },
+    
     nav: [
       { text: '首页', link: '/' },
       { text: 'DeepRobot01', link: '/dr01-spec/' },
       { text: 'DeepRobot01 APP', link: '/dr01-app/' },
+      { text: 'DeepRobot01 API', link: '/dr01-dev/' },
       { text: 'DeepRobot03', link: '/dr03-spec/' },
       { text: 'DeepRobot03 APP', link: '/dr03-app/' }
     ],
@@ -43,6 +51,44 @@ export default defineConfig({
             { text: '系统相关', link: '/dr01-app/system' },
             { text: '状态显示与控制', link: '/dr01-app/status' },
             { text: '常见故障分析', link: '/dr01-app/troubleshooting' }
+          ]
+        }
+      ],
+      '/dr01-dev/': [
+        {
+          text: 'DeepRobot01 开发文档',
+          items: [
+            { text: '开发文档介绍', link: '/dr01-dev/' },
+            { text: '版本更新记录', link: '/dr01-dev/version' },
+            { text: '错误代码汇总', link: '/dr01-dev/error-codes' },
+            { text: '坐标计算相关', link: '/dr01-dev/coordinate' },
+            { text: '参数配置', link: '/dr01-dev/parameters' },
+          ]
+        },
+        {
+          text: 'API文档',
+          items: [
+            { text: '机器人状态相关', link: '/dr01-dev/api/robot-state' },
+            { text: '用户管理相关', link: '/dr01-dev/api/user-management' },
+            { text: '建图相关', link: '/dr01-dev/api/mapping' },
+            { text: '地图管理', link: '/dr01-dev/api/map-management' },
+            { text: '虚拟墙相关', link: '/dr01-dev/api/virtual-wall' },
+            { text: '导航相关', link: '/dr01-dev/api/navigation' },
+            { text: '点位相关', link: '/dr01-dev/api/point-management' },
+            { text: '路径相关', link: '/dr01-dev/api/path-management' },
+            { text: '任务相关', link: '/dr01-dev/api/task-management' },
+            { text: '图片管理相关', link: '/dr01-dev/api/image-management' },
+            { text: '音频管理', link: '/dr01-dev/api/audio-management' },
+            { text: '轨道相关', link: '/dr01-dev/api/track-management' },
+            { text: '控制命令', link: '/dr01-dev/api/control-commands' },
+            { text: '数据包录制', link: '/dr01-dev/api/data-recording' },
+            { text: '机器人数据获取', link: '/dr01-dev/api/robot-data-acquisition' },
+            { text: '停车位管理', link: '/dr01-dev/api/parking' },
+            { text: '消息推送', link: '/dr01-dev/api/message-push' },
+            { text: '系统设置', link: '/dr01-dev/api/system-settings' },
+            { text: '激光消息', link: '/dr01-dev/api/laser-messages' },
+            { text: '目标跟随', link: '/dr01-dev/api/target-following' },
+            { text: '模式设置', link: '/dr01-dev/api/mode-settings' }
           ]
         }
       ],
