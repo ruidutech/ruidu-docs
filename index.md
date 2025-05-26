@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "DeepMind"
-  text: "智能智能科技"
+  text: "睿度智能科技"
   tagline: 为室内外全地形场景提供专业的自主移动无人车解决方案
   actions:
     - theme: brand
