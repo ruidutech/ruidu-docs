@@ -12,7 +12,7 @@
 
 即: 弧度(radius) = 弦长(L') / 半径(R)
 
-![弧度计算示意图](/images/dr01-dev/image3.png)
+![弧度计算示意图](/images/dr01-dev/radius-calculation.png)
 
 我们这边为了方便计算需要乘10作为整数处理, 即：
 弧度(radius) = (弦长(L') / 半径(R)) * 10
@@ -29,7 +29,7 @@ radius = (L' / R) * 10
 - 如果弧度大于0：则圆心在AB直线左边，圆弧在AB直线右边
 - 如果弧度小于0: 则圆心在AB直线右边，圆弧在AB直线左边
 
-![圆心角度计算示意图](/images/dr01-dev/image4.png)
+![圆心角度计算示意图](/images/dr01-dev/center-angle-calculation.png)
 
 ## 测试数据
 
