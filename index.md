@@ -5,13 +5,13 @@ layout: home
 hero:
   name: "DeepMind"
   text: "睿度智能科技"
-  tagline: 为室内外全地形场景提供专业的自主移动无人车解决方案
+  tagline: 致力于为室内外复杂多变的全地形应用场景，提供技术先进、性能可靠的专业自主移动无人车解决方案。
   actions:
     - theme: brand
-      text: DeepRobot01
+      text: DeepRobot01 四轮无人车
       link: /deeprobot01
     - theme: alt
-      text: DeepRobot03
+      text: DeepRobot03 履带无人车
       link: /deeprobot03
 
 features:
