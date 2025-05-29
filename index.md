@@ -9,16 +9,10 @@ hero:
   actions:
     - theme: brand
       text: DeepRobot01
-      link: /dr01-spec/introduction
+      link: /deeprobot01
     - theme: alt
-      text: DeepRobot01 配套软件
-      link: /dr01-app/notices
-    - theme: brand
       text: DeepRobot03
-      link: /dr03-spec/introduction
-    - theme: alt
-      text: DeepRobot03 配套软件
-      link: /dr03-app/notices
+      link: /deeprobot03
 
 features:
   - icon: 🚀
