@@ -1,6 +1,6 @@
 # 睿度文档中心
 
-本项目是使用 [VitePress](https://vitepress.dev/) 构建的睿度产品技术文档，包含机器人和APP相关的使用说明文档。
+本项目是使用 [VitePress](https://vitepress.dev/) 构建的产品技术文档，包含机器人规格、配套软件和开发接口等。
 
 ## 前置条件
 
@@ -54,17 +54,17 @@ ruidu-docs/
 ├── .github/              # GitHub相关配置
 ├── .vitepress/           # VitePress配置目录
 │   ├── cache/            # VitePress缓存
+│   ├── sidebar/          # 左侧导航栏配置
 │   ├── theme/            # 自定义主题
 │   │   ├── custom.css    # 自定义CSS样式
 │   │   └── index.js      # 主题入口文件
 │   └── config.mts        # VitePress配置文件
-├── xxx-spec              # 具体产品的规格参数
-├── xxx-app               # 具体产品配套的软件使用指南（如有）
-├── xxx-dev               # 具体产品配套的开发指南（设计说明、接口文档等）
+├── deeprobot01           # 四轮无人车相关文档，二级目录根据需要配置，后续如果有新产品，独立新建目录即可，不再赘述
+├── deeprobot03           # 履带无人车相关文档
 ├── public/               # 静态资源目录
 │   └── images/           # 图片资源
-│       ├── xxx-spec/     # 和产品说明文档保持一致
-│       └── xxx-app/      # 同上，保持一致  
+│       ├── deeprobot01/  # 和产品说明文档保持一致
+│       └── …/            # 其他，略  
 ├── .gitignore            # Git忽略文件
 ├── index.md              # 文档首页
 ├── package.json          # 项目依赖和脚本
