@@ -1,0 +1,89 @@
+import{_ as s,c as n,o as p,ag as e}from"./chunks/framework.z8pHdAxJ.js";const l="/ruidu-docs/images/deeprobot01/development-guide/radius-calculation.png",i="/ruidu-docs/images/deeprobot01/development-guide/center-angle-calculation.png",b=JSON.parse('{"title":"关于弧度计算","description":"","frontmatter":{},"headers":[],"relativePath":"deeprobot01/development-guide/coordinate.md","filePath":"deeprobot01/development-guide/coordinate.md"}'),c={name:"deeprobot01/development-guide/coordinate.md"};function t(r,a,o,d,h,u){return p(),n("div",null,a[0]||(a[0]=[e('<h1 id="关于弧度计算" tabindex="-1">关于弧度计算 <a class="header-anchor" href="#关于弧度计算" aria-label="Permalink to &quot;关于弧度计算&quot;">​</a></h1><h2 id="坐标系说明" tabindex="-1">坐标系说明 <a class="header-anchor" href="#坐标系说明" aria-label="Permalink to &quot;坐标系说明&quot;">​</a></h2><p>除标记为world字段的，均为右手坐标系。坐标系原点为图片左下角。角度为弧度制，逆时针方向为正。</p><h2 id="弧度计算方法" tabindex="-1">弧度计算方法 <a class="header-anchor" href="#弧度计算方法" aria-label="Permalink to &quot;弧度计算方法&quot;">​</a></h2><h3 id="关于边的弧度" tabindex="-1">关于边的弧度 <a class="header-anchor" href="#关于边的弧度" aria-label="Permalink to &quot;关于边的弧度&quot;">​</a></h3><p>原本: 弧度(radius) = 弧长(L) / 半径(R)</p><p>为了方便计算，我们将起点与终点间的弦长(L&#39;)作为弧长(L)近似计算，L&#39; ≈ L</p><p>即: 弧度(radius) = 弦长(L&#39;) / 半径(R)</p><p><img src="'+l+'" alt="弧度计算示意图"></p><p>我们这边为了方便计算需要乘10作为整数处理, 即： 弧度(radius) = (弦长(L&#39;) / 半径(R)) * 10</p><p>radius = (L&#39; / R) * 10</p><p>如果弧度大于0：则圆心在AB直线左边，圆弧在AB直线右边 如果弧度小于0: 则圆心在AB直线右边，圆弧在AB直线左边</p><h3 id="关于圆心与角度的计算" tabindex="-1">关于圆心与角度的计算 <a class="header-anchor" href="#关于圆心与角度的计算" aria-label="Permalink to &quot;关于圆心与角度的计算&quot;">​</a></h3><p>注意：关于起始角与结束角度使用的为弧度制，表示右手坐标系下的XY角度。根据不同绘图控件，需要根据radius的正负，将其调整为AB直线的左右位置。</p><ul><li>如果弧度大于0：则圆心在AB直线左边，圆弧在AB直线右边</li><li>如果弧度小于0: 则圆心在AB直线右边，圆弧在AB直线左边</li></ul><p><img src="'+i+`" alt="圆心角度计算示意图"></p><h2 id="测试数据" tabindex="-1">测试数据 <a class="header-anchor" href="#测试数据" aria-label="Permalink to &quot;测试数据&quot;">​</a></h2><h3 id="示例1" tabindex="-1">示例1 <a class="header-anchor" href="#示例1" aria-label="Permalink to &quot;示例1&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>起点: 28 79</span></span>
+<span class="line"><span>终点: 102 61</span></span>
+<span class="line"><span>curvity: -0.1</span></span>
+<span class="line"><span>length 76.15773105863909</span></span>
+<span class="line"><span>R 761.5773105863908</span></span>
+<span class="line"><span>c1 47.972972972972975</span></span>
+<span class="line"><span>c2 -0.24324324324324326</span></span>
+<span class="line"><span>A 1.0591672753834915</span></span>
+<span class="line"><span>B -148.28341855368882</span></span>
+<span class="line"><span>C -573360.0803506209</span></span>
+<span class="line"><span>curvity * (x2 - x1) -7.4</span></span>
+<span class="line"><span>center_x -114.77485919894366</span></span>
+<span class="line"><span>center_y -669.0744211512127</span></span>
+<span class="line"><span>start_angle,end_angle 1.3822078610924655 1.2821661474809256</span></span></code></pre></div><h3 id="示例2" tabindex="-1">示例2 <a class="header-anchor" href="#示例2" aria-label="Permalink to &quot;示例2&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>起点: 40 67</span></span>
+<span class="line"><span>终点: 87 144</span></span>
+<span class="line"><span>curvity: -0.5</span></span>
+<span class="line"><span>length 90.21086409075129</span></span>
+<span class="line"><span>R 180.42172818150257</span></span>
+<span class="line"><span>c1 236.3404255319149</span></span>
+<span class="line"><span>c2 1.6382978723404256</span></span>
+<span class="line"><span>A 3.6840199185151654</span></span>
+<span class="line"><span>B -777.3282028066999</span></span>
+<span class="line"><span>C 10486.562698053414</span></span>
+<span class="line"><span>curvity * (x2 - x1) -23.5</span></span>
+<span class="line"><span>center_x 212.60985882898555</span></span>
+<span class="line"><span>center_y 14.4848913641257</span></span>
+<span class="line"><span>start_angle,end_angle 2.8462489923075944 2.340888482023437</span></span></code></pre></div><h3 id="示例3" tabindex="-1">示例3 <a class="header-anchor" href="#示例3" aria-label="Permalink to &quot;示例3&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>起点: 135 92</span></span>
+<span class="line"><span>终点: 85 67</span></span>
+<span class="line"><span>curvity: 1.4</span></span>
+<span class="line"><span>length 55.90169943749474</span></span>
+<span class="line"><span>R 39.92978531249624</span></span>
+<span class="line"><span>c1 149.75</span></span>
+<span class="line"><span>c2 0.5</span></span>
+<span class="line"><span>A 1.25</span></span>
+<span class="line"><span>B -198.75</span></span>
+<span class="line"><span>C 7087.1747448979595</span></span>
+<span class="line"><span>curvity * (x2 - x1) -70</span></span>
+<span class="line"><span>center_x 122.75255076525508</span></span>
+<span class="line"><span>center_y 53.99489846948984</span></span>
+<span class="line"><span>start_angle,end_angle 1.2590464391849494 2.809841432406456</span></span></code></pre></div><h3 id="示例4" tabindex="-1">示例4 <a class="header-anchor" href="#示例4" aria-label="Permalink to &quot;示例4&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>起点: 37 103</span></span>
+<span class="line"><span>终点: 73 118</span></span>
+<span class="line"><span>curvity: -1.6</span></span>
+<span class="line"><span>length 39</span></span>
+<span class="line"><span>R 24.375</span></span>
+<span class="line"><span>c1 101.04166666666667</span></span>
+<span class="line"><span>c2 0.4166666666666667</span></span>
+<span class="line"><span>A 1.1736111111111112</span></span>
+<span class="line"><span>B -259.36805555555554</span></span>
+<span class="line"><span>C 14116.194444444445</span></span>
+<span class="line"><span>curvity * (x2 - x1) -57.6</span></span>
+<span class="line"><span>center_x 60.624999999999964</span></span>
+<span class="line"><span>center_y 97.00000000000009</span></span>
+<span class="line"><span>start_angle,end_angle 2.8928826644962733 1.038292228493043</span></span></code></pre></div><h3 id="示例5" tabindex="-1">示例5 <a class="header-anchor" href="#示例5" aria-label="Permalink to &quot;示例5&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>起点: 9 112</span></span>
+<span class="line"><span>终点: 7 112</span></span>
+<span class="line"><span>curvity: -1.6</span></span>
+<span class="line"><span>length 2</span></span>
+<span class="line"><span>R 1.25</span></span>
+<span class="line"><span>c1 8</span></span>
+<span class="line"><span>c2 -0</span></span>
+<span class="line"><span>A 1</span></span>
+<span class="line"><span>B -224</span></span>
+<span class="line"><span>C 12543.4375</span></span>
+<span class="line"><span>curvity * (x2 - x1) 3.2</span></span>
+<span class="line"><span>center_x 8 center_y 112.75</span></span>
+<span class="line"><span>start_angle,end_angle -0.6435011087932844 -2.498091544796509</span></span></code></pre></div><h3 id="示例5-1" tabindex="-1">示例5 <a class="header-anchor" href="#示例5-1" aria-label="Permalink to &quot;示例5&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>起点: 66 2</span></span>
+<span class="line"><span>终点: 113 44</span></span>
+<span class="line"><span>curvity: -0.7</span></span>
+<span class="line"><span>length 63.0317380372777</span></span>
+<span class="line"><span>R 90.04534005325387</span></span>
+<span class="line"><span>c1 110.05319148936171</span></span>
+<span class="line"><span>c2 0.8936170212765957</span></span>
+<span class="line"><span>A 1.7985513807152556</span></span>
+<span class="line"><span>B -82.73336351290178</span></span>
+<span class="line"><span>C -6163.4795849077545</span></span>
+<span class="line"><span>curvity * (x2 - x1) -32.9</span></span>
+<span class="line"><span>center_x 145.7049819855856 center_y -39.89605126958388</span></span>
+<span class="line"><span>start_angle,end_angle 2.6576448111366786 1.9425026038456583</span></span></code></pre></div><h3 id="示例7" tabindex="-1">示例7 <a class="header-anchor" href="#示例7" aria-label="Permalink to &quot;示例7&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>起点: 103 137</span></span>
+<span class="line"><span>终点: 0 31</span></span>
+<span class="line"><span>curvity: -0.4</span></span>
+<span class="line"><span>length 147.80054127099805</span></span>
+<span class="line"><span>R 369.5013531774951</span></span>
+<span class="line"><span>c1 137.94660194174756</span></span>
+<span class="line"><span>c2 1.029126213592233</span></span>
+<span class="line"><span>A 2.0591007635026863</span></span>
+<span class="line"><span>B -345.9289282684513</span></span>
+<span class="line"><span>C -116540.98501272502</span></span>
+<span class="line"><span>curvity * (x2 - x1) 41.2</span></span>
+<span class="line"><span>center_x -208.14591273501688 center_y 336.2974435066673</span></span>
+<span class="line"><span>start_angle,end_angle -0.5696871613332968 -0.9724030029139584</span></span></code></pre></div>`,31)]))}const v=s(c,[["render",t]]);export{b as __pageData,v as default};
