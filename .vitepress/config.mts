@@ -23,6 +23,10 @@ export default defineConfig({
       { text: 'DeepRobot03', link: '/deeprobot03/' }
     ],
 
+    search: {
+      provider: 'local'
+    },
+
     // 使用模块化的sidebar配置
     sidebar,
 
