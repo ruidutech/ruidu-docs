@@ -3,4 +3,16 @@ p img, li img {
   display: inline;
   vertical-align: middle;
   margin: 0;
-} 
+}
+
+/* 强制表格不换行 */
+.vp-doc table {
+  white-space: nowrap;
+}
+
+/* 允许有 <br> 的单元格换行 */
+.vp-doc table td br {
+  white-space: normal;
+  display: block;
+  content: " ";
+}

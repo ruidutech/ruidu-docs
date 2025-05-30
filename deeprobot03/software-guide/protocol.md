@@ -139,6 +139,8 @@
 | task_control | start_task | 启动循迹 |
 |  | cancel_task | 取消循迹 |
 |  | init_rtk_data | Rtk位置归零 |
+| manual_control **（开发中）** | cmd_vel | 速度控制 |
+|  | terminate | 急停 |
 
 ### 获得所有轨迹 get_all_trajectory
 
@@ -233,3 +235,27 @@
   "cmd": "init_rtk_data"       // 命令：RTK位置归零
 }
 ``` 
+
+### 速度控制 cmd_vel （开发中）
+
+示例：
+```json
+{
+  "cmd_type": "manual_control",   // 命令类型
+  "cmd": "cmd_vel",               // 命令：速度控制
+  "x": 2,                         // 前后速度，为后续兼容飞控，使用与 Mavlink 协议一致的参数
+  "y": 0,                         // 左右速度
+  "z": 0,                         // 小车上用不到
+  "r": 1                          // 角速度
+}
+``` 
+
+### 急停控制 terminate（开发中）
+
+示例：
+```json
+{
+  "cmd_type": "manual_control",   // 命令类型
+  "cmd": "terminate"              // 命令：急停控制
+}
+```
