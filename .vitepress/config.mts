@@ -23,6 +23,7 @@ export default defineConfig({
       { text: 'DeepRobot03', link: '/deeprobot03/' }
     ],
 
+    // 会对标题进行索引，所以尽量把关键信息放在标题中
     search: {
       provider: 'local'
     },
