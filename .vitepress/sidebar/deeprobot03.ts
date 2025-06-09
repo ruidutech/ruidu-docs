@@ -23,7 +23,7 @@ export const deeprobot03Sidebar: DefaultTheme.SidebarItem[] = [
       { text: '连接设置', link: '/deeprobot03/software-guide/connection' },
       { text: '轨迹录制', link: '/deeprobot03/software-guide/recording' },
       { text: '导航功能', link: '/deeprobot03/software-guide/navigation' },
-      { text: '开源导航协议', link: '/deeprobot03/software-guide/protocol' },
+      { text: '接口文档', link: '/deeprobot03/software-guide/protocol' },
       { text: 'Mavlink 协议对照', link: '/deeprobot03/software-guide/mavlink-comparison' }
     ]
   }
