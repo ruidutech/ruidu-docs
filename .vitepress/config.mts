@@ -20,7 +20,8 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: 'DeepRobot01', link: '/deeprobot01/' },
-      { text: 'DeepRobot03', link: '/deeprobot03/' }
+      { text: 'DeepRobot03', link: '/deeprobot03/' },
+      { text: 'OrbitControl', link: '/orbitcontrol/' }
     ],
 
     // 会对标题进行索引，所以尽量把关键信息放在标题中
