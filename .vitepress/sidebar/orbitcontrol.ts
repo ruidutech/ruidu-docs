@@ -10,7 +10,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
   },
   {
     text: '接口文档',
-    collapsed: true,
+    collapsed: false,
     items: [
       { text: '设备相关', link: '/orbitcontrol/tech-spec/api/device' },
       { text: '导航相关', link: '/orbitcontrol/tech-spec/api/navigation' },
