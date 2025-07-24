@@ -9,10 +9,10 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     ]
   },
   {
-    text: '接口文档',
+    text: '设备端 API',
     collapsed: false,
     items: [
-      { text: '设备相关', link: '/orbitcontrol/tech-spec/api/device' },
+      { text: '控制指令', link: '/orbitcontrol/tech-spec/api/device' },
       { text: '导航相关', link: '/orbitcontrol/tech-spec/api/navigation' },
       { text: '枚举字典', link: '/orbitcontrol/tech-spec/api/dict' },
       { text: '错误响应', link: '/orbitcontrol/tech-spec/api/errors' },
