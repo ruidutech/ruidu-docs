@@ -2,6 +2,7 @@
 import { h } from 'vue'
 import Theme from 'vitepress/theme'
 import './custom.css'
+import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client'
 
 export default {
   extends: Theme,
@@ -12,5 +13,6 @@ export default {
   },
   enhanceApp({ app, router, siteData }) {
     // app is the Vue 3 app instance
+    enhanceAppWithTabs(app)
   }
 } 

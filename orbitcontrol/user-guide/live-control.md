@@ -1,51 +1,83 @@
 # 设备实时控制
 
-### 左侧设备列表
+## 设备列表
 
-1. 设备图标可用颜色区分基本状态
-2. 右上依次为连接状态
-3. 卡片中的图标依次为：
-    - 电量，百分比显示
-    - 与 Home 的距离，单位 m
-    - Site 名称
-    - 定位状态
-4. 点击箭头符号可展示更详细信息
+点击 `菜单栏` 中的 `选择设备` 后，会从页面左侧以抽屉面板的形式弹出设备选择列表：
 
-### 地图显示
+![](/images/orbitcontrol/user-guide/live-control-devices.png)
 
-- 地图中显示路径、当前位置、速度、高度、电量等
+1. **搜索框**：根据设备名称进行模糊搜索。
+2. **排序**：根据设备名称排序，可切换正序/倒序。
+3. **过滤条件**：根据所属站点、设备类型进行过滤筛选。
+4. **设备卡片**：显示设备概要信息
+   - 设备图标的绿色/灰色表示在线状态
+   - 剩余电量
+   - 距离 `HOME` 的距离
+   - 所属站点名称
+   - 传感器状态
+   - 最近活动时间，表示最后一次执行任务或者手动控制的时间
+   - 点击 `更多` 图标，可显示更详细信息 // TODO 目前暂未开放
 
-### 手动控制
+## 手动控制
 
-在设备列表中选中`设备`后，会在屏幕正下方显示`设备控制面板`
-- 到达目标点
-- 执行任务
-- 手动控制
-- 返航 Return To Home（RTH）
+在设备列表中选中`设备`后，会在屏幕显示各控制面板：
 
-### Payload Control 载荷设备控制
+![](/images/orbitcontrol/user-guide/live-control-panels.png)
 
-在右侧 FPV 视频流面板中，点击 `Payload Control` 按钮，会显示 `载荷控制面板`
-- 云台控制
-- 镜头控制
-- 抓拍、录像等
+### 设备控制面板
+
+处于页面底部中间位置的是 `设备控制面板`：
+
+1. **到达指定目标点**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-gtl.png) 图标，然后在地图上选择目标，可以导航到指定地点
+2. **执行任务**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-mission.png) 图标，在弹出的对话框中选择一个任务，由当前设备执行
+3. **手动控制**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-manual.png) 图标，将会获取设备控制权限，并通过键盘或者手柄进行远程遥控
+4. **返航（RTH）**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-rth.png) 图标，返回到 `Home` 点
 
 ### 通知和告警
 
-1. 通知主要同步重要事件的状态，比如：任务的开始结束、手动控制的开始，机器控制权的转让等
-2. 告警则主要同步异常或者危险信息，包括检测到其他不明机器、信号丢失、空域交通事故、低电量等
+位于顶部的这块区域，即为 `告警面板`，点击面板右侧图标，可显示更详细的 `告警` 信息。
 
-### Video Wall
+![](/images/orbitcontrol/user-guide/live-control-panel-alert.png) 
 
-区别于 `Gallery（画廊）`，Video Wall（视频墙）主要用于实时集中观看多个设备的视频流，
-多个视频窗口拼接成“大屏”，以矩阵布局呈现实时画面，
-飞行/任务执行中，或监控中心用于统一监管多个视角，
-多用于安防监控人员、指挥中心调度人员。
+关于 `告警` 的定义及与 `通知` 的主要区别，参考：[通知与告警](./notification.md)
 
-### Annotation 标注
+### FPV ( First Person View )
 
-名称 + 地图坐标位置
-点、线、多边形
-和 `Site 作业区` 关联
+页面右上角区域为 `FPV面板`，为简易期间，保留英文 FPV 的使用，为第一人称视角实时视频流。
 
-### 电子围栏和禁飞区
+![](/images/orbitcontrol/user-guide/live-control-panel-fpv.png) 
+
+其中，面板顶部操作栏的图标，依次为：
+
+- `载荷设备控制面板` 显示
+- `地图` 与 `FPV面板` 切换
+- `FPV面板` 隐藏
+
+### 载荷设备控制
+
+点击 `FPV面板` 中的 `显示载荷控制面板` 图标后显示：
+
+![](/images/orbitcontrol/user-guide/live-control-panel-payload.png) 
+
+目前可控制的设备主要是云台设备，功能依次为：
+
+- 云台控制（俯仰角 Pitch、偏航角 Yaw、恢复预置位）
+- 开始/结束抓拍、开始/结束录像
+- 变焦（Zoom in、Zoom out）
+- 手动对焦（Focus+、Focus-）
+
+## 视频墙 ( Video Wall )
+
+点击 `菜单栏` -> `视频墙` 进入：
+
+![](/images/orbitcontrol/user-guide/live-control-video-wall.png) 
+
+视频墙的功能比较简单，仅支持 `站点` 和常用布局（ ![](/icons/layout-grid.svg) ）的选择。
+
+点击图像窗格中的 ![](/icons/circle-plus.svg)  按钮，可以选择指定 `站点` 下的 `设备` 上墙。
+
+:::tip
+区别于 [画廊](./gallery.md)，`视频墙` 旨在集中观看多个实时视频，以“矩阵”、“大屏”布局呈现。
+
+多用于安防监控人员、指挥中心调度人员等，统一监管多个视角。
+:::

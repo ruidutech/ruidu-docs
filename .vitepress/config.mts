@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { sidebar } from './sidebar'
+import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -8,6 +9,11 @@ export default defineConfig({
   lang: 'zh-CN',
   base: '/ruidu-docs/',
   srcExclude: ['temp/**/*'],  // 忽略temp目录下的所有文件
+  markdown: {
+    config(md) {
+      md.use(tabsMarkdownPlugin)
+    }
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     

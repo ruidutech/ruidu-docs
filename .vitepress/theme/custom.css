@@ -1,8 +1,12 @@
 /* Custom CSS to make images display inline */
 p img, li img {
   display: inline;
-  vertical-align: middle;
+  vertical-align: top;
   margin: 0;
+}
+
+li img {
+  height: 24px;
 }
 
 /* 强制表格不换行 */

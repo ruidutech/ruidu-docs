@@ -2,8 +2,8 @@
 
 ## 平台简介
 
-- 是什么
-- 为什么用
+- [什么是OrbitControl](introduction/whatis.md)
+- [OrbitControl的优势](introduction/advantage.md)
 
 ## 快速开始
 

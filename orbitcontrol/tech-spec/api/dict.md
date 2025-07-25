@@ -1,6 +1,6 @@
 # 枚举字典
 
-## device_type
+## 设备类型 device_type
 
 | 枚举值             | 描述         |
 | ------------------ | ------------ |
@@ -10,7 +10,7 @@
 | GIMBAL             | 云台         |
 | ONBOARD_CONTROLLER | 智能从属设备 |
 
-## base_mode
+## 设备当前控制模式 base_mode
 
 | 枚举值       | 描述                               |
 | ------------ | ---------------------------------- |
@@ -18,7 +18,7 @@
 | GUIDED       | 任务执行模式（接收地面站控制指令） |
 | AUTO         | 自动模式（根据上传航点自动执行）   |
 
-## vehicle state
+## 设备状态 vehicle state
 
 | 枚举值    | 描述                            |
 | --------- | ------------------------------- |
@@ -30,7 +30,7 @@
 | EMERGENCY | 严重故障（进入 fail-safe 模式） |
 | POWEROFF  | 正在断电或关闭系统              |
 
-## charge_status
+## 电池状态 charge_status
 
 | 枚举值   | 描述   |
 | -------- | ------ |
@@ -38,7 +38,7 @@
 | LOW      | 低电量 |
 | CRITICAL | 故障   |
 
-## sensors_status
+## 传感器状态 sensors_status
 
 | 枚举值      | 描述   |
 | ----------- | ------ |
@@ -46,14 +46,14 @@
 | OK          | 正常   |
 | EMERGENCY   | 故障   |
 
-## gimbal_flag
+## 云台控制模式 gimbal_flag
 
 | 枚举值 | 描述     |
 | ------ | -------- |
 | LOCK   | 角度目标 |
 | RATE   | 速度目标 |
 
-## focus_flag
+## 对焦模式 focus_flag
 
 | 枚举值 | 描述 |
 | ------ | ---- |

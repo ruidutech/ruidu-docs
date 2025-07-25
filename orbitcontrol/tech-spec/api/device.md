@@ -14,7 +14,7 @@
     "data": {
       "device_id": "uuid-191",
       "serial_number": "", // 设备序列号
-      "device_type": "", // 设备类型，*2
+      "device_type": "", // 设备类型
       "manufacturer": "", // 制造商
       "model": "", // 型号
       "firmware": "" // 固件版本
@@ -47,8 +47,8 @@
     "data": {
       "device_id": "uuid-191",
       "device_type": "", // 设备类型
-      "base_mode": "", // 当前模式 *2
-      "state": "", // 当前状态 *2
+      "base_mode": "", // 当前模式
+      "state": "", // 当前状态
       // 传感器状态
       "sensors": {
         "laser": 0,
@@ -110,7 +110,7 @@
       "voltage": 3700, // 电压，mV
       "current_battery": 15000, // 当前电流，mA
       "battery_remaining": 80.0, // 剩余电量，百分比
-      "charge_state": 1 // 当前状态 *2
+      "charge_state": 1 // 当前状态
     }
   }
   ```
@@ -176,7 +176,7 @@
     "data": {
       "pitch": -30.0, // 俯仰角，flag=RATE时表示速度，下同
       "yaw": 90.0, // 偏航角
-      "flag": 1 // 控制模式 *2
+      "flag": 1 // 控制模式
     }
   }
   ```
