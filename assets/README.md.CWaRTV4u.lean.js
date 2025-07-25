@@ -1,0 +1,1 @@
+import{_ as a,c as i,o as n,ak as e}from"./chunks/framework.DaqVj_Bu.js";const k=JSON.parse('{"title":"睿度文档中心","description":"","frontmatter":{},"headers":[],"relativePath":"README.md","filePath":"README.md"}'),p={name:"README.md"};function l(t,s,h,r,d,o){return n(),i("div",null,s[0]||(s[0]=[e("",17)]))}const g=a(p,[["render",l]]);export{k as __pageData,g as default};
