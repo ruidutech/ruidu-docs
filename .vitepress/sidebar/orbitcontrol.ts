@@ -14,6 +14,8 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: "页面导航", link: "/orbitcontrol/user-guide/platform-navigation" },
+      { text: "设备管理", link: "/orbitcontrol/user-guide/device" },
+      { text: "地图管理", link: "/orbitcontrol/user-guide/mapping" },
       { text: "实时控制", link: "/orbitcontrol/user-guide/live-control" },
       { text: "任务计划", link: "/orbitcontrol/user-guide/planning" },
     ],

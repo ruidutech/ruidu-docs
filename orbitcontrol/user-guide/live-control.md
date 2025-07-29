@@ -28,10 +28,10 @@
 
 处于页面底部中间位置的是 `设备控制面板`：
 
-1. **到达指定目标点**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-gtl.png) 图标，然后在地图上选择目标，可以导航到指定地点
-2. **执行任务**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-mission.png) 图标，在弹出的对话框中选择一个任务，由当前设备执行
-3. **手动控制**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-manual.png) 图标，将会获取设备控制权限，并通过键盘或者手柄进行远程遥控
-4. **返航（RTH）**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-rth.png) 图标，返回到 `Home` 点
+1. **到达指定目标点**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-gtl.png){.inline} 图标，然后在地图上选择目标，可以导航到指定地点
+2. **执行任务**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-mission.png){.inline} 图标，在弹出的对话框中选择一个任务，由当前设备执行
+3. **手动控制**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-manual.png){.inline} 图标，将会获取设备控制权限，并通过键盘或者手柄进行远程遥控
+4. **返航（RTH）**：点击 ![](/images/orbitcontrol/user-guide/live-control-button-rth.png){.inline} 图标，返回到 `Home` 点
 
 ### 通知和告警
 

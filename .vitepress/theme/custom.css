@@ -5,8 +5,8 @@ p img, li img {
   margin: 0;
 }
 
-li img {
-  height: 24px;
+img.inline {
+  height: 28px;
 }
 
 /* 强制表格不换行 */

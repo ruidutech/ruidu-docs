@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { sidebar } from './sidebar'
 import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
+import markdownItAttrs from 'markdown-it-attrs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -12,6 +13,7 @@ export default defineConfig({
   markdown: {
     config(md) {
       md.use(tabsMarkdownPlugin)
+      md.use(markdownItAttrs)
     }
   },
   themeConfig: {

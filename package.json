@@ -1,6 +1,7 @@
 {
   "type": "commonjs",
   "devDependencies": {
+    "@types/markdown-it-attrs": "^4.1.3",
     "@types/node": "^22.15.30",
     "puppeteer": "^24.10.0",
     "tsx": "^4.19.4",
@@ -14,6 +15,7 @@
     "docs:export": "node pdf-exports/generator.js --config pdf-exports/config.json"
   },
   "dependencies": {
+    "markdown-it-attrs": "^4.3.1",
     "puppeteer-core": "^24.10.0",
     "vitepress-plugin-tabs": "^0.7.1"
   }
