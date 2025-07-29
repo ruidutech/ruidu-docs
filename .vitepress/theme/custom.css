@@ -9,6 +9,10 @@ img.inline {
   height: 28px;
 }
 
+img.panel {
+  width: 50%;
+}
+
 /* 强制表格不换行 */
 .vp-doc table {
   white-space: nowrap;

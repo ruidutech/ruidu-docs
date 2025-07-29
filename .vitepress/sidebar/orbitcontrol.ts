@@ -14,10 +14,19 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: "页面导航", link: "/orbitcontrol/user-guide/platform-navigation" },
+      { text: "站点管理", link: "/orbitcontrol/user-guide/sites" },
       { text: "设备管理", link: "/orbitcontrol/user-guide/device" },
       { text: "地图管理", link: "/orbitcontrol/user-guide/mapping" },
+      { text: "任务设置和调度", link: "/orbitcontrol/user-guide/planning" },
       { text: "实时控制", link: "/orbitcontrol/user-guide/live-control" },
-      { text: "任务计划", link: "/orbitcontrol/user-guide/planning" },
+      {
+        text: "数据中心",
+        collapsed: false,
+        items: [
+          { text: "运行日志", link: "/orbitcontrol/user-guide/mission-log" },
+          { text: "画廊", link: "/orbitcontrol/user-guide/gallery" },
+        ],
+      },
     ],
   },
   {
