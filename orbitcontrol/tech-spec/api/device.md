@@ -174,9 +174,9 @@
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
     "data": {
-      "pitch": -30.0, // 俯仰角，flag=RATE时表示速度，下同
+      "pitch": -30.0, // 俯仰角，根据控制模式，分别表示速度值或者具体角度
       "yaw": 90.0, // 偏航角
-      "flag": 1 // 控制模式
+      "flag": 1 // 控制模式，1-Speed：速度模式；2-Angle：角度模式
     }
   }
   ```
@@ -216,7 +216,8 @@
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:device_id/capture_status`
-- **请求参数**
+- **请求参数**: 无
+- **响应消息**
 
   ```json
   {
@@ -256,11 +257,12 @@
   }
   ```
 
-### 抓拍状态
+### 录像状态
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:device_id/record_status`
-- **请求参数**
+- **请求参数**: 无
+- **响应消息**
 
   ```json
   {
@@ -283,11 +285,12 @@
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
     "data": {
-      // 焦距，正数表示zoom in，负数表示zoom out，0表示停止
-      "focal_length": 1
-    }
+      "zoom_value": 1, // int
+      "zoom_type": 1
   }
   ```
+
+  > zoom_type 参考 [调焦模式](./dict.md#调焦模式)
 
 ### 对焦
 
@@ -301,8 +304,45 @@
     "timestamp": "2025-07-18T03:15:00Z",
     "data": {
       // 焦距，focus+/focus-，0表示停止，自动模式下忽略
-      "focal_length": 1,
-      "flag": 2
+      "focus_value": 1,
+      "focus_type": 1
+    }
+  }
+  ```
+
+  > focus_type 参考 [对焦模式](./dict.md#对焦模式)
+
+### 开始推流
+
+WHIP -> LiveKit
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/start_stream`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": "2025-07-18T03:15:00Z",
+    "data": {
+      "serial_number": "DEVICE-001",
+      "whip_url": ""
+    }
+  }
+  ```
+
+### 结束推流
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/stop_stream`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": "2025-07-18T03:15:00Z",
+    "data": {
+      "serial_number": "DEVICE-001"
     }
   }
   ```

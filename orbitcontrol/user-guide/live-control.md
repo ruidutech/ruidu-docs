@@ -43,7 +43,7 @@
 
 ### FPV ( First Person View )
 
-页面右上角区域为 `FPV面板`，为简易期间，保留英文 FPV 的使用，为第一人称视角实时视频流。
+页面右上角区域为 `FPV面板`，为简易起见，保留英文 FPV 的使用，为第一人称视角实时视频流。
 
 ![](/images/orbitcontrol/user-guide/live-control-panel-fpv.png) 
 
