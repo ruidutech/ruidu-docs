@@ -33,6 +33,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     text: "设备端 API",
     collapsed: false,
     items: [
+      { text: "通用 API", link: "/orbitcontrol/tech-spec/api/common" },
       { text: "状态与控制", link: "/orbitcontrol/tech-spec/api/device" },
       { text: "导航相关", link: "/orbitcontrol/tech-spec/api/navigation" },
       { text: "枚举字典", link: "/orbitcontrol/tech-spec/api/dict" },

@@ -5,14 +5,13 @@
 ### 设备注册
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/register`
+- **接口地址**: `device/:serial_number/register`
 - **请求参数**
   ```json
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
     "data": {
-      "device_id": "uuid-191",
       "serial_number": "", // 设备序列号
       "device_type": "", // 设备类型
       "manufacturer": "", // 制造商
@@ -25,7 +24,7 @@
 ### 设备注册 ACK
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/register/ack`
+- **接口地址**: `device/:serial_number/register/ack`
 - **请求参数**
   ```json
   {
@@ -38,14 +37,14 @@
 ### 心跳
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/heartbeat`
+- **接口地址**: `device/:serial_number/heartbeat`
 - **请求参数**
   ```json
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
     "data": {
-      "device_id": "uuid-191",
+      "serial_number": "sn-191",
       "device_type": "", // 设备类型
       "base_mode": "", // 当前模式
       "state": "", // 当前状态
@@ -61,7 +60,7 @@
 ### 位姿
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/pose`
+- **接口地址**: `device/:serial_number/pose`
 - **请求参数**
   ```json
   {
@@ -81,7 +80,7 @@
 ### 全局定位
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/gps`
+- **接口地址**: `device/:serial_number/gps`
 - **请求参数**
   ```json
   {
@@ -99,7 +98,7 @@
 ### 电池
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/battery`
+- **接口地址**: `device/:serial_number/battery`
 - **请求参数**
   ```json
   {
@@ -120,7 +119,7 @@
 ### 移动
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/cmd_vel`
+- **接口地址**: `device/:serial_number/cmd_vel`
 - **请求参数**
   ```json
   {
@@ -138,7 +137,7 @@
 ### 急停
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/terminate`
+- **接口地址**: `device/:serial_number/terminate`
 - **请求参数**
   ```json
   {
@@ -151,7 +150,7 @@
 ### 充电
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/charge`
+- **接口地址**: `device/:serial_number/charge`
 - **请求参数**
   ```json
   {
@@ -166,7 +165,7 @@
 ### 云台方向控制
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/gimbal`
+- **接口地址**: `device/:serial_number/gimbal`
 - **请求参数**
 
   ```json
@@ -184,7 +183,7 @@
 ### 开始抓拍
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/start_capture`
+- **接口地址**: `device/:serial_number/start_capture`
 - **请求参数**
 
   ```json
@@ -201,7 +200,7 @@
 ### 结束抓拍
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/stop_capture`
+- **接口地址**: `device/:serial_number/stop_capture`
 - **请求参数**
 
   ```json
@@ -214,10 +213,10 @@
 
 ### 抓拍状态
 
+- **接口方向**: 设备 -> 平台
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/capture_status`
-- **请求参数**: 无
-- **响应消息**
+- **接口地址**: `device/:serial_number/capture_status`
+- **请求参数**
 
   ```json
   {
@@ -232,7 +231,7 @@
 ### 开始录像
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/start_record`
+- **接口地址**: `device/:serial_number/start_record`
 - **请求参数**
 
   ```json
@@ -246,7 +245,7 @@
 ### 结束录像
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/stop_record`
+- **接口地址**: `device/:serial_number/stop_record`
 - **请求参数**
 
   ```json
@@ -259,10 +258,10 @@
 
 ### 录像状态
 
+- **接口方向**: 设备 -> 平台
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/record_status`
-- **请求参数**: 无
-- **响应消息**
+- **接口地址**: `device/:serial_number/record_status`
+- **请求参数**
 
   ```json
   {
@@ -277,7 +276,7 @@
 ### 调整焦距
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/zoom`
+- **接口地址**: `device/:serial_number/zoom`
 - **请求参数**
 
   ```json
@@ -295,7 +294,7 @@
 ### 对焦
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/focus`
+- **接口地址**: `device/:serial_number/focus`
 - **请求参数**
 
   ```json
