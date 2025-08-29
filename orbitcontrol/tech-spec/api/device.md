@@ -11,8 +11,8 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "", // 设备序列号
     "data": {
-      "serial_number": "", // 设备序列号
       "device_type": "", // 设备类型
       "manufacturer": "", // 制造商
       "model": "", // 型号
@@ -43,8 +43,8 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
-      "serial_number": "sn-191",
       "device_type": "", // 设备类型
       "base_mode": "", // 当前模式
       "state": "", // 当前状态
@@ -66,6 +66,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "x": 10.0, // x 坐标
       "y": 12.0, // y 坐标
@@ -86,6 +87,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "lat": 22.9921234, // 纬度
       "lon": 113.891234, // 经度
@@ -104,6 +106,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "temperature": 25.0, // 温度
       "voltage": 3700, // 电压，mV
@@ -125,6 +128,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "x": 100.0, // 前后方向速度
       "y": -90.0, // 左右方向，无人车可用于转向控制
@@ -143,6 +147,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {}
   }
   ```
@@ -156,6 +161,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {}
   }
   ```
@@ -172,6 +178,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "pitch": -30.0, // 俯仰角，根据控制模式，分别表示速度值或者具体角度
       "yaw": 90.0, // 偏航角
@@ -190,6 +197,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "interval": 2.0, // 抓拍间隔，0表示只拍一张
       "numbers": 5 // 抓拍张数，0表示无限制
@@ -207,6 +215,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {}
   }
   ```
@@ -222,6 +231,7 @@
   {
     "msg_id": "uuid-789", // 与开始抓拍的 msg_id 保持一致
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "status": 0 // 0-停止；1-开始（进行中）
     }
@@ -238,6 +248,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {}
   }
   ```
@@ -252,6 +263,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {}
   }
   ```
@@ -267,6 +279,7 @@
   {
     "msg_id": "uuid-789", // 与开始录像的 msg_id 保持一致
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "status": 0 // 0-停止；1-开始（进行中）
     }
@@ -283,6 +296,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       "zoom_value": 1, // int
       "zoom_type": 1
@@ -301,6 +315,7 @@
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "sn-191",
     "data": {
       // 焦距，focus+/focus-，0表示停止，自动模式下忽略
       "focus_value": 1,
@@ -323,8 +338,8 @@ WHIP -> LiveKit
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
+    "serial_number": "DEVICE-001",
     "data": {
-      "serial_number": "DEVICE-001",
       "whip_url": ""
     }
   }
@@ -340,9 +355,8 @@ WHIP -> LiveKit
   {
     "msg_id": "uuid-789",
     "timestamp": "2025-07-18T03:15:00Z",
-    "data": {
-      "serial_number": "DEVICE-001"
-    }
+    "serial_number": "DEVICE-001",
+    "data": {}
   }
   ```
 
