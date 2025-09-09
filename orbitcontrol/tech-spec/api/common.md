@@ -10,7 +10,7 @@ set_message_interval 的一次性版本。
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191", // 设备序列号
     "data": {
       "topic": "", // 消息类型，比如录像状态为 record_status
@@ -27,7 +27,7 @@ set_message_interval 的一次性版本。
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191", // 设备序列号
     "data": {
       "topic": "", // 消息类型，比如录像状态为 record_status

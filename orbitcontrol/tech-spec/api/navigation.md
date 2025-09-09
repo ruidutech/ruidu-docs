@@ -11,7 +11,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "data": {}
   }
   ```
@@ -27,7 +27,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "success": true,
     "data": {}
   }
@@ -38,7 +38,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "success": false,
     "code": 3001,
     "message": "已在建图中"
@@ -54,7 +54,7 @@
   ```json
   {
     "msg_id": "uuid-789", // 与开始建图的 msg_id 保持一致
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "data": {}
   }
   ```
@@ -70,7 +70,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "data": {
       "filename": "uuid-3301.yaml"
     }
@@ -88,7 +88,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "data": {
       // 地图文件唯一，如果设备本地无地图，需要从平台侧下载
       "filename": "uuid-3301.yaml"
@@ -137,7 +137,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "data": {
       "x": 1.23, // x轴坐标
       "y": 4.56, // y轴坐标
@@ -157,7 +157,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "success": true
   }
   ```
@@ -167,7 +167,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "success": false,
     "code": 3001
   }
@@ -178,7 +178,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "success": false,
     "code": 3002
   }

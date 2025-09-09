@@ -10,7 +10,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "", // 设备序列号
     "data": {
       "device_type": "", // 设备类型
@@ -29,7 +29,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "success": true
   }
   ```
@@ -42,7 +42,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "device_type": "", // 设备类型
@@ -65,7 +65,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "x": 10.0, // x 坐标
@@ -86,7 +86,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "latitude": 22.9921234, // 纬度
@@ -106,7 +106,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "temperature": 25.0, // 温度
@@ -128,7 +128,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "x": 100.0, // 前后方向速度
@@ -147,7 +147,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {}
   }
@@ -161,7 +161,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {}
   }
@@ -178,7 +178,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "pitch": -30.0, // 俯仰角，根据控制模式，分别表示速度值或者具体角度
@@ -197,7 +197,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "interval": 2.0, // 抓拍间隔，0表示只拍一张
@@ -215,7 +215,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {}
   }
@@ -231,7 +231,7 @@
   ```json
   {
     "msg_id": "uuid-789", // 与开始抓拍的 msg_id 保持一致
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "status": 0 // 0-停止；1-开始（进行中）
@@ -248,7 +248,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {}
   }
@@ -263,7 +263,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {}
   }
@@ -279,7 +279,7 @@
   ```json
   {
     "msg_id": "uuid-789", // 与开始录像的 msg_id 保持一致
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "status": 0 // 0-停止；1-开始（进行中）
@@ -296,7 +296,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       "zoom_value": 1, // int
@@ -315,7 +315,7 @@
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
       // 焦距，focus+/focus-，0表示停止，自动模式下忽略
@@ -338,7 +338,7 @@ WHIP -> LiveKit
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "DEVICE-001",
     "data": {
       "whip_url": ""
@@ -355,7 +355,7 @@ WHIP -> LiveKit
   ```json
   {
     "msg_id": "uuid-789",
-    "timestamp": "2025-07-18T03:15:00Z",
+    "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "DEVICE-001",
     "data": {}
   }

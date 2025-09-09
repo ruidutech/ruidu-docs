@@ -5,7 +5,7 @@
 ```json
 {
   "msg_id": "uuid-789",
-  "timestamp": "2025-07-18T03:15:00Z",
+  "timestamp": 1757403776, // Unix 时间戳
   "success": false,
   "code": 2001,
   "message": "云台异常"
