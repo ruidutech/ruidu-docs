@@ -16,7 +16,8 @@
       "device_type": "", // 设备类型
       "manufacturer": "", // 制造商
       "model": "", // 型号
-      "firmware": "" // 固件版本
+      "hardware_version": "", // 固件版本
+      "software_version": "" // 软件版本
     }
   }
   ```
