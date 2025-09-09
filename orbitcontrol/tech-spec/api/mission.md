@@ -1,0 +1,63 @@
+# 任务执行相关
+
+## 路径录制
+
+### 开始录制
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/start_path_recording`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "mission_id": "uuid-901" // 上报时需带上该 id
+    }
+  }
+  ```
+
+### 结束录制
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/stop_path_recording`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "mission_id": "uuid-901"
+    }
+  }
+  ```
+
+### 路径上报
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/upload_path`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789", // 与开始建图的 msg_id 保持一致
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "mission_id": "uuid-901",
+      "seq": 1, // 消息序号，当分段进行 Path 上报的时候，用来区分前后关系
+      // 暂时，路径记录只用于无人车场景，所以位置使用本地坐标系
+      "path": [
+        {
+          "x": 1.23,
+          "y": -4.56,
+          "z": 0.78
+        }
+      ]
+    }
+  }
+  ```

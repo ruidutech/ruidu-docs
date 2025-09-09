@@ -5,7 +5,7 @@
 ### 开始建图
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/start_mapping`
+- **接口地址**: `device/:serial_number/start_mapping`
 - **请求参数**
 
   ```json
@@ -19,7 +19,7 @@
 ### 开始建图 ACK
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/start_mapping/ack`
+- **接口地址**: `device/:serial_number/start_mapping/ack`
 - **请求参数**
 
   成功
@@ -48,7 +48,7 @@
 ### 结束建图
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/stop_mapping`
+- **接口地址**: `device/:serial_number/stop_mapping`
 - **请求参数**
 
   ```json
@@ -62,7 +62,7 @@
 ### 结束建图 ACK
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/stop_mapping/ack`
+- **接口地址**: `device/:serial_number/stop_mapping/ack`
 - **请求参数**
 
   成功
@@ -82,7 +82,7 @@
 ### 使用地图
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/use_map`
+- **接口地址**: `device/:serial_number/use_map`
 - **请求参数**
 
   ```json
@@ -131,7 +131,7 @@
 ### 导航到目标点
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/goal`
+- **接口地址**: `device/:serial_number/goal`
 - **请求参数**
 
   ```json
@@ -149,7 +149,7 @@
 ### 导航到目标点 ACK
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/goal/ack`
+- **接口地址**: `device/:serial_number/goal/ack`
 - **请求参数**
 
   完成

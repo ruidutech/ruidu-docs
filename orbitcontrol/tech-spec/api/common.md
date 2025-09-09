@@ -5,7 +5,7 @@
 set_message_interval 的一次性版本。
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/request_message`
+- **接口地址**: `device/:serial_number/request_message`
 - **请求参数**
   ```json
   {
@@ -22,7 +22,7 @@ set_message_interval 的一次性版本。
 ## 设置消息推送间隔
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:device_id/set_message_interval`
+- **接口地址**: `device/:serial_number/set_message_interval`
 - **请求参数**
   ```json
   {
