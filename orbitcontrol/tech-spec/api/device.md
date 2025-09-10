@@ -50,11 +50,11 @@
     "data": {
       "device_type": "", // 设备类型
       "base_mode": "", // 当前模式
-      "state": "", // 当前状态
+      "device_state": "", // 当前状态
       // 传感器状态
       "sensors": {
-        "laser": 0,
-        "gps": 1
+        "laser": "not_present",
+        "gps": "ok"
       }
     }
   }

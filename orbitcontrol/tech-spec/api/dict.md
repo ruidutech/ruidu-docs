@@ -34,7 +34,7 @@ base_mode
 
 ## 设备状态
 
-vehicle_state
+device_state
 
 | value     | name      | desc                            |
 | --------- | --------- | ------------------------------- |
