@@ -54,7 +54,8 @@
       // 传感器状态
       "sensors": {
         "laser": "not_present",
-        "gps": "ok"
+        "gps": "ok",
+        ...
       }
     }
   }
