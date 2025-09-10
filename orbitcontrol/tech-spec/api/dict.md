@@ -56,6 +56,19 @@ charge_status
 | low      | LOW      | 低电量 |
 | critical | CRITICAL | 故障   |
 
+## 传感器类型
+
+| value          | name           | desc             |
+| -------------- | -------------- | ---------------- |
+| gps            | GPS            | GPS 传感器       |
+| camera         | CAMERA         | 摄像头           |
+| lidar          | LIDAR          | 激光雷达         |
+| imu            | IMU            | 惯性测量单元     |
+| ultrasonic     | ULTRASONIC     | 超声波传感器     |
+| temperature    | TEMPERATURE    | 温度传感器       |
+| humidity       | HUMIDITY       | 湿度传感器       |
+| custom_sensors | CUSTOM_SENSORS | 自定义传感器列表 |
+
 ## 传感器状态
 
 sensors_status
