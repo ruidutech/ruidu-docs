@@ -1,5 +1,15 @@
 # 枚举字典
 
+## 设备准入状态
+
+admission_status
+
+| value    | name     | desc               |
+| -------- | -------- | ------------------ |
+| pending  | PENDING  | 待确认             |
+| approved | APPROVED | 准入通过           |
+| rejected | REJECTED | 不予准入，拒绝接入 |
+
 ## 设备类型
 
 device_type
