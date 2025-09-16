@@ -19,6 +19,27 @@
   }
   ```
 
+### 继续录制
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/continue_path_recording`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "mission_id": "uuid-901"
+    }
+  }
+  ```
+
+- **场景说明**
+
+  将当前录制的内容通过 `路径上报接口` 上传至平台，然后继续下一段路径的录制。
+
 ### 结束录制
 
 - **协议类型**: MQTT
