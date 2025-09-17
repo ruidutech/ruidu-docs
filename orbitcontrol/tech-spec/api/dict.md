@@ -50,7 +50,7 @@ device_state
 
 ### 电池状态
 
-charge_status
+charge_state
 
 | value    | name     | desc   |
 | -------- | -------- | ------ |

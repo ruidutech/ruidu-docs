@@ -65,7 +65,7 @@
 
   ```json
   {
-    "msg_id": "uuid-789", // !important 与开始建图的 msg_id 保持一致
+    "msg_id": "uuid-789", // 与开始建图的 msg_id 保持一致 !important
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
