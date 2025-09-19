@@ -187,10 +187,12 @@
     "data": {
       "pitch": -30.0, // 俯仰角，根据控制模式，分别表示速度值或者具体角度
       "yaw": 90.0, // 偏航角
-      "flag": 1 // 控制模式，1-Speed：速度模式；2-Angle：角度模式
+      "flag": "speed" // 控制模式
     }
   }
   ```
+
+  > flag 参考 [云台控制模式](./dict.md#云台控制模式)
 
 ### 开始抓拍
 
@@ -304,7 +306,8 @@
     "serial_number": "sn-191",
     "data": {
       "zoom_value": 1, // int
-      "zoom_type": 1
+      "zoom_type": "zoom_type_continuous"
+    }
   }
   ```
 
@@ -324,7 +327,7 @@
     "data": {
       // 焦距，focus+/focus-，0表示停止，自动模式下忽略
       "focus_value": 1,
-      "focus_type": 1
+      "focus_type": "focus_type_continuous"
     }
   }
   ```

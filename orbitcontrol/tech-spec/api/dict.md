@@ -87,8 +87,6 @@ sensors_status
 
 ### 云台控制模式
 
-gimbal_flag
-
 | value | name  | desc     |
 | ----- | ----- | -------- |
 | speed | SPEED | 速度模式 |
@@ -96,16 +94,12 @@ gimbal_flag
 
 ### 调焦模式
 
-zoom_type
-
 | value                | name                 | desc               |
 | -------------------- | -------------------- | ------------------ |
 | zoom_type_step       | ZOOM_TYPE_STEP       | 调整指定步长       |
 | zoom_type_continuous | ZOOM_TYPE_CONTINUOUS | 连续调焦，默认方式 |
 
 ### 对焦模式
-
-focus_flag
 
 | value                 | name                  | desc               |
 | --------------------- | --------------------- | ------------------ |
