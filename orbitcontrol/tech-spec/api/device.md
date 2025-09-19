@@ -305,7 +305,8 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "zoom_value": 1, // int
+      // -1..1，正数：zoom in/narrow，负数：zoom out/wide，0：停止
+      "zoom_value": 1,
       "zoom_type": "zoom_type_continuous"
     }
   }
