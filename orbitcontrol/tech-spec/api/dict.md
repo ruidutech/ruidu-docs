@@ -91,6 +91,7 @@ sensors_status
 | ----- | ----- | -------- |
 | speed | SPEED | 速度模式 |
 | angle | ANGLE | 角度目标 |
+| reset | RESET | 回中 |
 
 ### 调焦模式
 
