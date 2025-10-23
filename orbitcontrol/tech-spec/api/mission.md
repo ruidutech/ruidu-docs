@@ -65,11 +65,11 @@
 
   ```json
   {
-    "msg_id": "uuid-789", // 与开始建图的 msg_id 保持一致 !important
+    "msg_id": "uuid-789", // 与开始录制的 msg_id 保持一致 !important
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "mission_id": "uuid-901",
+      "mission_id": "uuid-901", // 与开始录制的 mission_id 保持一致
       "seq": 1, // 消息序号，当分段进行 Path 上报的时候，用来区分前后关系
       // 目前，路径记录只用于无人车室外场景，位置使用地球坐标系
       "position": {
