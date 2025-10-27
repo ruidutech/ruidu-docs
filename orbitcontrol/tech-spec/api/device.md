@@ -171,223 +171,83 @@
   }
   ```
 
-## 云台控制（包括相机）
+## 字典定义
 
-### 云台方向控制
+### 设备准入状态
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/gimbal`
-- **请求参数**
+admission_status
 
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      "pitch": -30.0, // 俯仰角，根据控制模式，分别表示速度值或者具体角度
-      "yaw": 90.0, // 偏航角
-      "flag": "speed" // 控制模式
-    }
-  }
-  ```
+| value    | name     | desc               |
+| -------- | -------- | ------------------ |
+| pending  | PENDING  | 待确认             |
+| approved | APPROVED | 准入通过           |
+| rejected | REJECTED | 不予准入，拒绝接入 |
 
-  > flag 参考 [云台控制模式](./dict.md#云台控制模式)
+### 设备类型
 
-### 上报云台状态
+device_type
 
-收到 [请求消息推送](./common.md#请求消息推送) 后进行上报。
+| value              | name               | desc         |
+| ------------------ | ------------------ | ------------ |
+| generic            | GENERIC            | 通用飞行器   |
+| ground_rover       | GROUND_ROVER       | 地面无人车   |
+| surfaceboat        | SURFACE_BOAT       | 水面无人船   |
+| gimbal             | GIMBAL             | 云台         |
+| onboard_controller | ONBOARD_CONTROLLER | 智能从属设备 |
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/gimbal_status`
-- **请求参数**
+### 设备当前控制模式
 
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      "device_id": "1", // 云台设备ID，1-6 或者其他字符串标识
-      "pitch": -30.0, // 俯仰角
-      "yaw": 90.0, // 偏航角
-    }
-  }
-  ```
+base_mode
 
-### 开始抓拍
+| value        | name         | desc                               |
+| ------------ | ------------ | ---------------------------------- |
+| manual_input | MANUAL_INPUT | 手动控制                           |
+| guided       | GUIDED       | 任务执行模式（接收地面站控制指令） |
+| auto         | AUTO         | 自动模式（根据上传航点自动执行）   |
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/start_capture`
-- **请求参数**
+### 设备状态
 
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      "interval": 2.0, // 抓拍间隔，0表示只拍一张
-      "numbers": 5 // 抓拍张数，0表示无限制
-    }
-  }
-  ```
+device_state
 
-### 结束抓拍
+| value     | name      | desc                            |
+| --------- | --------- | ------------------------------- |
+| uninit    | UNINIT    | 系统未初始化（刚上电）          |
+| boot      | BOOT      | 正在启动                        |
+| standby   | STANDBY   | 就绪                            |
+| active    | ACTIVE    | 运行中                          |
+| critical  | CRITICAL  | 出现严重异常                    |
+| emergency | EMERGENCY | 严重故障（进入 fail-safe 模式） |
+| poweroff  | POWEROFF  | 正在断电或关闭系统              |
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/stop_capture`
-- **请求参数**
+### 电池状态
 
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {}
-  }
-  ```
+charge_state
 
-### 抓拍状态
+| value    | name     | desc   |
+| -------- | -------- | ------ |
+| ok       | OK       | 正常   |
+| low      | LOW      | 低电量 |
+| critical | CRITICAL | 故障   |
 
-- **接口方向**: 设备 -> 平台
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/capture_status`
-- **请求参数**
+### 传感器类型
 
-  ```json
-  {
-    "msg_id": "uuid-789", // 与开始抓拍的 msg_id 保持一致
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      "status": 0 // 0-停止；1-开始（进行中）
-    }
-  }
-  ```
+| value          | name           | desc             |
+| -------------- | -------------- | ---------------- |
+| gps            | GPS            | GPS 传感器       |
+| camera         | CAMERA         | 摄像头           |
+| lidar          | LIDAR          | 激光雷达         |
+| imu            | IMU            | 惯性测量单元     |
+| ultrasonic     | ULTRASONIC     | 超声波传感器     |
+| temperature    | TEMPERATURE    | 温度传感器       |
+| humidity       | HUMIDITY       | 湿度传感器       |
+| custom_sensors | CUSTOM_SENSORS | 自定义传感器列表 |
 
-### 开始录像
+### 传感器状态
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/start_record`
-- **请求参数**
+sensors_status
 
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {}
-  }
-  ```
-
-### 结束录像
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/stop_record`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {}
-  }
-  ```
-
-### 录像状态
-
-- **接口方向**: 设备 -> 平台
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/record_status`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789", // 与开始录像的 msg_id 保持一致
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      "status": 0 // 0-停止；1-开始（进行中）
-    }
-  }
-  ```
-
-### 调整焦距
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/zoom`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      // -1..1，正数：zoom in/narrow，负数：zoom out/wide，0：停止
-      "zoom_value": 1,
-      "zoom_type": "zoom_type_continuous"
-    }
-  }
-  ```
-
-  > zoom_type 参考 [调焦模式](./dict.md#调焦模式)
-
-### 对焦
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/focus`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      // 焦距，focus+/focus-，0表示停止，自动模式下忽略
-      "focus_value": 1,
-      "focus_type": "focus_type_continuous"
-    }
-  }
-  ```
-
-  > focus_type 参考 [对焦模式](./dict.md#对焦模式)
-
-### 开始推流
-
-WHIP -> LiveKit
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/start_stream`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "DEVICE-001",
-    "data": {
-      "whip_url": ""
-    }
-  }
-  ```
-
-### 结束推流
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/stop_stream`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "DEVICE-001",
-    "data": {}
-  }
-  ```
-
-## 机械臂（ TODO ）
+| value       | name        | desc   |
+| ----------- | ----------- | ------ |
+| not_present | NOT_PRESENT | 不存在 |
+| ok          | OK          | 正常   |
+| emergency   | EMERGENCY   | 故障   |

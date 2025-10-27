@@ -34,10 +34,11 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: "通用 API", link: "/orbitcontrol/tech-spec/api/common" },
-      { text: "状态与控制", link: "/orbitcontrol/tech-spec/api/device" },
+      { text: "设备控制与状态", link: "/orbitcontrol/tech-spec/api/device" },
+      { text: "云台相关", link: "/orbitcontrol/tech-spec/api/gimbal" },
+      { text: "机械臂相关", link: "/orbitcontrol/tech-spec/api/manipulator" },
       { text: "导航相关", link: "/orbitcontrol/tech-spec/api/navigation" },
       { text: "任务执行相关", link: "/orbitcontrol/tech-spec/api/mission" },
-      { text: "枚举字典", link: "/orbitcontrol/tech-spec/api/dict" },
       { text: "错误响应", link: "/orbitcontrol/tech-spec/api/errors" },
     ],
   },
