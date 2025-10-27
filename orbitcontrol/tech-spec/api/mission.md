@@ -99,32 +99,34 @@
     "data": {
       "mission_id": "uuid-901", // 小车端保存该ID，执行任务时用
       "updated_at": 1757403776, // Unix 时间戳，辅助判断任务版本
-      "waypoints": {
-        "seq": 0,
-        "coordinate_frame": "earth",
-        // 目标位置
-        "position": {
-          "latitude": 37.7749,
-          "longitude": -122.4194
-        },
-        // 辅助路径，可为空
-        "path": [
-          {
+      "waypoints": [
+        {
+          "seq": 0,
+          "coordinate_frame": "earth",
+          // 目标位置
+          "position": {
             "latitude": 37.7749,
             "longitude": -122.4194
-          }
-        ],
-        "actions": [
-          {
-            "type": "gimbal",
-            "params": {
-              "pitch": -30.0,
-              "yaw": 90.0,
-              "flag": "angle"
+          },
+          // 辅助路径，可为空
+          "path": [
+            {
+              "latitude": 37.7749,
+              "longitude": -122.4194
             }
-          }
-        ]
-      }
+          ],
+          "actions": [
+            {
+              "type": "gimbal",
+              "params": {
+                "pitch": -30.0,
+                "yaw": 90.0,
+                "flag": "angle"
+              }
+            }
+          ]
+        }
+      ]
     }
   }
   ```
