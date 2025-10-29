@@ -61,6 +61,26 @@
   }
   ```
 
+### 模式设置
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/set_mode`
+- **请求参数**
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "base_mode": ""
+    }
+  }
+  ```
+- **字典参考**
+  - [base_mode](#设备控制模式)
+- **Mavlink 参考**
+  - [MAV_CMD_DO_SET_MODE](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_SET_MODE)
+
 ### 位姿
 
 - **协议类型**: MQTT
@@ -195,7 +215,7 @@ device_type
 | gimbal             | GIMBAL             | 云台         |
 | onboard_controller | ONBOARD_CONTROLLER | 智能从属设备 |
 
-### 设备当前控制模式
+### 设备控制模式
 
 base_mode
 

@@ -135,6 +135,27 @@
   - [MISSION_ITEM_INT](https://mavlink.io/en/messages/common.html#MISSION_ITEM_INT)
   - [MAV_CMD_NAV_WAYPOINT](https://mavlink.io/en/messages/common.html#MAV_CMD_NAV_WAYPOINT)
 
+### 暂停/继续任务
+
+适用于任务执行过程中调用。
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/pause_continue`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "action": "pause|continue"
+    }
+  }
+  ```
+- **Mavlink 参考**
+  - [MAV_CMD_DO_PAUSE_CONTINUE](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_PAUSE_CONTINUE)
+
 ## 字典定义
 
 ### 执行动作类型
