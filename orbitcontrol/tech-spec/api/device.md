@@ -137,7 +137,7 @@
       "voltage": 3700, // 电压，mV
       "current_battery": 15000, // 当前电流，mA
       "battery_remaining": 80.0, // 剩余电量，百分比
-      "charge_state": "ok" // 当前状态
+      "charge_status": "ok" // 当前状态
     }
   }
   ```
@@ -241,7 +241,7 @@ device_state
 
 ### 电池状态
 
-charge_state
+charge_status
 
 | value    | name     | desc   |
 | -------- | -------- | ------ |
