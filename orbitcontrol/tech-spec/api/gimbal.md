@@ -37,7 +37,7 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "device_id": "1", // 云台设备ID，1-6 或者其他字符串标识
+      "component_id": "1", // 云台设备ID，1-6 或者其他字符串标识
       "pitch": -30.0, // 俯仰角
       "yaw": 90.0 // 偏航角
     }
