@@ -97,7 +97,8 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "mission_id": "uuid-901", // 小车端保存该ID，执行任务时用
+      "mission_id": "uuid-901", // 任务ID，和任务配置关联，小车端可以配合任务详情进行缓存
+      "instance_id": "uuid-012", // 任务执行ID，每次执行实例均不同，用于状态上报
       "updated_at": 1757403776, // Unix 时间戳，辅助判断任务版本
       "waypoints": [
         {
@@ -153,8 +154,36 @@
     }
   }
   ```
+
 - **Mavlink 参考**
   - [MAV_CMD_DO_PAUSE_CONTINUE](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_PAUSE_CONTINUE)
+
+### 任务状态上报
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/mission_current`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "mission_id": "uuid-789",
+      "instance_id": "uuid-012",
+      "seq": 1,
+      "total": 10,
+      "mission_state": "参考字典",
+      "mission_mode": "参考字典"
+    }
+  }
+  ```
+- **字典参考**
+  - [mission_state](#任务状态)
+  - [mission_mode](#任务模式)
+- **Mavlink 参考**
+  - [MISSION_CURRENT](https://mavlink.io/en/messages/common.html#MISSION_CURRENT)
 
 ## 字典定义
 
@@ -169,3 +198,26 @@
 | gimbal           | GIMBAL           | 云台控制 |
 | capture          | CAPTURE          | 拍照     |
 | record           | RECORD           | 录像     |
+
+### 任务模式
+
+mission_mode
+
+| value      | name       | desc             |
+| ---------- | ---------- | ---------------- |
+| unknown    | UNKNOWN    | 未知             |
+| in_mission | IN_MISSION | 任务中           |
+| suspended  | SUSPENDED  | 待命，未在任务中 |
+
+### 任务状态
+
+mission_state
+
+| value       | name        | desc   |
+| ----------- | ----------- | ------ |
+| unknown     | UNKNOWN     | 未知   |
+| no_mission  | NO_MISSION  | 无任务 |
+| not_started | NOT_STARTED | 未开始 |
+| active      | ACTIVE      | 运行   |
+| paused      | PAUSED      | 暂停   |
+| complete    | COMPLETE    | 完成   |
