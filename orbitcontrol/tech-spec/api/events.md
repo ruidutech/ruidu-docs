@@ -13,8 +13,8 @@
     "data": {
       "id": 2001, // Event ID，参考错误码说明
       "log_levels": "", // Emergency, Alert, Critical,
-      // Error, Warning, Notice, Info,
-      // Debug, Protocol, Disabled
+                        // Error, Warning, Notice, Info,
+                        // Debug, Protocol, Disabled
       "text": ""
     }
   }
