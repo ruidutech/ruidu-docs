@@ -6,14 +6,20 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: "什么是OrbitControl", link: "/orbitcontrol/introduction/whatis" },
-      { text: "OrbitControl的优势", link: "/orbitcontrol/introduction/advantage" },
+      {
+        text: "OrbitControl的优势",
+        link: "/orbitcontrol/introduction/advantage",
+      },
     ],
   },
   {
     text: "使用手册",
     collapsed: false,
     items: [
-      { text: "页面导航", link: "/orbitcontrol/user-guide/platform-navigation" },
+      {
+        text: "页面导航",
+        link: "/orbitcontrol/user-guide/platform-navigation",
+      },
       { text: "站点管理", link: "/orbitcontrol/user-guide/sites" },
       { text: "设备管理", link: "/orbitcontrol/user-guide/device" },
       { text: "地图管理", link: "/orbitcontrol/user-guide/mapping" },
@@ -39,7 +45,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
       { text: "机械臂相关", link: "/orbitcontrol/tech-spec/api/manipulator" },
       { text: "导航相关", link: "/orbitcontrol/tech-spec/api/navigation" },
       { text: "任务执行相关", link: "/orbitcontrol/tech-spec/api/mission" },
-      { text: "错误响应", link: "/orbitcontrol/tech-spec/api/errors" },
+      { text: "事件上报", link: "/orbitcontrol/tech-spec/api/events" },
     ],
   },
 ];
