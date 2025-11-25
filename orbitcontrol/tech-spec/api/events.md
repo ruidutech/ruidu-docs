@@ -12,8 +12,8 @@
     "serial_number": "sn-191", // 设备序列号
     "data": {
       "id": 2001, // Event ID，参考错误码说明
-      "log_levels": "" /* Emergency, Alert, Critical, Error, Warning, 
-                          Notice, Info, Debug, Protocol, Disabled */,
+      "log_levels": "" /* emergency, alert, critical, error, warning, 
+                          notice, info, debug, protocol, disabled */,
       "text": ""
     }
   }
@@ -26,7 +26,7 @@
 | 1001 - 1999 | 设备相关，手动控制/设备状态等 |
 | 2001 - 2999 | 云台相关                      |
 | 3001 - 3999 | 导航相关                      |
-| 4000 - 4999 | 任务相关                      |
+| 4001 - 4999 | 任务相关                      |
 | 5000 -      | 预留                          |
 
 ## 具体错误码说明
@@ -37,38 +37,38 @@
 
 | ID   | Text         | Log Level |
 | ---- | ------------ | --------- |
-| 1001 | 请求参数错误 | Error     |
-| 1002 | 模式不匹配   | Error     |
+| 1001 | 请求参数错误 | error     |
+| 1002 | 模式不匹配   | error     |
 
 ### 设备相关
 
 | ID   | Text                   | Log Level |
 | ---- | ---------------------- | --------- |
-| 1101 | 推流服务异常           | Error     |
-| 1102 | 设备状态不支持当前指令 | Error     |
+| 1101 | 推流服务异常           | error     |
+| 1102 | 设备状态不支持当前指令 | error     |
 
 ### 云台相关
 
 | ID   | Text             | Log Level |
 | ---- | ---------------- | --------- |
-| 2001 | 云台不在线       | Error     |
-| 2002 | 云台指令执行失败 | Error     |
+| 2001 | 云台不在线       | error     |
+| 2002 | 云台指令执行失败 | error     |
 
 ### 导航相关
 
 | ID   | Text             | Log Level |
 | ---- | ---------------- | --------- |
-| 3001 | 导航任务执行失败 | Error     |
+| 3001 | 导航任务执行失败 | error     |
 
 ### 任务执行相关
 
 | ID   | Text         | Log Level |
 | ---- | ------------ | --------- |
-| 4001 | 任务执行成功 | Info      |
-| 4002 | 任务执行失败 | Error     |
+| 4001 | 任务执行成功 | info      |
+| 4002 | 任务执行失败 | error     |
 
 ### 系统
 
 | ID   | Text         | Log Level |
 | ---- | ------------ | --------- |
-| 9001 | 未知内部错误 | Error     |
+| 9001 | 未知内部错误 | error     |
