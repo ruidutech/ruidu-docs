@@ -12,9 +12,14 @@
     "serial_number": "sn-191", // 设备序列号
     "data": {
       "id": 2001, // Event ID，参考错误码说明
-      "log_levels": "" /* emergency, alert, critical, error, warning, 
+      "log_levels": "" /* emergency, alert, critical, error, warning,
                           notice, info, debug, protocol, disabled */,
-      "text": ""
+      // 可以传递多个参数，取决于 event_id
+      "arguments": {
+        "key1": "value1",
+        "key2": "value2",
+        …
+      }
     }
   }
   ```
