@@ -4,7 +4,7 @@
 
 ### 开始建图
 
-- **协议类型**: MQTT
+- **协议类型**: ROS2 by Zenoh
 - **接口地址**: `device/:serial_number/start_mapping`
 - **请求参数**
 
@@ -16,38 +16,41 @@
   }
   ```
 
-### 开始建图 ACK
+### 地图上传
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/start_mapping/ack`
+- **协议类型**: ROS2 by Zenoh
+- **接口地址**: `device/:serial_number/map/compressed`
+- **消息频率**: 1 Hz
 - **请求参数**
 
-  成功
-
   ```json
   {
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
-    "success": true,
-    "data": {}
-  }
-  ```
+    "data": {
+      // --- 核心元数据 (直接对应 YAML 字段) ---
+      "resolution": 0.05, // 分辨率 (米/像素)
+      "origin": [-10.5, -5.2, 0.0], // 原点 [x, y, yaw]，注意这是 YAML 的标准写法
+      "occupied_thresh": 0.65, // 占用阈值
+      "free_thresh": 0.196, // 空闲阈值
+      "negate": 0, // 是否反转颜色 (通常为 0)
+      "mode": "trinary", // 模式 (通常是 trinary 或 scale)
 
-  失败
+      // --- 辅助信息 (Web端渲染和校验用) ---
+      "width": 2048, // 图片宽度
+      "height": 2048, // 图片高度
+      "map_name": "office_1f", // 地图名称 (用于生成文件名)
 
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "success": false,
-    "code": 3001,
-    "message": "已在建图中"
+      // --- 数据本体 ---
+      "image_format": "png", // 明确格式
+      "base64": "iVBORw0KGgoAAA..." // 图片数据
+    }
   }
   ```
 
 ### 结束建图
 
-- **协议类型**: MQTT
+- **协议类型**: ROS2 by Zenoh
 - **接口地址**: `device/:serial_number/stop_mapping`
 - **请求参数**
 
@@ -56,24 +59,6 @@
     "msg_id": "uuid-789", // 与开始建图的 msg_id 保持一致
     "timestamp": 1757403776, // Unix 时间戳
     "data": {}
-  }
-  ```
-
-### 结束建图 ACK
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/stop_mapping/ack`
-- **请求参数**
-
-  成功
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "data": {
-      "filename": "uuid-3301.yaml"
-    }
   }
   ```
 
