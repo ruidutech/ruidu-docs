@@ -2,14 +2,19 @@
 
 ## Interface Definitions
 
-| 名称              | 类型    | 数据定义                        | 描述                    |
-| ----------------- | ------- | ------------------------------- | ----------------------- |
-| /map/compressed   | topic   | [CompressedImage](#compressedimage)     | 地图数据压缩形式（PNG） |
-| /start_mapping    | service | [Trigger](#trigger)                | 开始建图                |
-| /stop_mapping     | service | [Trigger](#trigger)                | 结束建图                |
-| /navigate_to_pose | action  | [NavigateToPose](#navigatetopose) | 导航到指定位置          |
+| 名称              | 类型    | 数据定义                            | 描述                    |
+| ----------------- | ------- | ----------------------------------- | ----------------------- |
+| /map/metadata     | topic   | [MapMetaData](#mapmetadata)         | 地图元数据              |
+| /map/compressed   | topic   | [CompressedImage](#compressedimage) | 地图数据压缩形式（PNG） |
+| /start_mapping    | service | [Trigger](#trigger)                 | 开始建图                |
+| /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图                |
+| /navigate_to_pose | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置          |
 
 ## Message Definitions
+
+### MapMetaData
+
+[nav_msgs/MapMetaData](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/MapMetaData.html)
 
 ### CompressedImage
 
