@@ -14,20 +14,20 @@
 
 ### MapMetaData
 
-[nav_msgs/MapMetaData](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/MapMetaData.html)
+[nav_msgs/MapMetaData](https://docs.ros.org/en/humble/p/nav_msgs/msg/MapMetaData.html)
 
 ### CompressedImage
 
-[sensor_msgs/CompressedImage](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/CompressedImage.html)
+[sensor_msgs/CompressedImage](https://docs.ros.org/en/humble/p/sensor_msgs/msg/CompressedImage.html)
 
 ## Service Definitions
 
 ### Trigger
 
-[std_srvs/Trigger](https://docs.ros.org/en/noetic/api/std_srvs/html/srv/Trigger.html)
+[std_srvs/Trigger](https://docs.ros.org/en/humble/p/std_srvs/srv/Trigger.html)
 
 ## Action Definitions
 
 ### NavigateToPose
 
-[nav2_msgs/action/NavigateToPose](https://docs.ros.org/en/iron/p/nav2_msgs/interfaces/action/NavigateToPose.html)
+[nav2_msgs/action/NavigateToPose](https://docs.ros.org/en/humble/p/nav2_msgs/action/NavigateToPose.html)
