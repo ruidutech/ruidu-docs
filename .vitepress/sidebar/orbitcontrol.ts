@@ -48,4 +48,11 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
       { text: "事件上报", link: "/orbitcontrol/tech-spec/api/events" },
     ],
   },
+  {
+    text: "设备端 ROS2 API",
+    collapsed: false,
+    items: [
+      { text: "导航相关", link: "/orbitcontrol/tech-spec/ros_msgs/navigation" },
+    ],
+  },
 ];
