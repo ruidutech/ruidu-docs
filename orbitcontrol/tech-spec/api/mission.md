@@ -71,10 +71,14 @@
     "data": {
       "mission_id": "uuid-901", // 与开始录制的 mission_id 保持一致
       "seq": 1, // 消息序号，当分段进行 Path 上报的时候，用来区分前后关系
-      // 目前，路径记录只用于无人车室外场景，位置使用地球坐标系
+      // 同时支持室内外场景，可以是经纬度或者local_map坐标
       "position": {
-        "latitude": 37.7749,
-        "longitude": -122.4194
+        "x": 37.7749,
+        "y": -122.4194,
+        "z": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "roll": 0
       }
     }
   }
@@ -105,14 +109,19 @@
           "coordinate_frame": "earth",
           // 目标位置
           "position": {
-            "latitude": 37.7749,
-            "longitude": -122.4194
+            "x": 37.7749,
+            "y": -122.4194,
+            "z": 0,
+            "yaw": 0,
+            "pitch": 0,
+            "roll": 0
           },
           // 辅助路径，可为空
           "path": [
             {
-              "latitude": 37.7749,
-              "longitude": -122.4194
+              "x": 37.7749,
+              "y": -122.4194,
+              "z": 0
             }
           ],
           "actions": [
