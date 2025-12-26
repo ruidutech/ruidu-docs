@@ -102,7 +102,6 @@
     "serial_number": "sn-191",
     "data": {
       "mission_id": "uuid-901", // 任务ID，和任务配置关联，小车端可以配合任务详情进行缓存
-      "execution_id": "uuid-1101", // 执行ID，具体某次执行的实例ID
       "updated_at": 1757403776, // Unix 时间戳，辅助判断任务版本
       "waypoints": [
         {
@@ -180,7 +179,6 @@
     "serial_number": "sn-191",
     "data": {
       "mission_id": "uuid-789",
-      "execution_id": "uuid-1101",
       "seq": 1,
       "total": 10,
       "mission_state": "参考字典",
