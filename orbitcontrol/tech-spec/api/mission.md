@@ -207,7 +207,8 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "execution_id?": "uuid-987", // 不传或传 null 时表示手动模式下的媒体文件
+      "mission_id?": "uuid-xxx", // 不传或传 null 时表示手动模式下的媒体文件
+      "execution_id?": "uuid-987", // 同上
       "filename": "patrol_01.mp4",
       "file_size": 104857600,
       "mime_type": "video/mp4",
@@ -261,7 +262,6 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "execution_id": "uuid-987",
       "upload_id": "uuid-for-db-record", // 平台生成的媒体资源 ID
       "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx?X-Amz-Signature=...",
       "thumbnail": {
