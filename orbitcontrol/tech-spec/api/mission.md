@@ -194,6 +194,69 @@
 - **Mavlink 参考**
   - [MISSION_CURRENT](https://mavlink.io/en/messages/common.html#MISSION_CURRENT)
 
+### 媒体文件上传请求
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/media_upload/req`
+- **协议方向**: Edge -> Platform
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "execution_id": "uuid-987",
+      "filename": "patrol_01.mp4",
+      "file_size": 104857600,
+      "md5": "a3f8...", // 用于完整性校验
+      "mime_type": "video/mp4"
+    }
+  }
+  ```
+
+### 媒体文件上传响应
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/media_upload/resp`
+- **协议方向**: Platform -> Edge
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "execution_id": "uuid-987",
+      "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx?X-Amz-Signature=...",
+      "upload_id": "uuid-for-db-record", // 平台生成的媒体资源 ID
+      "expire_at": 1700000600
+    }
+  }
+  ```
+
+### 媒体文件上传完成通知
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/media_upload/complete`
+- **协议方向**: Edge -> Platform
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "upload_id": "uuid-for-db-record", // 对应申请时的 ID
+      "status": "SUCCESS", // 或 FAILED
+      "cost_time": 5400 // ms，用于监控网络质量
+    }
+  }
+  ```
+
 ## 字典定义
 
 ### 执行动作类型
