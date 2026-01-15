@@ -210,8 +210,30 @@
       "execution_id": "uuid-987",
       "filename": "patrol_01.mp4",
       "file_size": 104857600,
+      "mime_type": "video/mp4",
       "md5": "a3f8...", // 用于完整性校验
-      "mime_type": "video/mp4"
+      "width": 1920, // 画面尺寸
+      "height": 1080,
+      "duration": 15, // 视频时长（秒）
+      "metadata": {
+        "capture_time": 1757403770,
+        "frame_id": "map",
+        // 通用坐标 (Position)
+        // 室内：x=10.5m, y=20.2m, z=1.5m
+        // 室外：lon=120.1, lat=30.1, alt=50.0
+        "position": [10.5, 20.2, 1.5],
+        // 云台姿态信息 (用于分析拍摄视角)
+        "gimbal": [-90.0, 0.0, 0.0], // [yaw, pitch, roll]
+        // (可选) 额外的设备状态
+        "extra": {}
+      },
+      // 如果没有缩略图（比如本身就是小图），这里传 null
+      "thumbnail": {
+        "filename": "patrol_01_thumb.jpg",
+        "file_size": 5120, // 5KB
+        "mime_type": "image/jpeg",
+        "md5": "b2c9..."
+      }
     }
   }
   ```
@@ -230,8 +252,12 @@
     "serial_number": "sn-191",
     "data": {
       "execution_id": "uuid-987",
-      "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx?X-Amz-Signature=...",
       "upload_id": "uuid-for-db-record", // 平台生成的媒体资源 ID
+      "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx?X-Amz-Signature=...",
+      "thumbnail": {
+        "upload_id": "uuid-222", // 缩略图ID
+        "upload_url": "http://minio.../patrol_01_thumb.jpg?..."
+      },
       "expire_at": 1700000600
     }
   }
