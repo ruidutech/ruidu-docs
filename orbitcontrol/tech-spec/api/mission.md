@@ -102,6 +102,7 @@
     "serial_number": "sn-191",
     "data": {
       "mission_id": "uuid-901", // 任务ID，和任务配置关联，小车端可以配合任务详情进行缓存
+      "execution_id": "uuid-912", // 任务执行ID，和具体任务执行详情关联，车载端上传媒体数据时，需要与其关联
       "updated_at": 1757403776, // Unix 时间戳，辅助判断任务版本
       "waypoints": [
         {
