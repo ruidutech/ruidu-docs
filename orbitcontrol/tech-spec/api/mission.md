@@ -247,7 +247,7 @@
 
   ```json
   {
-    "msg_id": "uuid-789",
+    "msg_id": "uuid-789", // 要和 media_uplaod/req 接口对应
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
