@@ -207,7 +207,7 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "execution_id": "uuid-987",
+      "execution_id?": "uuid-987", // 不传或传 null 时表示手动模式下的媒体文件
       "filename": "patrol_01.mp4",
       "file_size": 104857600,
       "mime_type": "video/mp4",
@@ -228,7 +228,7 @@
         "extra": {}
       },
       // 如果没有缩略图（比如本身就是小图），这里传 null
-      "thumbnail": {
+      "thumbnail?": {
         "filename": "patrol_01_thumb.jpg",
         "file_size": 5120, // 5KB
         "mime_type": "image/jpeg",
