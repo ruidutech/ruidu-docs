@@ -218,12 +218,22 @@
       "metadata": {
         "capture_time": 1757403770,
         "frame_id": "map",
-        // 通用坐标 (Position)
-        // 室内：x=10.5m, y=20.2m, z=1.5m
-        // 室外：lon=120.1, lat=30.1, alt=50.0
-        "position": [10.5, 20.2, 1.5],
+        // 设备姿态信息（通用）
+        "position": {
+          "x": 37.7749,
+          "y": -122.4194,
+          "z": 0,
+          "yaw": 0,
+          "pitch": 0,
+          "roll": 0
+        },
         // 云台姿态信息 (用于分析拍摄视角)
-        "gimbal": [-90.0, 0.0, 0.0], // [yaw, pitch, roll]
+        "gimbal": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 1.0,
+          "focus": 0.5
+        },
         // (可选) 额外的设备状态
         "extra": {}
       },
