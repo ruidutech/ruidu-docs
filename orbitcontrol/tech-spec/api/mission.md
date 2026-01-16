@@ -125,13 +125,34 @@
               "z": 0
             }
           ],
-          "actions": [
+          "actions": [ // 任务动作，可为空，可任意组合和排序，按顺序执行
             {
-              "type": "gimbal",
+              "type": "gimbal", // 调整云台，参数定义同「上报云台状态」
               "params": {
                 "pitch": -30.0,
                 "yaw": 90.0,
-                "flag": "angle"
+                "flag": "angle",
+                "zoom": 100.0,
+                "focus": 0.5
+              }
+            },
+            {
+              "type": "hover",
+              "params": {
+                "interval": 600 // 停留时间，单位秒
+              }
+            },
+            {
+              "type": "capture", // 拍照，参数定义同云台控制「开始抓拍」
+              "params": {
+                "numbers": 1,
+                "interval": 0
+              }
+            },
+            {
+              "type": "record",
+              "params": {
+                "duration": 1 // 录像时长，单位秒
               }
             }
           ]
