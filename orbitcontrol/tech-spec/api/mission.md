@@ -201,6 +201,7 @@
     "serial_number": "sn-191",
     "data": {
       "mission_id": "uuid-789",
+      "execution_id": "uuid-987",
       "seq": 1,
       "total": 10,
       "mission_state": "参考字典",
