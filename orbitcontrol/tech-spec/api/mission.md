@@ -308,7 +308,7 @@
     "serial_number": "sn-191",
     "data": {
       "upload_id": "uuid-for-db-record", // 对应申请时的 ID
-      "status": "SUCCESS", // 或 FAILED
+      "status": "completed", // 或 failed
       "cost_time": 5400 // ms，用于监控网络质量
     }
   }
