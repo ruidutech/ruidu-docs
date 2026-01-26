@@ -286,7 +286,7 @@
     "data": {
       "upload_id": "uuid-for-db-record", // 平台生成的媒体资源 ID
       "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx.jpg?X-Amz-Signature=...",
-      "thumbnail_upload_url": "http://115.29.200.60:9000/orbit-private/xxxx_thumb.jpg?X-Amz-Signature=...",
+      "thumbnail_upload_url?": "http://115.29.200.60:9000/orbit-private/xxxx_thumb.jpg?X-Amz-Signature=...",
       "expire_at": 1700000600
     }
   }
