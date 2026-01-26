@@ -285,11 +285,8 @@
     "serial_number": "sn-191",
     "data": {
       "upload_id": "uuid-for-db-record", // 平台生成的媒体资源 ID
-      "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx?X-Amz-Signature=...",
-      "thumbnail": {
-        "upload_id": "uuid-222", // 缩略图ID
-        "upload_url": "http://minio.../patrol_01_thumb.jpg?..."
-      },
+      "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx.jpg?X-Amz-Signature=...",
+      "thumbnail_upload_url": "http://115.29.200.60:9000/orbit-private/xxxx_thumb.jpg?X-Amz-Signature=...",
       "expire_at": 1700000600
     }
   }
