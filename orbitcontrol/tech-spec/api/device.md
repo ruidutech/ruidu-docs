@@ -225,6 +225,7 @@ base_mode
 | guided       | GUIDED       | 任务执行模式（接收地面站控制指令）     |
 | auto         | AUTO         | 自动模式（根据上传航点自动执行）       |
 | safety_armed | SAFETY_ARMED | 已安全解锁（随时可进行控制或任务执行） |
+| mapping      | MAPPING      | 建图模式                               |
 
 ### 设备状态
 
