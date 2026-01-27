@@ -9,6 +9,7 @@
 | /start_mapping    | service | [Trigger](#trigger)                 | 开始建图                |
 | /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图                |
 | /navigate_to_pose | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置          |
+| /plan             | topic   | [Path](#path)                       | 全局规划路径            |
 
 ## Message Definitions
 
@@ -19,6 +20,10 @@
 ### CompressedImage
 
 [sensor_msgs/CompressedImage](https://docs.ros.org/en/humble/p/sensor_msgs/msg/CompressedImage.html)
+
+### Path
+
+[nav_msgs/Path](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Path.html)
 
 ## Service Definitions
 
