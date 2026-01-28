@@ -32,7 +32,8 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "data": {
-      "admission_status": "pending"
+      "device_id": "uuid-456",
+      "site_id": "uuid-123"
     }
   }
   ```
