@@ -192,6 +192,37 @@
   }
   ```
 
+### 参数配置
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/config/set`
+- **请求参数**
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      // 1. 基础元数据
+      "identity": {
+        "site_id": "uuid-site-001",
+      },
+
+      // 2. 导航与运动参数（未来需求）
+      "navigation": {
+        "max_speed": 1.2, // m/s
+        "obstacle_dist": 0.5, // 避障距离
+      },
+
+      // 3. 系统行为（未来需求）
+      "system": {
+        "log_level": "info", // debug / info / warn
+        "heartbeat_interval": 10, // hz
+      }
+    }
+  }
+  ```
+
 ## 字典定义
 
 ### 设备准入状态
