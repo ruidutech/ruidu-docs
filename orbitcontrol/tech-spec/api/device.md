@@ -32,6 +32,7 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "data": {
+      "registration_status": "registered", // pending | registered | rejected
       "device_id": "uuid-456",
       "site_id": "uuid-123"
     }
