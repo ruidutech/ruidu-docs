@@ -10,6 +10,7 @@
 | /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图                |
 | /navigate_to_pose | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置          |
 | /plan             | topic   | [Path](#path)                       | 全局规划路径            |
+| /set_initial_pose | service | [SetInitialPose](#setinitialpose)   | 设置初始位姿            |
 
 ## Message Definitions
 
@@ -23,13 +24,21 @@
 
 ### Path
 
-[nav_msgs/Path](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Path.html)
+[nav_msgs/Path](https://docs.ros.org/en/humble/p/nav_msgs/msg/Path.html)
+
+### PoseWithCovarianceStamped
+
+[geometry_msgs/PoseWithCovarianceStamped](https://docs.ros.org/en/humble/p/geometry_msgs/msg/PoseWithCovarianceStamped.html)
 
 ## Service Definitions
 
 ### Trigger
 
 [std_srvs/Trigger](https://docs.ros.org/en/humble/p/std_srvs/srv/Trigger.html)
+
+### SetInitialPose
+
+[nav2_msgs/srv/SetInitialPose](https://docs.ros.org/en/humble/p/nav2_msgs/srv/SetInitialPose.html)
 
 ## Action Definitions
 
