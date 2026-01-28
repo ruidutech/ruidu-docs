@@ -1,26 +1,12 @@
 # 导航相关
 
-## 建图
+## 地图
 
-### 开始建图
+### 地图更新通知
 
-- **协议类型**: ROS2 by Zenoh
-- **接口地址**: `device/:serial_number/start_mapping`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "data": {}
-  }
-  ```
-
-### 地图上传
-
-- **协议类型**: ROS2 by Zenoh
-- **接口地址**: `device/:serial_number/map/compressed`
-- **消息频率**: 1 Hz
+- **协议类型**: MQTT
+- **接口地址**: `site/:site_id/map/update`
+- **接口方向**: 平台 -> 设备
 - **请求参数**
 
   ```json
@@ -28,45 +14,22 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "data": {
-      // --- 核心元数据 (直接对应 YAML 字段) ---
-      "resolution": 0.05, // 分辨率 (米/像素)
-      "origin": [-10.5, -5.2, 0.0], // 原点 [x, y, yaw]，注意这是 YAML 的标准写法
-      "occupied_thresh": 0.65, // 占用阈值
-      "free_thresh": 0.196, // 空闲阈值
-      "negate": 0, // 是否反转颜色 (通常为 0)
-      "mode": "trinary", // 模式 (通常是 trinary 或 scale)
-
-      // --- 辅助信息 (Web端渲染和校验用) ---
-      "width": 2048, // 图片宽度
-      "height": 2048, // 图片高度
-
-      // --- 数据本体 ---
-      "image_format": "png", // 明确格式
-      "base64": "iVBORw0KGgoAAA..." // 图片数据
+      "map_id": "uuid-map-id", // 和本地地图比对，无/或者版本号不一致，都需要更新
+      "version": "1", // int 递增
+      "download_url": "http://minio/maps/v2.0.tar.gz",
+      "md5": "a1b2c3d4...",
+      // 默认 false
+      // 在地图改动影响当前设备运行时为 true，表示强制停止运行，立即更新
+      "force_update": false
     }
   }
   ```
-
-### 结束建图
-
-- **协议类型**: ROS2 by Zenoh
-- **接口地址**: `device/:serial_number/stop_mapping`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789", // 与开始建图的 msg_id 保持一致
-    "timestamp": 1757403776, // Unix 时间戳
-    "data": {}
-  }
-  ```
-
-## 导航
 
 ### 使用地图
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/use_map`
+- **接口地址**: `device/:serial_number/map/use`
+- **接口方向**: 平台 -> 设备
 - **请求参数**
 
   ```json
@@ -74,48 +37,17 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "data": {
-      // 地图文件唯一，如果设备本地无地图，需要从平台侧下载
-      "filename": "uuid-3301.yaml"
+      // 地图ID唯一，如果设备本地无地图，需要从平台侧下载
+      "map_id": "uuid-map-id"
     }
   }
   ```
 
-### 静态地图信息
-
-- **协议类型**: WebSocket/ROS2 Topic
-- **接口地址**: `/map`
-- **请求参数**: [nav_msgs/msg/OccupancyGrid](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/OccupancyGrid.html)
-
-### 激光雷达扫描数据
-
-- **协议类型**: WebSocket/ROS2 Topic
-- **接口地址**: `/scan`
-- **请求参数**: [sensor_msgs/msg/LaserScan](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html)
-
-### 全局规划路径
-
-- **协议类型**: WebSocket/ROS2 Topic
-- **接口地址**: `/plan`
-- **请求参数**: [nav_msgs/msg/Path](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Path.html)
-
-### 机器人位置
-
-- **协议类型**: WebSocket/ROS2 Topic
-- **接口地址**:
-  - 建图时: `/pose`
-  - 导航时: `/amcl_pose`
-- **请求参数**: [geometry_msgs/msg/PoseWithCovarianceStamped](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html)
-
-### 目标点位置
-
-- **协议类型**: WebSocket/ROS2 Topic
-- **接口地址**: `/goal_pose`
-- **请求参数**: [geometry_msgs/msg/PoseStamped](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/PoseStamped.html)
-
-### 导航到目标点
+### 地图下载请求
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/goal`
+- **接口地址**: `device/:serial_number/map/download/req`
+- **接口方向**: 设备 -> 平台
 - **请求参数**
 
   ```json
@@ -123,49 +55,28 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "data": {
-      "frame_id": "earth",
-      "x": 10.5, // 米 (东)
-      "y": -5.0, // 米 (北)
-      "z": 2.0, // 米 (高度/天)
-      "r": 1.57 // 弧度 (偏航角 Yaw)
+      // 地图ID唯一，如果设备本地无地图，需要从平台侧下载
+      "map_id": "uuid-map-id"
     }
   }
   ```
 
-### 导航到目标点 ACK
+### 地图下载响应
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/goal/ack`
+- **接口地址**: `device/:serial_number/map/download/resp`
+- **接口方向**: 平台 -> 设备
 - **请求参数**
 
-  完成
-
   ```json
   {
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
-    "success": true
-  }
-  ```
-
-  取消
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "success": false,
-    "code": 3001
-  }
-  ```
-
-  失败
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "success": false,
-    "code": 3002
+    "data": {
+      "map_id": "uuid-map-id", // 和本地地图比对，无/或者版本号不一致，都需要更新
+      "version": "1", // int 递增，仅提供最新版本
+      "download_url": "http://minio/maps/v2.0.tar.gz",
+      "md5": "a1b2c3d4...",
+    }
   }
   ```
