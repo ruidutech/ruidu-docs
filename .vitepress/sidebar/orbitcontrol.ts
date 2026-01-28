@@ -43,7 +43,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
       { text: "设备控制与状态", link: "/orbitcontrol/tech-spec/api/device" },
       { text: "云台相关", link: "/orbitcontrol/tech-spec/api/gimbal" },
       { text: "机械臂相关", link: "/orbitcontrol/tech-spec/api/manipulator" },
-      { text: "导航相关", link: "/orbitcontrol/tech-spec/api/navigation" },
+      { text: "地图相关", link: "/orbitcontrol/tech-spec/api/map" },
       { text: "任务执行相关", link: "/orbitcontrol/tech-spec/api/mission" },
       { text: "事件上报", link: "/orbitcontrol/tech-spec/api/events" },
     ],
