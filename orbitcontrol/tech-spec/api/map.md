@@ -17,7 +17,6 @@
       "map_id": "uuid-map-id", // 和本地地图比对，无/或者版本号不一致，都需要更新
       "version": "1", // int 递增
       "download_url": "http://minio/maps/v2.0.tar.gz",
-      "md5": "a1b2c3d4...",
       // 默认 false
       // 在地图改动影响当前设备运行时为 true，表示强制停止运行，立即更新
       "force_update": false
