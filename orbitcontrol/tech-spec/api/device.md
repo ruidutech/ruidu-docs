@@ -193,7 +193,7 @@
   }
   ```
 
-### 参数同步
+### 上下文环境同步
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/provision/desired`
