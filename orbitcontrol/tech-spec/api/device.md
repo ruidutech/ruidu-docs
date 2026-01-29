@@ -203,6 +203,7 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
+    // 所有配置项都为可选，选择性下发需要修改的配置项即可
     "data": {
       // 1. 基础元数据
       "identity": {
