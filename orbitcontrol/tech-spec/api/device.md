@@ -193,10 +193,11 @@
   }
   ```
 
-### 参数配置
+### 参数同步
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/config/set`
+- **接口地址**: `device/:serial_number/provision/desired`
+- **接口方向**: 平台 -> 设备
 - **请求参数**
   ```json
   {
@@ -205,25 +206,13 @@
     "serial_number": "sn-191",
     // 所有配置项都为可选，选择性下发需要修改的配置项即可
     "data": {
-      // 1. 基础元数据
-      "identity": {
-        "site_id": "uuid-site-001",
-      },
-
-      // 2. 导航与运动参数（未来需求）
-      "navigation": {
-        "max_speed": 1.2, // m/s
-        "obstacle_dist": 0.5, // 避障距离
-      },
-
-      // 3. 系统行为（未来需求）
-      "system": {
-        "log_level": "info", // debug / info / warn
-        "heartbeat_interval": 10, // hz
-      }
+      "site_id": "uuid-site-001"
     }
   }
   ```
+- **接口说明**
+  - 用于设备的初始化配置和资源分配，包括站点绑定等信息，通常需要谨慎对待
+  - MQTT Retain 开启，确保设备在重启后能够立即获取到最新的配置信息
 
 ## 字典定义
 
