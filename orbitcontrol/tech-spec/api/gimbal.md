@@ -23,12 +23,12 @@
 
   > flag 参考 [云台控制模式](#云台控制模式)
 
-### 上报云台状态
+### 上报云台姿态
 
 收到 [请求消息推送](./common.md#请求消息推送) 后进行上报。
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/gimbal_status`
+- **接口地址**: `device/:serial_number/gimbal_pose`
 - **请求参数**
 
   ```json
