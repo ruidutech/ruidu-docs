@@ -301,7 +301,8 @@ sensors_load_status
 
 gps_status，在 sensors_load_status 的基础上增加：
 
-| value | name | desc        |
-| ----- | ---- | ----------- |
-| fix   | FIX  | GPS定位模式 |
-| rtk   | RTK  | RTK定位模式 |
+| value    | name     | desc                               |
+| -------- | -------- | ---------------------------------- |
+| fix      | FIX      | GPS定位模式                        |
+| sbas_fix | SBAS_FIX | 卫星增强（SBAS），精度优于普通 FIX |
+| gbas_fix | GBAS_FIX | 地面增强（GBAS/RTK 等），精度最高  |
