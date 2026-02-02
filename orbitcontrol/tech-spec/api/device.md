@@ -289,10 +289,19 @@ charge_status
 
 ### 传感器状态
 
-sensors_status
+sensors_load_status
 
 | value       | name        | desc   |
 | ----------- | ----------- | ------ |
 | not_present | NOT_PRESENT | 不存在 |
 | ok          | OK          | 正常   |
 | emergency   | EMERGENCY   | 故障   |
+
+### GPS状态
+
+gps_status，在 sensors_load_status 的基础上增加：
+
+| value | name | desc        |
+| ----- | ---- | ----------- |
+| fix   | FIX  | GPS定位模式 |
+| rtk   | RTK  | RTK定位模式 |
