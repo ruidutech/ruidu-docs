@@ -80,4 +80,8 @@ coverage/
 # 其他
 *.bak
 *.swp
-*.swo 
+*.swo
+
+# Claude Code
+claude-output/
+.claude/ 

@@ -58,6 +58,13 @@
         "laser": "not_present",
         "gps": "ok",
         ...
+      },
+      // 站点环境信息
+      "site": {
+        "site_id": "uuid-site-id",
+        "coordinate_frame": "earth",
+        "map_id?": "uuid-map-id",
+        "map_version?": "1"
       }
     }
   }
