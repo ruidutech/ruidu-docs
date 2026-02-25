@@ -127,7 +127,8 @@
               "z": 0
             }
           ],
-          "actions": [ // 任务动作，可为空，可任意组合和排序，按顺序执行
+          "actions": [
+            // 任务动作，可为空，可任意组合和排序，按顺序执行
             {
               "type": "gimbal", // 调整云台，参数定义同「上报云台状态」
               "params": {
@@ -237,38 +238,29 @@
       "file_size": 104857600,
       "mime_type": "video/mp4",
       "md5": "a3f8...", // 用于完整性校验
-      "width": 1920, // 画面尺寸
-      "height": 1080,
-      "duration": 15, // 视频时长（秒）
-      "metadata": {
-        "capture_time": 1757403770,
-        "frame_id": "map",
-        // 设备姿态信息（通用）
-        "position": {
-          "x": 37.7749,
-          "y": -122.4194,
-          "z": 0,
-          "yaw": 0,
-          "pitch": 0,
-          "roll": 0
-        },
-        // 云台姿态信息 (用于分析拍摄视角)
-        "gimbal": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 1.0,
-          "focus": 0.5
-        },
-        // (可选) 额外的设备状态
-        "extra": {}
+      "width?": 1920, // 画面尺寸
+      "height?": 1080,
+      "duration_seconds?": 15, // 视频时长（秒）,非视频文件可以不传
+      "capture_time": 1757403770000, // 拍摄时间（毫秒）
+      // 设备姿态信息（通用）
+      "position?": {
+        "x": 37.7749,
+        "y": -122.4194,
+        "z": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "roll": 0
       },
-      // 如果没有缩略图（比如本身就是小图），这里传 null
-      "thumbnail?": {
-        "filename": "patrol_01_thumb.jpg",
-        "file_size": 5120, // 5KB
-        "mime_type": "image/jpeg",
-        "md5": "b2c9..."
-      }
+      // 云台姿态信息 (用于分析拍摄视角)
+      "gimbal?": {
+        "yaw": 0,
+        "pitch": 0,
+        "zoom": 1.0,
+        "focus": 0.5
+      },
+      "frame_id?": "map",
+      // 如果没有缩略图（比如本身就是小图），这里不传
+      "thumbnail_filename?": "patrol_01_thumb.jpg"
     }
   }
   ```
