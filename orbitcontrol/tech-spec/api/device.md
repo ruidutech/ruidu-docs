@@ -60,7 +60,7 @@
         ...
       },
       // 站点环境信息
-      "site": {
+      "site?": {
         "site_id": "uuid-site-id",
         "coordinate_frame": "earth",
         "map_id?": "uuid-map-id",
