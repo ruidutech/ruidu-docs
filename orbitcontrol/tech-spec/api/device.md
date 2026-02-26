@@ -58,17 +58,14 @@
         "laser": "not_present",
         "gps": "ok",
         ...
-      },
-      // 站点环境信息
-      "site?": {
-        "site_id": "uuid-site-id",
-        "coordinate_frame": "earth",
-        "map_id?": "uuid-map-id",
-        "map_version?": "1"
       }
     }
   }
   ```
+
+- **接口说明**
+  - site 绑定通过 `provision/desired` 下发，地图引用通过 `map_ref` 上报
+  - 心跳保持轻量，仅包含高频变更的设备状态信息
 
 ### 模式设置
 
