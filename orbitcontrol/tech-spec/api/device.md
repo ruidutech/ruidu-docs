@@ -229,6 +229,7 @@
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/workspace/report`
 - **接口方向**: 设备 -> 平台
+- **上报频率**: 1 Hz
 - **请求参数**
   ```json
   {
@@ -246,7 +247,7 @@
   ```
 
 - **接口说明**
-  - 参考 ROS2 TRANSIENT_LOCAL QoS 模式：仅在变更时发布，Retain 确保新订阅者能获取最新状态
+  - 参考 ROS2 TRANSIENT_LOCAL QoS 模式：在变更时发布，Retain 确保新订阅者能获取最新状态
   - 与心跳解耦，避免高频上报低频变更数据
   - 示例场景：设备上报：“我已在 X 站点就绪，当前使用 Y 地图”
 
