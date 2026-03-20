@@ -227,7 +227,7 @@
 ### 设备上报环境信息
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/workspace/reported`
+- **接口地址**: `device/:serial_number/workspace/report`
 - **接口方向**: 设备 -> 平台
 - **请求参数**
   ```json
