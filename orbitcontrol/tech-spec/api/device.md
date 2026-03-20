@@ -197,7 +197,9 @@
   }
   ```
 
-### 上下文环境同步
+## 上下文环境同步
+
+### 平台下发环境信息
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/provision/desired`
@@ -210,13 +212,41 @@
     "serial_number": "sn-191",
     // 所有配置项都为可选，选择性下发需要修改的配置项即可
     "data": {
-      "site_id": "uuid-site-001"
+      "site_id": "uuid-site-001",
+      "coordinate_frame": "map", // map | earth
+      "map_id": "uuid-map-id-111",
+      "map_version": 1
     }
   }
   ```
 - **接口说明**
   - 用于设备的初始化配置和资源分配，包括站点绑定等信息，通常需要谨慎对待
   - MQTT Retain 开启，确保设备在重启后能够立即获取到最新的配置信息
+
+### 设备上报环境信息
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/provision/report`
+- **接口方向**: 设备 -> 平台
+- **请求参数**
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    // 数据结构和 `provision/desired` 相同
+    "data": {
+      "site_id": "uuid-site-001",
+      "coordinate_frame": "map", // map | earth
+      "map_id": "uuid-map-id-111",
+      "map_version": 1
+    }
+  }
+  ```
+
+- **接口说明**
+  - 参考 ROS2 TRANSIENT_LOCAL QoS 模式：仅在变更时发布，Retain 确保新订阅者能获取最新状态
+  - 与心跳解耦，避免高频上报低频变更数据
 
 ## 字典定义
 
