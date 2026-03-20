@@ -197,12 +197,12 @@
   }
   ```
 
-## 部署环境同步
+## 部署环境（工作空间）同步
 
 ### 平台下发环境信息
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/deployment/desired`
+- **接口地址**: `device/:serial_number/workspace/desired`
 - **接口方向**: 平台 -> 设备
 - **请求参数**
   ```json
@@ -227,7 +227,7 @@
 ### 设备上报环境信息
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/deployment/reported`
+- **接口地址**: `device/:serial_number/workspace/reported`
 - **接口方向**: 设备 -> 平台
 - **请求参数**
   ```json
