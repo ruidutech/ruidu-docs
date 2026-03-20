@@ -2,7 +2,7 @@
 
 ## 路径录制
 
-### 开始录制
+### ~~开始录制~~ `@deprecated` 
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/start_path_recording`
@@ -19,7 +19,7 @@
   }
   ```
 
-### 继续录制
+### ~~继续录制~~ `@deprecated`
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/continue_path_recording`
@@ -40,7 +40,7 @@
 
   将当前录制的内容通过 `路径上报接口` 上传至平台，然后继续下一段路径的录制。
 
-### 结束录制
+### ~~结束录制~~ `@deprecated`
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/stop_path_recording`
@@ -57,7 +57,7 @@
   }
   ```
 
-### 路径上报
+### ~~路径上报~~ `@deprecated`
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/upload_path`
