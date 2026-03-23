@@ -92,7 +92,7 @@
 ### 任务下发
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/mission_items`
+- **接口地址**: `site/:site_id/mission_items`
 - **请求参数**
 
   ```json
@@ -102,7 +102,6 @@
     "serial_number": "sn-191",
     "data": {
       "mission_id": "uuid-901", // 任务ID，和任务配置关联，小车端可以配合任务详情进行缓存
-      "execution_id": "uuid-912", // 任务执行ID，和具体任务执行详情关联，车载端上传媒体数据时，需要与其关联
       "updated_at": 1757403776, // Unix 时间戳，辅助判断任务版本
       "waypoints": [
         {
@@ -114,10 +113,7 @@
           "position": {
             "x": 37.7749,
             "y": -122.4194,
-            "z": 0,
-            "yaw": 0,
-            "pitch": 0,
-            "roll": 0
+            "yaw": 0, // 航向角（弧度），范围 [-π, π]，0 表示正北/正前方
           },
           // 辅助路径，可为空
           "path": [
@@ -168,6 +164,30 @@
 - **Mavlink 参考**
   - [MISSION_ITEM_INT](https://mavlink.io/en/messages/common.html#MISSION_ITEM_INT)
   - [MAV_CMD_NAV_WAYPOINT](https://mavlink.io/en/messages/common.html#MAV_CMD_NAV_WAYPOINT)
+
+### 任务开始
+
+设备端保存任务后，由云端下发此指令触发任务执行。
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/mission_start`
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "mission_id": "uuid-901", // 任务ID，需与任务下发时一致
+      "execution_id": "uuid-912", // 任务执行ID，唯一标志单次执行实例，车载端上传媒体数据时，需要与其关联
+      "resume": false // 是否从上次中断点继续，false 表示从头开始
+    }
+  }
+  ```
+
+- **Mavlink 参考**
+  - [MAV_CMD_MISSION_START](https://mavlink.io/en/messages/common.html#MAV_CMD_MISSION_START)
 
 ### 暂停/继续任务
 
