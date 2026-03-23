@@ -180,8 +180,7 @@
     "serial_number": "sn-191",
     "data": {
       "mission_id": "uuid-901", // 任务ID，需与任务下发时一致
-      "execution_id": "uuid-912", // 任务执行ID，唯一标志单次执行实例，车载端上传媒体数据时，需要与其关联
-      "resume": false // 是否从上次中断点继续，false 表示从头开始
+      "execution_id": "uuid-912" // 任务执行ID，唯一标志单次执行实例，车载端上传媒体数据时，需要与其关联
     }
   }
   ```
