@@ -64,7 +64,6 @@
   ```
 
 - **接口说明**
-  - site 绑定通过 `provision/desired` 下发，地图引用通过 `map_ref` 上报
   - 心跳保持轻量，仅包含高频变更的设备状态信息
 
 ### 模式设置
@@ -266,7 +265,7 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
-    // 数据结构和 `provision/desired` 相同
+    // 数据结构和 `workspace/desired` 相同
     "data": {
       "site_id": "uuid-site-001",
       "coordinate_frame": "map", // map | earth
