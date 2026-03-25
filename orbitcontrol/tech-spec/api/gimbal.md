@@ -108,7 +108,9 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
-    "data": {}
+    "data": {
+      "duration_seconds": 1 // 录像时长，单位秒，0 表示一直录像，直到收到 `stop_record` 消息
+    }
   }
   ```
 

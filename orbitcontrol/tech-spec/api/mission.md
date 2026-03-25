@@ -2,7 +2,7 @@
 
 ## 路径录制
 
-### ~~开始录制~~ `@deprecated` 
+### ~~开始录制~~ `@deprecated`
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/start_path_recording`
@@ -112,7 +112,7 @@
           "position": {
             "x": 37.7749,
             "y": -122.4194,
-            "yaw": 0, // 航向角（弧度），范围 [-π, π]，0 表示正北/正前方
+            "yaw": 0 // 航向角（弧度），范围 [-π, π]，0 表示正北/正前方
           },
           // 辅助路径，可为空
           "path": [
@@ -125,33 +125,24 @@
           "actions": [
             // 任务动作，可为空，可任意组合和排序，按顺序执行
             {
-              "type": "gimbal", // 调整云台，参数定义同「上报云台状态」
-              "params": {
-                "pitch": -30.0,
-                "yaw": 90.0,
-                "flag": "angle",
-                "zoom": 100.0,
-                "focus": 0.5
-              }
+              "type": "recall_gimbal", // 调整云台，参数定义同「上报云台状态」
+              "pitch": -30.0,
+              "yaw": 90.0,
+              "zoom": 100.0,
+              "focus": 0.5
             },
             {
               "type": "hover",
-              "params": {
-                "interval": 600 // 停留时间，单位秒
-              }
+              "duration_seconds": 600 // 停留时间，单位秒，0 表示一直停留
             },
             {
-              "type": "capture", // 拍照，参数定义同云台控制「开始抓拍」
-              "params": {
-                "numbers": 1,
-                "interval": 0
-              }
+              "type": "start_capture", // 拍照，参数定义同云台控制「开始抓拍」
+              "numbers": 1,
+              "interval": 0
             },
             {
-              "type": "record",
-              "params": {
-                "duration": 1 // 录像时长，单位秒
-              }
+              "type": "start_record",
+              "duration_seconds": 1 // 录像时长，单位秒
             }
           ]
         }
