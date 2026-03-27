@@ -261,7 +261,7 @@
         "roll": 0
       },
       // 云台姿态信息 (用于分析拍摄视角)
-      "gimbal?": {
+      "gimbal_pose?": {
         "yaw": 0,
         "pitch": 0,
         "zoom": 1.0,
