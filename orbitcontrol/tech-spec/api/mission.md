@@ -319,15 +319,15 @@
 
 ### 执行动作类型
 
-| value            | name             | desc     |
-| ---------------- | ---------------- | -------- |
-| return_to_launch | RETURN_TO_LAUNCH | 返航     |
-| land             | LAND             | 降落     |
-| takeoff          | TAKEOFF          | 起飞     |
-| hover            | HOVER            | 待机     |
-| gimbal           | GIMBAL           | 云台控制 |
-| capture          | CAPTURE          | 拍照     |
-| record           | RECORD           | 录像     |
+| value            | name             | desc                     |
+| ---------------- | ---------------- | ------------------------ |
+| return_to_launch | RETURN_TO_LAUNCH | 返航                     |
+| land             | LAND             | 降落                     |
+| takeoff          | TAKEOFF          | 起飞                     |
+| hover            | HOVER            | 待机                     |
+| recall_gimbal    | RECALL_GIMBAL    | 云台回位（回到指定位置） |
+| start_capture    | START_CAPTURE    | 拍照                     |
+| start_record     | START_RECORD     | 录像                     |
 
 ### 任务模式
 
