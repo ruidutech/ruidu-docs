@@ -33,3 +33,14 @@ systemctl start xxx
 # 重启
 systemctl restart xxx
 ```
+
+## 所有服务
+
+```sh
+# 进入安装解压目录下的脚本文件夹
+cd /home/cemosv3._*/script
+# 停止所有服务
+./stop_cemos.sh
+# 启动所有服务
+./start_cemos.sh
+```

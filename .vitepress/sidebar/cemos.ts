@@ -6,6 +6,7 @@ export const cemosSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: "服务管理", link: "/cemos/dev/ops/services.md" },
+      { text: "IP 替换", link: "/cemos/dev/ops/change-ip.md" },
       { text: "常见问题", link: "/cemos/dev/ops/faq.md" },
     ],
   },
