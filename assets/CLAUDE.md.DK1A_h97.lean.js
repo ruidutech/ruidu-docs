@@ -1,0 +1,1 @@
+import{_ as o,c as t,o as r,ak as a}from"./chunks/framework.DaqVj_Bu.js";const g=JSON.parse('{"title":"睿度文档工程","description":"","frontmatter":{},"headers":[],"relativePath":"CLAUDE.md","filePath":"CLAUDE.md"}'),s={name:"CLAUDE.md"};function i(n,e,l,d,c,p){return r(),t("div",null,e[0]||(e[0]=[a("",7)]))}const h=o(s,[["render",i]]);export{g as __pageData,h as default};
