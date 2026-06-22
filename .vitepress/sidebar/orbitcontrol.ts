@@ -2,29 +2,18 @@ import type { DefaultTheme } from "vitepress";
 
 export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
   {
-    text: "平台简介",
-    collapsed: false,
-    items: [
-      { text: "什么是OrbitControl", link: "/orbitcontrol/introduction/whatis" },
-      {
-        text: "OrbitControl的优势",
-        link: "/orbitcontrol/introduction/advantage",
-      },
-    ],
-  },
-  {
     text: "使用手册",
     collapsed: false,
     items: [
-      {
-        text: "页面导航",
-        link: "/orbitcontrol/user-guide/platform-navigation",
-      },
+      { text: "页面导航", link: "/orbitcontrol/user-guide/platform-navigation" },
       { text: "站点管理", link: "/orbitcontrol/user-guide/sites" },
       { text: "设备管理", link: "/orbitcontrol/user-guide/device" },
       { text: "地图管理", link: "/orbitcontrol/user-guide/mapping" },
+      { text: "区域管理", link: "/orbitcontrol/user-guide/zones" },
       { text: "任务设置和调度", link: "/orbitcontrol/user-guide/planning" },
       { text: "实时控制", link: "/orbitcontrol/user-guide/live-control" },
+      { text: "地图图层", link: "/orbitcontrol/user-guide/map-layer" },
+      { text: "标注管理", link: "/orbitcontrol/user-guide/annotations" },
       {
         text: "数据中心",
         collapsed: false,
@@ -33,12 +22,15 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
           { text: "画廊", link: "/orbitcontrol/user-guide/gallery" },
         ],
       },
+      { text: "角色和权限", link: "/orbitcontrol/user-guide/roles-and-permissions" },
+      { text: "通知", link: "/orbitcontrol/user-guide/notification" },
     ],
   },
   {
     text: "设备端 API",
     collapsed: false,
     items: [
+      { text: "MQTT 协议规范", link: "/orbitcontrol/tech-spec/api/mqtt_convention" },
       { text: "通用 API", link: "/orbitcontrol/tech-spec/api/common" },
       { text: "设备控制与状态", link: "/orbitcontrol/tech-spec/api/device" },
       { text: "云台相关", link: "/orbitcontrol/tech-spec/api/gimbal" },

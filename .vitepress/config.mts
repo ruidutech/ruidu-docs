@@ -30,7 +30,6 @@ export default defineConfig({
       { text: "DeepRobot01", link: "/deeprobot01/" },
       { text: "DeepRobot03", link: "/deeprobot03/" },
       { text: "OrbitControl", link: "/orbitcontrol/" },
-      { text: "CeMos", link: "/cemos/" },
     ],
 
     // 会对标题进行索引，所以尽量把关键信息放在标题中
