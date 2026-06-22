@@ -39,6 +39,49 @@
   }
   ```
 
+### 组件上报
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/components`
+- **接口方向**: 设备 -> 平台
+- **上报时机**:
+  - 设备启动后（注册成功后）
+  - 组件配置变更时
+- **请求参数**
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "components": [
+        {"component_id": 100},
+        {"component_id": 101},
+        {"component_id": 150},
+        {"component_id": 170},
+        {"component_id": 180}
+      ]
+    }
+  }
+  ```
+
+- **字段说明**
+  - `component_id`: 组件ID，遵循 [MAVLink Component ID](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 标准
+    - `100`: 前摄像头
+    - `101`: 后摄像头
+    - `102`: 左摄像头
+    - `103`: 右摄像头
+    - `150`: 主激光雷达
+    - `170`: IMU
+    - `180`: GPS
+    - 具体分配约定详见: [Component ID 分配规范](../design/component-id.md)
+
+- **接口说明**
+  - 设备上报其搭载的所有组件ID列表
+  - 组件的详细信息（类型、名称等）通过 `component_id` 与默认配置关联
+  - 平台将数据写入 `device_components` 表
+  - 与心跳解耦，心跳只上报传感器健康状态
+
 ### 心跳
 
 - **协议类型**: MQTT
