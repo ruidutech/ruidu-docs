@@ -1,1 +1,0 @@
-import{_ as a,c as t,o,ak as s}from"./chunks/framework.DaqVj_Bu.js";const h=JSON.parse('{"title":"CeMos","description":"","frontmatter":{},"headers":[],"relativePath":"cemos/index.md","filePath":"cemos/index.md"}'),r={name:"cemos/index.md"};function i(n,e,c,d,l,_){return o(),t("div",null,e[0]||(e[0]=[s("",3)]))}const p=a(r,[["render",i]]);export{h as __pageData,p as default};
