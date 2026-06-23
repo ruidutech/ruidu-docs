@@ -241,6 +241,7 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
+      "component_id": 106, // 组件ID，默认106(云台相机) [!code ++]
       "mission_id?": "uuid-xxx", // 不传或传 null 时表示手动模式下的媒体文件
       "execution_id?": "uuid-987", // 同上
       "filename": "patrol_01.mp4",
