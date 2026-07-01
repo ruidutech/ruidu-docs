@@ -1,15 +1,15 @@
-import { defineConfig } from "vitepress";
+import { withMermaid } from "vitepress-plugin-mermaid";
 import { sidebar } from "./sidebar";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import markdownItAttrs from "markdown-it-attrs";
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid({
   title: "睿度文档中心",
   description: "睿度智能产品技术文档",
   lang: "zh-CN",
   base: "/ruidu-docs/",
-  srcExclude: ["temp/**/*"], // 忽略temp目录下的所有文件
+  srcExclude: ["temp/**.*"], // 忽略temp目录下的所有文件
   markdown: {
     config(md) {
       md.use(tabsMarkdownPlugin);
@@ -49,4 +49,12 @@ export default defineConfig({
       copyright: "Copyright © 2025 Ruidu Intelligence Technology",
     },
   },
+  mermaid: {
+    theme: "default",
+    fontSize: 14,
+    sequence: {
+      height: 48,
+    },
+  },
+  mermaidPlugin: { class: "mermaid my-class" },
 });

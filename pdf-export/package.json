@@ -1,0 +1,22 @@
+{
+  "name": "orbit-pdf-export",
+  "version": "1.0.0",
+  "description": "VitePress PDF export tool with merge support",
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "bin": {
+    "orbit-pdf-export": "./src/index.ts"
+  },
+  "scripts": {
+    "export": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^24.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "tsx": "^4.19.4"
+  }
+}

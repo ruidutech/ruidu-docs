@@ -24,3 +24,27 @@ img.panel {
   display: block;
   content: " ";
 }
+
+/* ASCII 图表优化样式 */
+.vp-doc pre,
+.vp-doc code {
+  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.vp-doc pre {
+  padding: 16px;
+  overflow-x: auto;
+  background-color: var(--vp-c-bg-soft);
+  border-radius: 8px;
+}
+
+/* 确保 ASCII 图表字符对齐 */
+.vp-doc pre code {
+  display: block;
+  font-variant-ligatures: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -2,10 +2,21 @@ import type { DefaultTheme } from "vitepress";
 
 export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
   {
+    text: "产品介绍",
+    collapsed: false,
+    items: [
+      { text: "概述", link: "/orbitcontrol/" },
+      { text: "产品介绍", link: "/orbitcontrol/introduction/whatis.md" },
+    ],
+  },
+  {
     text: "使用手册",
     collapsed: false,
     items: [
-      { text: "页面导航", link: "/orbitcontrol/user-guide/platform-navigation" },
+      {
+        text: "页面导航",
+        link: "/orbitcontrol/user-guide/platform-navigation",
+      },
       { text: "站点管理", link: "/orbitcontrol/user-guide/sites" },
       { text: "设备管理", link: "/orbitcontrol/user-guide/device" },
       { text: "地图管理", link: "/orbitcontrol/user-guide/mapping" },
@@ -22,15 +33,26 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
           { text: "画廊", link: "/orbitcontrol/user-guide/gallery" },
         ],
       },
-      { text: "角色和权限", link: "/orbitcontrol/user-guide/roles-and-permissions" },
+      {
+        text: "角色和权限",
+        link: "/orbitcontrol/user-guide/roles-and-permissions",
+      },
       { text: "通知", link: "/orbitcontrol/user-guide/notification" },
     ],
   },
   {
-    text: "设备端 API",
+    text: "开放平台",
+    collapsed: false,
+    items: [{ text: "API 文档", link: "/orbitcontrol/open-platform/" }],
+  },
+  {
+    text: "设备端API",
     collapsed: false,
     items: [
-      { text: "MQTT 协议规范", link: "/orbitcontrol/tech-spec/api/mqtt_convention" },
+      {
+        text: "MQTT 协议规范",
+        link: "/orbitcontrol/tech-spec/api/mqtt_convention",
+      },
       { text: "通用 API", link: "/orbitcontrol/tech-spec/api/common" },
       { text: "设备控制与状态", link: "/orbitcontrol/tech-spec/api/device" },
       { text: "云台相关", link: "/orbitcontrol/tech-spec/api/gimbal" },
@@ -41,7 +63,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     ],
   },
   {
-    text: "设备端 ROS2 API",
+    text: "设备端API(ROS2)",
     collapsed: false,
     items: [
       { text: "导航相关", link: "/orbitcontrol/tech-spec/ros_msgs/navigation" },
