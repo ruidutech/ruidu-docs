@@ -48,6 +48,7 @@
   - 设备启动后（注册成功后）
   - 组件配置变更时
 - **请求参数**
+
   ```json
   {
     "msg_id": "uuid-789",
@@ -55,11 +56,11 @@
     "serial_number": "sn-191",
     "data": {
       "components": [
-        {"component_id": 100},
-        {"component_id": 101},
-        {"component_id": 150},
-        {"component_id": 170},
-        {"component_id": 180}
+        { "component_id": 100 },
+        { "component_id": 101 },
+        { "component_id": 150 },
+        { "component_id": 170 },
+        { "component_id": 180 }
       ]
     }
   }
@@ -87,6 +88,7 @@
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/heartbeat`
 - **请求参数**
+
   ```json
   {
     "msg_id": "uuid-789",
@@ -284,10 +286,10 @@
     "serial_number": "sn-191",
     // 所有配置项都为可选，选择性下发需要修改的配置项即可
     "data": {
-      "site_id": "uuid-site-001",
-      "coordinate_frame": "map", // map | earth
-      "map_id": "uuid-map-id-111",
-      "map_version": 1
+      "site_id?": "uuid-site-001",
+      "coordinate_frame?": "map", // map | earth
+      "map_id?": "uuid-map-id-111", // frame = earth: map_id/map_version null
+      "map_version?": 1
     }
   }
   ```
@@ -303,6 +305,7 @@
 - **接口方向**: 设备 -> 平台
 - **上报频率**: 1 Hz
 - **请求参数**
+
   ```json
   {
     "msg_id": "uuid-789",
@@ -312,7 +315,7 @@
     "data": {
       "site_id": "uuid-site-001",
       "coordinate_frame": "map", // map | earth
-      "map_id?": "uuid-map-id-111", // if frame = earth，map_id/map_version null
+      "map_id?": "uuid-map-id-111",
       "map_version?": 1
     }
   }
