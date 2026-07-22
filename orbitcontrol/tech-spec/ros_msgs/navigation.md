@@ -7,8 +7,8 @@
 | /map/metadata     | topic   | [MapMetaData](#mapmetadata)         | 地图元数据                       |
 | /map/compressed   | topic   | [CompressedImage](#compressedimage) | 地图数据压缩形式（PNG）          |
 | /start_mapping    | service | [Trigger](#trigger)                 | 开始建图                         |
-| /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图（完成建图并保存）       |
-| /cancel_mapping   | service | [Trigger](#trigger)                 | 取消建图（不保存，回到导航模式） |
+| /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图（不保存，回到导航模式） |
+| /sava_map         | service | [Trigger](#trigger)                 | 完成建图（完成建图并保存）       |
 | /navigate_to_pose | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置                   |
 | /plan             | topic   | [Path](#path)                       | 全局规划路径                     |
 | /set_initial_pose | service | [SetInitialPose](#setinitialpose)   | 设置初始位姿                     |
