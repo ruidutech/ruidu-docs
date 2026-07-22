@@ -217,7 +217,10 @@
       "seq": 1,
       "total": 10,
       "mission_state": "参考字典",
-      "mission_mode": "参考字典"
+      "mission_mode": "参考字典",
+      "navigation_time": 19, // 执行时间，单位s
+      "estimated_time_remaining": 300, // 预计剩余时间，单位s
+      "distance_remaining": 2.1 // 预计剩余距离，单位m
     }
   }
   ```
