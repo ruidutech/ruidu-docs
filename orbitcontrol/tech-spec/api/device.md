@@ -312,8 +312,8 @@
     "data": {
       "site_id": "uuid-site-001",
       "coordinate_frame": "map", // map | earth
-      "map_id": "uuid-map-id-111",
-      "map_version": 1
+      "map_id?": "uuid-map-id-111", // if frame = earth，map_id/map_version null
+      "map_version?": 1
     }
   }
   ```
