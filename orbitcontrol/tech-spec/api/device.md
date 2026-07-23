@@ -271,12 +271,12 @@
   }
   ```
 
-## 部署环境（工作空间）同步
+## 部署环境同步
 
-### 平台下发环境信息
+### 平台下发环境/配置信息
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/workspace/desired`
+- **接口地址**: `device/:serial_number/profile/desired`
 - **接口方向**: 平台 -> 设备
 - **请求参数**
   ```json
@@ -287,8 +287,8 @@
     // 所有配置项都为可选，选择性下发需要修改的配置项即可
     "data": {
       "site_id?": "uuid-site-001",
-      "coordinate_frame?": "map", // map | earth
-      "map_id?": "uuid-map-id-111", // frame = earth: map_id/map_version null
+      "coordinate_frame?": "map", // map | wgs84
+      "map_id?": "uuid-map-id-111", // frame = wgs84: map_id/map_version null
       "map_version?": 1
     }
   }
@@ -298,10 +298,10 @@
   - MQTT Retain 开启，确保设备在重启后能够立即获取到最新的配置信息
   - 示例场景：平台下达指令：“你去 X 站点，用 Y 地图”
 
-### 设备上报环境信息
+### 设备上报环境/配置信息
 
 - **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/workspace/report`
+- **接口地址**: `device/:serial_number/profile/report`
 - **接口方向**: 设备 -> 平台
 - **上报频率**: 1 Hz
 - **请求参数**
@@ -311,10 +311,10 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
-    // 数据结构和 `workspace/desired` 相同
+    // 数据结构和 `profile/desired` 相同
     "data": {
       "site_id": "uuid-site-001",
-      "coordinate_frame": "map", // map | earth
+      "coordinate_frame": "map", // map | wgs84
       "map_id?": "uuid-map-id-111",
       "map_version?": 1
     }
