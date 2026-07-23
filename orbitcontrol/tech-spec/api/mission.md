@@ -218,8 +218,8 @@
       "total": 10,
       "mission_state": "参考字典",
       "mission_mode": "参考字典",
-      "navigation_time": 19, // 导航执行时间，单位纳秒
-      "estimated_time_remaining": 300, // 预计剩余时间，单位纳秒
+      "navigation_time": 19, // 导航执行时间，单位秒（忽略掉 Ros Duration 中的 nanosec）
+      "estimated_time_remaining": 300, // 预计剩余时间，单位秒
       "distance_remaining": 2.1 // 预计剩余距离，单位m
     }
   }
