@@ -8,7 +8,7 @@
 | /map/compressed   | topic   | [CompressedImage](#compressedimage) | 地图数据压缩形式（PNG）          |
 | /start_mapping    | service | [Trigger](#trigger)                 | 开始建图                         |
 | /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图（不保存，回到导航模式） |
-| /save_map         | service | [Trigger](#trigger)                 | 完成建图（完成建图并保存）       |
+| /save_map         | service | [SaveMap](#savemap)                 | 完成建图（完成建图并保存）       |
 | /navigate_to_pose | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置                   |
 | /plan             | topic   | [Path](#path)                       | 全局规划路径                     |
 | /set_initial_pose | service | [SetInitialPose](#setinitialpose)   | 设置初始位姿                     |
@@ -32,6 +32,15 @@
 [geometry_msgs/PoseWithCovarianceStamped](https://docs.ros.org/en/humble/p/geometry_msgs/msg/PoseWithCovarianceStamped.html)
 
 ## Service Definitions
+
+### SaveMap
+
+```
+string map_id
+---
+bool success
+string message
+```
 
 ### Trigger
 
