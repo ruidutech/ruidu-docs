@@ -586,7 +586,7 @@ Content-Type: application/json
 | GET  | /maps/list                 | 按站点获取地图列表 | map:read  | -                  |
 | GET  | /maps/`{id}`               | 获取地图详情       | map:read  | -                  |
 | POST | /maps/`{id}`/rename        | 重命名地图         | map:write | -                  |
-| POST | /maps/`{id}`/notify-update | 通知设备地图更新   | map:write | -                  |
+| POST | /maps/sync                 | 同步站点地图到设备 | map:write | -                  |
 
 ### 6.14 导航管理 /navigation
 
