@@ -6,7 +6,7 @@
 | ----------------- | ------- | ----------------------------------- | -------------------------------- |
 | /map/metadata     | topic   | [MapMetaData](#mapmetadata)         | 地图元数据                       |
 | /map/compressed   | topic   | [CompressedImage](#compressedimage) | 地图数据压缩形式（PNG）          |
-| /start_mapping    | service | [Trigger](#trigger)                 | 开始建图                         |
+| /start_mapping    | service | [StartMapping](#startmapping)       | 开始建图                         |
 | /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图（不保存，回到导航模式） |
 | /save_map         | service | [SaveMap](#savemap)                 | 完成建图（完成建图并保存）       |
 | /navigate_to_pose | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置                   |
@@ -32,6 +32,15 @@
 [geometry_msgs/PoseWithCovarianceStamped](https://docs.ros.org/en/humble/p/geometry_msgs/msg/PoseWithCovarianceStamped.html)
 
 ## Service Definitions
+
+### StartMapping
+
+```
+bool align_wgs84
+---
+bool success
+string message
+```
 
 ### SaveMap
 
