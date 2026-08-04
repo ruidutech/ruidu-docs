@@ -2,39 +2,143 @@
 
 ## 地图
 
-地图分发采用「清单同步 + 按需下载」模式：
+地图文件流转采用「MQTT 协商 + presigned URL + HTTP 传输」模式，分上行与下行：
 
+- **上传（upload）**：建图设备在平台保存地图后，将建图产物（pgm/pcd/datum 等）
+  直传对象存储；png 预览图在建图期间已通过 ROS2 topic 上报，不在本流程内
 - **同步（sync）**：平台向设备投递站点地图版本清单（不含文件），设备比对本地版本
-- **下载（download）**：设备对滞后的地图发起下载请求，平台返回 presigned URL，
-  设备通过 HTTP 拉取地图文件（**下载是唯一的文件同步路径**）
+- **下载（download）**：设备对滞后的地图发起下载请求，平台返回各文件的 presigned URL，
+  设备通过 HTTP 拉取地图文件（**下载是唯一的文件分发路径**）
 
 ```mermaid
 sequenceDiagram
     participant U as 用户(Web)
     participant C as 云平台
-    participant D as 设备
+    participant D as 建图设备
+    participant O as 同站点设备
 
-    Note over U,D: 触发方式一：手动同步（广播）
+    Note over U,D: 建图保存与文件上传
+    U->>C: POST /devices/{id}/save_map
+    C->>D: ROS2 /save_map {map_id}
+    D->>D: 落盘建图产物（pgm/pcd/datum 等）
+    D->>C: device/{sn}/map/upload/req {map_id, files}
+    C->>D: device/{sn}/map/upload/resp {version, upload_urls}
+    D->>C: HTTP PUT（presigned URL，直传对象存储）
+    D->>C: device/{sn}/map/upload/done {results}
+    C->>C: 校验文件（比对 size/ETag）
+
+    Note over C,O: 分发触发方式一：保存完成 / 手动同步（广播）
     U->>C: POST /maps/sync {site_id, force_update}
-    C->>D: site/{site_id}/map/sync（版本清单）
+    C->>O: site/{site_id}/map/sync（版本清单）
 
-    Note over U,D: 触发方式二：设备主动查询（单播）
-    D->>C: device/{sn}/map/sync/req
-    C->>D: device/{sn}/map/sync/resp（同一份清单，相同 msg_id）
+    Note over C,O: 分发触发方式二：设备主动查询（单播）
+    O->>C: device/{sn}/map/sync/req
+    C->>O: device/{sn}/map/sync/resp（同一份清单，相同 msg_id）
 
-    Note over U,D: 统一下载流程
-    D->>D: 比对本地版本，筛选滞后的 map_id
-    D->>C: device/{sn}/map/download/req {map_id, version?}
-    C->>D: device/{sn}/map/download/resp {image_url, yaml_url}
-    D->>C: HTTP GET（presigned URL，下载 yaml + png 到同一目录）
+    Note over C,O: 统一下载流程
+    O->>O: 比对本地版本，筛选滞后的 map_id
+    O->>C: device/{sn}/map/download/req {map_id, version?}
+    C->>O: device/{sn}/map/download/resp {files: [{file_type, url}]}
+    O->>C: HTTP GET（presigned URL，全部文件下载到同一目录）
 ```
+
+### 地图上传请求
+
+设备收到 `/save_map` 调用并完成本地产物落盘后，声明待上传文件清单，请求上传地址。
+设备无需知晓平台侧版本号，由平台在响应中告知。
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/map/upload/req`
+- **接口方向**: 设备 -> 平台
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-300",
+    "timestamp": 1757403776000,
+    "serial_number": "RDU2511TR500A0832",
+    "data": {
+      "map_id": "uuid-map-id",
+      "files": [
+        { "file_type": "pgm",   "size": 1048576,  "md5": "d41d8cd98f00b204e9800998ecf8427e" },
+        { "file_type": "pcd",   "size": 52428800, "md5": "..." },
+        { "file_type": "datum", "size": 128,      "md5": "..." }
+      ]
+    }
+  }
+  ```
+
+  - `file_type`：见文末「地图文件说明」
+  - `size`：文件字节数（pcd 为 gzip 压缩后的字节数），平台据此校验上传完整性
+  - `md5`：文件内容 MD5（hex），与对象存储 ETag 对应，平台据此校验内容一致性
+  - 设备按自身能力声明文件：无点云定位能力的设备可不声明 `pcd`；
+    仅 `align_wgs84=true` 建图产生 `datum`
+
+### 地图上传响应
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/map/upload/resp`
+- **接口方向**: 平台 -> 设备（单播）
+- **响应参数**
+
+  ```json
+  {
+    "msg_id": "uuid-300",
+    "timestamp": 1757403776000,
+    "serial_number": "RDU2511TR500A0832",
+    "data": {
+      "map_id": "uuid-map-id",
+      "version": 3,
+      "files": [
+        { "file_type": "pgm",   "upload_url": "http://minio/.../xxx.pgm?X-Amz-Signature=..." },
+        { "file_type": "pcd",   "upload_url": "http://minio/.../xxx.pcd.gz?X-Amz-Signature=..." },
+        { "file_type": "datum", "upload_url": "http://minio/.../xxx.datum.yaml?X-Amz-Signature=..." }
+      ],
+      "expire_at": 1757407376
+    }
+  }
+  ```
+
+设备须在 `expire_at` 前对每个文件执行 HTTP PUT 上传（请求体为文件原始字节，
+pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新发起 upload/req 获取新地址。
+
+### 地图上传完成通知
+
+全部文件上传结束后（含部分失败），设备通知平台收尾校验。
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/map/upload/done`
+- **接口方向**: 设备 -> 平台
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-301",
+    "timestamp": 1757403776000,
+    "serial_number": "RDU2511TR500A0832",
+    "data": {
+      "map_id": "uuid-map-id",
+      "version": 3,
+      "results": [
+        { "file_type": "pgm", "success": true },
+        { "file_type": "pcd", "success": false, "message": "连接中断，稍后重试" }
+      ]
+    }
+  }
+  ```
+
+平台逐文件校验（HEAD 对象存储，比对 size/ETag），校验通过后自动向站点广播
+最新版本清单（`site/{site_id}/map/sync`，`force_update=false`）。
+存在失败或校验不通过文件的版本不触发广播（平台侧告警）；设备重传完成后
+再次发送本通知。
 
 ### 地图同步广播
 
 - **协议类型**: MQTT
 - **接口地址**: `site/:site_id/map/sync`
 - **接口方向**: 平台 -> 设备（站点广播）
-- **触发方式**: 管理端调用 `POST /maps/sync`（站点级，一次覆盖该站点全部地图）
+- **触发方式**: 地图保存完成（上传校验通过）后平台自动广播；管理端也可随时调用
+  `POST /maps/sync` 手动触发（站点级，一次覆盖该站点全部地图）
 - **请求参数**
 
   ```json
@@ -136,26 +240,38 @@ sequenceDiagram
     "data": {
       "map_id": "uuid-map-id",
       "version": 3, // 实际准备的版本（req 缺省时为当前最新版本）
-      "image_url": "http://minio/.../xxx.png?X-Amz-Signature=...", // presigned URL
-      "yaml_url": "http://minio/.../xxx.yaml?X-Amz-Signature=...", // presigned URL
+      "files": [
+        { "file_type": "yaml",  "url": "http://minio/.../xxx.yaml?X-Amz-Signature=..." },
+        { "file_type": "pgm",   "url": "http://minio/.../xxx.pgm?X-Amz-Signature=..." },
+        { "file_type": "png",   "url": "http://minio/.../xxx.png?X-Amz-Signature=..." },
+        { "file_type": "pcd",   "url": "http://minio/.../xxx.pcd.gz?X-Amz-Signature=..." },
+        { "file_type": "datum", "url": "http://minio/.../xxx.datum.yaml?X-Amz-Signature=..." }
+      ],
       "expire_at": 1757407376 // URL 过期时间，Unix 时间戳（秒）
     }
   }
   ```
 
+`files` 按该版本**实际已就绪**的文件返回。地图保存后设备文件异步补齐
+（见「地图上传」），下载设备发现必需文件缺失时，应延迟后重新发起
+download/req（建议指数退避）。
+
 ### 地图文件说明
 
-设备需在 `expire_at` 前通过 HTTP GET 下载 **两个文件** 并保存到**同一目录**：
+设备需在 `expire_at` 前通过 HTTP GET 下载 files 列表中的**全部文件**并保存到**同一目录**：
 
-| 文件 | 说明 |
-| ---- | ---- |
-| `{name}.png` | 栅格地图图片 |
-| `{name}.yaml` | ROS map_server 标准元数据文件，与图片同 basename |
+| 文件 | file_type | 来源 | 用途 | 必需性 |
+| ---- | --------- | ---- | ---- | ------ |
+| `{name}.pgm` | `pgm` | 设备上传 | ROS map_server 栅格地图；地图编辑的源文件 | 必需 |
+| `{name}.yaml` | `yaml` | 云端生成 | ROS map_server 标准元数据文件，与 pgm 同 basename | 必需 |
+| `{name}.png` | `png` | 平台保存（建图期间设备经 ROS2 topic 上报） | Web 展示预览 | 必需 |
+| `{name}.pcd.gz` | `pcd` | 设备上传 | 三维点云（gzip 压缩），设备端定位；下载后解压为 `{name}.pcd` | 视设备能力 |
+| `{name}.datum.yaml` | `datum` | 设备上传 | WGS84 与 local map 原点的对应关系，格式见 [navigation.md](../ros_msgs/navigation.md#datum-yaml) | 仅 align_wgs84 建图 |
 
 yaml 内容示例（阈值参数为 ROS 标准默认值）：
 
 ```yaml
-image: xxx.png           # 相对路径，yaml 与图片须放同一目录
+image: xxx.pgm           # 相对路径，yaml 与地图文件须放同一目录
 resolution: 0.05
 origin: [-10.5, 3.25, 1.5708]
 negate: 0
@@ -164,8 +280,12 @@ free_thresh: 0.196
 mode: trinary
 ```
 
-**文件校验**：图片/yaml 的校验值（ETag）由设备从 HTTP 响应头中获取，无需平台在消息中传递。
-同一 (map_id, version) 的文件内容不变、ETag 稳定，设备可据此避免重复下载。
+datum.yaml 的格式定义与示例见 [navigation.md](../ros_msgs/navigation.md#datum-yaml)，
+仅 `align_wgs84=true` 建图的地图包含此文件。
+
+**文件校验**：各文件的校验值（ETag）由设备从 HTTP 响应头中获取，无需平台在消息中传递。
+同一 (map_id, version) 的文件内容不变、ETag 稳定，设备可据此避免重复下载未变化的文件
+（如地图编辑后仅需重下 pgm/png，未变化的 pcd 可跳过）。
 
 **清单外地图处理**：设备本地存在、但同步清单中不包含的地图（如云端已删除），
 由设备端策略处理（建议清理）。
