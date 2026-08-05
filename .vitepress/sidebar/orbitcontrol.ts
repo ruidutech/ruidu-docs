@@ -67,6 +67,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: "导航相关", link: "/orbitcontrol/tech-spec/ros_msgs/navigation" },
+      { text: "路网相关", link: "/orbitcontrol/tech-spec/ros_msgs/route" },
     ],
   },
   {
