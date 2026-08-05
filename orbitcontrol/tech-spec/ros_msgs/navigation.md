@@ -45,7 +45,8 @@ string message
 
 - `align_wgs84 = false`：普通建图
 - `align_wgs84 = true`：带 WGS84 地理参考的建图，前置条件与设备义务：
-  - 设备须处于 RTK fix 状态；不满足时返回 `success = false`，并在 `message` 中说明原因
+  - 设备 GPS 须处于 `rtk_fixed`（RTK 固定解）状态；不满足时返回 `success = false`，
+    并在 `message` 中说明原因
   - 建图开始时记录当前 WGS84 坐标与航向，作为 local map 原点 (0, 0, 0) 的地理参考，
     保存地图时生成 [datum.yaml](#datum-yaml)
 
@@ -88,7 +89,7 @@ string message
 
 **前置条件**（不满足时返回 `success = false` 并在 `message` 中说明原因）：
 
-- GPS 处于 fix 状态（建议 `gbas_fix`/RTK，见设备心跳 `sensors.gps`）
+- GPS 处于 `rtk_fixed`（RTK 固定解）状态（见设备心跳 `sensors.gps`）
 - 当前加载的地图包含 datum.yaml（即 `align_wgs84=true` 建图的地图）
 
 **换算约定**：

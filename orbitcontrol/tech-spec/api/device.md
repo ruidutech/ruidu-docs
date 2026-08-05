@@ -101,7 +101,7 @@
       // 传感器状态
       "sensors": {
         "laser": "not_present",
-        "gps": "ok",
+        "gps": "rtk_fixed",
         ...
       }
     }
@@ -411,10 +411,14 @@ sensors_load_status
 
 ### GPS状态
 
-gps_status，在 sensors_load_status 的基础上增加：
+gps_status，对齐 sensor_msgs/NavSatStatus 语义：
 
-| value    | name     | desc                               |
-| -------- | -------- | ---------------------------------- |
-| fix      | FIX      | GPS定位模式                        |
-| sbas_fix | SBAS_FIX | 卫星增强（SBAS），精度优于普通 FIX |
-| gbas_fix | GBAS_FIX | 地面增强（GBAS/RTK 等），精度最高  |
+| value            | name             | num | desc                                    |
+| ---------------- | ---------------- | --- | --------------------------------------- |
+| not_present      | NOT_PRESENT      | -   | 无消息、超时：GPS 数据源缺失或离线      |
+| no_fix           | NO_FIX           | 0   | GPS 在线，但当前未得到定位解            |
+| standalone_fix   | STANDALONE_FIX   | 1   | 非差分普通定位                          |
+| differential_fix | DIFFERENTIAL_FIX | 2   | 差分定位                                |
+| rtk_fixed        | RTK_FIXED        | 4   | RTK 固定解，可用于 RTK 建锚点和重定位   |
+| rtk_float        | RTK_FLOAT        | 5   | RTK 浮点解，仅用于展示和诊断            |
+| estimated        | ESTIMATED        | 6   | 接收机正在估算位置，不可用于 RTK 重定位 |
