@@ -25,9 +25,9 @@ sequenceDiagram
     C->>D: device/{sn}/map/upload/resp {version, upload_urls}
     D->>C: HTTP PUT（presigned URL，直传对象存储）
     D->>C: device/{sn}/map/upload/done {results}
-    C->>C: 校验文件（比对 size/ETag）
+    C->>C: 校验文件并登记（HEAD 对象存储），生成 yaml
 
-    Note over C,O: 分发触发方式一：保存完成 / 手动同步（广播）
+    Note over C,O: 分发触发方式一：手动同步（广播）
     U->>C: POST /maps/sync {site_id, force_update}
     C->>O: site/{site_id}/map/sync（版本清单）
 
@@ -44,8 +44,8 @@ sequenceDiagram
 
 ### 地图上传请求
 
-设备收到 `/save_map` 调用并完成本地产物落盘后，声明待上传文件清单，请求上传地址。
-设备无需知晓平台侧版本号，由平台在响应中告知。
+设备收到 `/save_map` 调用并完成本地产物落盘后，声明待上传的文件类型，
+请求上传地址。设备无需知晓平台侧版本号，由平台在响应中告知。
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/map/upload/req`
@@ -59,20 +59,14 @@ sequenceDiagram
     "serial_number": "RDU2511TR500A0832",
     "data": {
       "map_id": "uuid-map-id",
-      "files": [
-        { "file_type": "pgm",   "size": 1048576,  "md5": "d41d8cd98f00b204e9800998ecf8427e" },
-        { "file_type": "pcd",   "size": 52428800, "md5": "..." },
-        { "file_type": "datum", "size": 128,      "md5": "..." }
-      ]
+      "files": ["pgm", "pcd", "datum"]
     }
   }
   ```
 
-  - `file_type`：见文末「地图文件说明」
-  - `size`：文件字节数（pcd 为 gzip 压缩后的字节数），平台据此校验上传完整性
-  - `md5`：文件内容 MD5（hex），与对象存储 ETag 对应，平台据此校验内容一致性
-  - 设备按自身能力声明文件：无点云定位能力的设备可不声明 `pcd`；
-    仅 `align_wgs84=true` 建图产生 `datum`
+  - `files`：待上传的文件类型清单，见文末「地图文件说明」
+  - 设备按自身能力声明：无点云定位能力的设备可不声明 `pcd`；
+    仅 `align_wgs84=true` 建图产生 `datum`；`yaml` 由平台生成，不在声明范围内
 
 ### 地图上传响应
 
@@ -127,18 +121,19 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
   }
   ```
 
-平台逐文件校验（HEAD 对象存储，比对 size/ETag），校验通过后自动向站点广播
-最新版本清单（`site/{site_id}/map/sync`，`force_update=false`）。
-存在失败或校验不通过文件的版本不触发广播（平台侧告警）；设备重传完成后
-再次发送本通知。
+平台逐文件校验（HEAD 对象存储确认文件就绪），以实际 size/ETag 登记文件清单。
+全部上传成功后生成 yaml 并登记。存在失败或缺失文件的版本不生成 yaml
+（平台侧告警）；设备重传完成后再次发送本通知（done 始终为全量结果）。
+
+站点同步不在本流程触发：由管理端调用 `POST /maps/sync` 手动广播
+（见「地图同步广播」）。
 
 ### 地图同步广播
 
 - **协议类型**: MQTT
 - **接口地址**: `site/:site_id/map/sync`
 - **接口方向**: 平台 -> 设备（站点广播）
-- **触发方式**: 地图保存完成（上传校验通过）后平台自动广播；管理端也可随时调用
-  `POST /maps/sync` 手动触发（站点级，一次覆盖该站点全部地图）
+- **触发方式**: 管理端调用 `POST /maps/sync`（站点级，一次覆盖该站点全部地图）
 - **请求参数**
 
   ```json
@@ -241,11 +236,11 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
       "map_id": "uuid-map-id",
       "version": 3, // 实际准备的版本（req 缺省时为当前最新版本）
       "files": [
-        { "file_type": "yaml",  "url": "http://minio/.../xxx.yaml?X-Amz-Signature=..." },
-        { "file_type": "pgm",   "url": "http://minio/.../xxx.pgm?X-Amz-Signature=..." },
-        { "file_type": "png",   "url": "http://minio/.../xxx.png?X-Amz-Signature=..." },
-        { "file_type": "pcd",   "url": "http://minio/.../xxx.pcd.gz?X-Amz-Signature=..." },
-        { "file_type": "datum", "url": "http://minio/.../xxx.datum.yaml?X-Amz-Signature=..." }
+        { "file_type": "yaml",  "url": "http://minio/...?X-Amz-Signature=...", "size": 128,      "md5": "d41d8cd9..." },
+        { "file_type": "pgm",   "url": "http://minio/...", "size": 1048576,  "md5": "..." },
+        { "file_type": "png",   "url": "http://minio/...", "size": 102400,   "md5": "..." },
+        { "file_type": "pcd",   "url": "http://minio/...", "size": 52428800, "md5": "..." },
+        { "file_type": "datum", "url": "http://minio/...", "size": 96,       "md5": "..." }
       ],
       "expire_at": 1757407376 // URL 过期时间，Unix 时间戳（秒）
     }
@@ -283,9 +278,9 @@ mode: trinary
 datum.yaml 的格式定义与示例见 [navigation.md](../ros_msgs/navigation.md#datum-yaml)，
 仅 `align_wgs84=true` 建图的地图包含此文件。
 
-**文件校验**：各文件的校验值（ETag）由设备从 HTTP 响应头中获取，无需平台在消息中传递。
-同一 (map_id, version) 的文件内容不变、ETag 稳定，设备可据此避免重复下载未变化的文件
-（如地图编辑后仅需重下 pgm/png，未变化的 pcd 可跳过）。
+**文件校验**：响应中携带各文件的 `size` 与 `md5`（hex）。设备先与本地文件比对 md5，
+一致的文件跳过下载（如地图编辑后仅需重下 pgm/png，未变化的 pcd 可跳过）；
+下载完成后再用 md5 校验内容完整性。同一 (map_id, version) 的文件内容不变、md5 稳定。
 
 **清单外地图处理**：设备本地存在、但同步清单中不包含的地图（如云端已删除），
 由设备端策略处理（建议清理）。

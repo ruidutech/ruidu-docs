@@ -2,16 +2,17 @@
 
 ## Interface Definitions
 
-| 名称              | 类型    | 数据定义                            | 描述                             |
-| ----------------- | ------- | ----------------------------------- | -------------------------------- |
-| /map/metadata     | topic   | [MapMetaData](#mapmetadata)         | 地图元数据                       |
-| /map/compressed   | topic   | [CompressedImage](#compressedimage) | 地图数据压缩形式（PNG）          |
-| /start_mapping    | service | [StartMapping](#startmapping)       | 开始建图                         |
-| /stop_mapping     | service | [Trigger](#trigger)                 | 结束建图（不保存，回到导航模式） |
-| /save_map         | service | [SaveMap](#savemap)                 | 完成建图（完成建图并保存）       |
-| /navigate_to_pose | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置                   |
-| /plan             | topic   | [Path](#path)                       | 全局规划路径                     |
-| /set_initial_pose | service | [SetInitialPose](#setinitialpose)   | 设置初始位姿                     |
+| 名称               | 类型    | 数据定义                            | 描述                                      |
+| ------------------ | ------- | ----------------------------------- | ----------------------------------------- |
+| /map/metadata      | topic   | [MapMetaData](#mapmetadata)         | 地图元数据                                |
+| /map/compressed    | topic   | [CompressedImage](#compressedimage) | 地图数据压缩形式（PNG）                   |
+| /start_mapping     | service | [StartMapping](#startmapping)       | 开始建图                                  |
+| /stop_mapping      | service | [Trigger](#trigger)                 | 结束建图（不保存，回到导航模式）          |
+| /save_map          | service | [SaveMap](#savemap)                 | 完成建图（完成建图并保存）                |
+| /navigate_to_pose  | action  | [NavigateToPose](#navigatetopose)   | 导航到指定位置                            |
+| /plan              | topic   | [Path](#path)                       | 全局规划路径                              |
+| /set_initial_pose  | service | [SetInitialPose](#setinitialpose)   | 设置初始位姿                              |
+| /init_pose_via_gps | service | [Trigger](#trigger)                 | GPS 自定位（按 datum 换算并设置初始位姿） |
 
 ## Message Definitions
 
@@ -73,6 +74,30 @@ string message
 
 [nav2_msgs/srv/SetInitialPose](https://docs.ros.org/en/humble/p/nav2_msgs/srv/SetInitialPose.html)
 
+- `header.frame_id` 约定为 `"map"`（local map 坐标系）
+- 位姿为 local map 坐标（米 / 弧度）；z 置 0，yaw 以四元数表示
+- 协方差缺省使用 AMCL 惯例值（xy = 0.25，yaw ≈ 0.0685）；
+  调用方有更高置信度信息时可覆盖
+
+### InitPoseViaGps（GPS 自定位）
+
+`/init_pose_via_gps` 使用 [Trigger](#trigger) 服务类型，与 `/set_initial_pose`
+功能相同，仅位姿来源不同：设备收到调用后完成内部闭环——读取当前 WGS84
+坐标 → 按当前地图的 [datum.yaml](#datum-yaml) 换算为 local map 坐标 →
+调用本地 `set_initial_pose` 完成初始定位。
+
+**前置条件**（不满足时返回 `success = false` 并在 `message` 中说明原因）：
+
+- GPS 处于 fix 状态（建议 `gbas_fix`/RTK，见设备心跳 `sensors.gps`）
+- 当前加载的地图包含 datum.yaml（即 `align_wgs84=true` 建图的地图）
+
+**换算约定**：
+
+- 位置：以 datum 经纬度为原点建立 ENU 局部切平面，得到东向/北向偏移后，
+  按 `-yaw_offset` 旋转至 local map 坐标轴
+- 朝向：取双天线 RTK 航向，按同一 `yaw_offset` 换算为 local map 朝向
+- 协方差：按 fix 类型设置（RTK 给厘米级，普通 fix 给米级）
+
 ## Action Definitions
 
 ### NavigateToPose
@@ -88,10 +113,10 @@ WGS84 坐标与本地地图坐标系原点的对应关系。仅 `align_wgs84 = t
 
 ```yaml
 datum:
-  latitude: 31.230416    # WGS84 纬度 (deg)
-  longitude: 121.473701  # WGS84 经度 (deg)
-  altitude: 4.2          # 海拔 (m)
-  yaw_offset: 1.5708     # local map x 轴相对 ENU 东向的夹角 (rad，真北参考)
+  latitude: 31.230416 # WGS84 纬度 (deg)
+  longitude: 121.473701 # WGS84 经度 (deg)
+  altitude: 4.2 # 海拔 (m)
+  yaw_offset: 1.5708 # local map x 轴相对 ENU 东向的夹角 (rad，真北参考)
 ```
 
 - 对应点固定为 local map 原点 (0, 0, 0)
