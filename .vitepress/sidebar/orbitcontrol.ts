@@ -58,6 +58,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
       { text: "云台相关", link: "/orbitcontrol/tech-spec/api/gimbal" },
       { text: "机械臂相关", link: "/orbitcontrol/tech-spec/api/manipulator" },
       { text: "地图相关", link: "/orbitcontrol/tech-spec/api/map" },
+      { text: "路网相关", link: "/orbitcontrol/tech-spec/api/route" },
       { text: "任务执行相关", link: "/orbitcontrol/tech-spec/api/mission" },
       { text: "事件上报", link: "/orbitcontrol/tech-spec/api/events" },
     ],
@@ -67,7 +68,6 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: "导航相关", link: "/orbitcontrol/tech-spec/ros_msgs/navigation" },
-      { text: "路网相关", link: "/orbitcontrol/tech-spec/ros_msgs/route" },
     ],
   },
   {
