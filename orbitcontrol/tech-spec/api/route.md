@@ -71,7 +71,7 @@ PUT 请求体为全量路网数据（不含文件头字段）：
 ### RouteNode
 
 ```json
-{ "seq": 1, "node_type": "waypoint", "x": 1.0, "y": 2.0, "yaw": 1.57, "metadata": null }
+{ "seq": 1, "node_type": "waypoint", "x": 1.0, "y": 2.0, "z": null, "yaw": 1.57, "metadata": null }
 ```
 
 | 字段 | 类型 | 说明 |
@@ -79,6 +79,7 @@ PUT 请求体为全量路网数据（不含文件头字段）：
 | `seq` | int32 | 图内序号（唯一，边通过 seq 引用节点） |
 | `node_type` | string | `waypoint` / `charger` / `elevator` / `dock` |
 | `x` / `y` | float64 | local map 坐标（米） |
+| `z` | float64 \| null | 高度（米，local map Z 轴）；null 表示贴地（地面机器人）。无人机场景使用；缺省字段按 null 处理 |
 | `yaw` | float64 \| null | 朝向（弧度）；null 表示无朝向要求（纯路经点） |
 | `metadata` | object \| null | 扩展属性 |
 
