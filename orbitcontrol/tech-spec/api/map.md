@@ -273,7 +273,7 @@ download/req（建议指数退避）。
 | `{name}.pcd.gz` | `pcd` | 设备上传 | 三维点云（gzip 压缩），设备端定位；下载后解压为 `{name}.pcd` | 视设备能力 |
 | `{name}.datum.yaml` | `datum` | 设备上传 | WGS84 与 local map 原点的对应关系，格式见 [navigation.md](../ros_msgs/navigation.md#datum-yaml) | 仅 align_wgs84 建图 |
 | `{name}.map_info.json` | `info` | 设备上传 | 设备端特有的地图补充信息（内容由设备自定义），随版本透传给同站点其他设备 | 视设备能力 |
-| `{name}.route_graph.json` | `route_graph` | 云端编辑 | 路网（节点/边/区域），格式见 [route.md](./route.md) | 可选 |
+| `{name}.geojson` | `route_graph` | 云端编辑 | 路网（节点/边/区域），格式见 [route.md](./route.md) | 可选 |
 
 yaml 内容示例（阈值参数为 ROS 标准默认值）：
 
@@ -291,7 +291,7 @@ datum.yaml 的格式定义与示例见 [navigation.md](../ros_msgs/navigation.md
 仅 `align_wgs84=true` 建图的地图包含此文件。
 
 **文件校验**：响应中携带各文件的 `size` 与 `md5`（hex）。设备先与本地文件比对 md5，
-一致的文件跳过下载（如路网编辑后仅需重下 route_graph.json，未变化的 pcd 可跳过）；
+一致的文件跳过下载（如路网编辑后仅需重下 geojson 文件，未变化的 pcd 可跳过）；
 下载完成后再用 md5 校验内容完整性。同一 (map_id, version) 的文件内容不变、md5 稳定
 （任何文件变更都会产生新版本号）。
 
