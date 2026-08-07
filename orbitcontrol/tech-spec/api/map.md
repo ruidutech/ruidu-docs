@@ -311,7 +311,7 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
         },
         {
           "file_type": "route_graph",
-          "filename": "map.route_graph.geojson",
+          "filename": "route_graph.geojson",
           "url": "http://minio/...",
           "size": 8192,
           "md5": "..."
@@ -338,11 +338,12 @@ download/req（建议指数退避）。
 | `{filename}.pcd.gz`               | `pcd`         | 设备上传                                   | 三维点云（gzip 压缩），设备端定位；下载后解压为 `{filename}.pcd`                                | 视设备能力          |
 | `{filename}.datum.yaml`          | `datum`       | 设备上传                                   | WGS84 与 local map 原点的对应关系，格式见 [navigation.md](../ros_msgs/navigation.md#datum-yaml) | 仅 align_wgs84 建图 |
 | `{filename}.map_info.json`       | `info`        | 设备上传                                   | 设备端特有的地图补充信息（内容由设备自定义），随版本透传给同站点其他设备                        | 视设备能力          |
-| `{filename}.route_graph.geojson` | `route_graph` | 云端编辑                                   | 路网（节点/边/区域），格式见 [route.md](./route.md)                                             | 可选                |
+| `route_graph.geojson`            | `route_graph` | 云端编辑                                   | 路网（节点/边/区域），格式见 [route.md](./route.md)                                             | 可选                |
 
 **文件命名**：
 - 文件名由设备上传时决定，响应中 `files[].filename` 即实际存储/下载使用的文件名
 - 若设备未提供 `filename`，平台生成固定格式：`{version_id}.{ext}`（如 `01234567-89ab-cdef-0123-456789abcdef.pgm`）
+- `route_graph` 特殊处理：文件名固定为 `route_graph.geojson`，不包含 version_id 前缀（MinIO 已通过 `{map_id}/{version_id}/` 文件夹区分版本）
 - yaml 的 `image` 字段指向同目录下的 pgm/png 文件名（由平台根据实际文件名生成）
 
 yaml 内容示例（阈值参数为 ROS 标准默认值）：
