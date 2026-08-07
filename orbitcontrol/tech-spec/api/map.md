@@ -49,7 +49,7 @@ sequenceDiagram
 
 ### 地图上传请求
 
-设备收到 `/save_map` 调用并完成本地产物落盘后，声明待上传的文件类型，
+设备收到 `/save_map` 调用并完成本地产物落盘后，声明待上传的文件类型与文件名，
 请求上传地址。设备无需知晓平台侧版本号，由平台在响应中告知。
 
 - **协议类型**: MQTT
@@ -64,12 +64,18 @@ sequenceDiagram
     "serial_number": "RDU2511TR500A0832",
     "data": {
       "map_id": "uuid-map-id",
-      "files": ["pgm", "pcd", "datum"]
+      "files": [
+        { "file_type": "pgm", "filename": "map.pgm" },
+        { "file_type": "pcd", "filename": "scan.pcd.gz" },
+        { "file_type": "datum" }
+      ]
     }
   }
   ```
 
-  - `files`：待上传的文件类型清单，见文末「地图文件说明」
+  - `files`：待上传的文件类型与文件名清单
+    - `file_type`：文件类型，见文末「地图文件说明」
+    - `filename`：设备本地文件名（可选）。提供则使用设备文件名，缺省则由平台生成 `{version_id}.{ext}`
   - 设备按自身能力声明：无点云定位能力的设备可不声明 `pcd`；
     仅 `align_wgs84=true` 建图产生 `datum`；`info` 为设备端特有文件，按需声明；
     `yaml` 由平台生成，`route_graph` 由平台编辑，均不在声明范围内
@@ -90,9 +96,21 @@ sequenceDiagram
       "map_id": "uuid-map-id",
       "version": 3,
       "files": [
-        { "file_type": "pgm",   "upload_url": "http://minio/.../xxx.pgm?X-Amz-Signature=..." },
-        { "file_type": "pcd",   "upload_url": "http://minio/.../xxx.pcd.gz?X-Amz-Signature=..." },
-        { "file_type": "datum", "upload_url": "http://minio/.../xxx.datum.yaml?X-Amz-Signature=..." }
+        {
+          "file_type": "pgm",
+          "filename": "map.pgm",
+          "upload_url": "http://minio/.../map.pgm?X-Amz-Signature=..."
+        },
+        {
+          "file_type": "pcd",
+          "filename": "scan.pcd.gz",
+          "upload_url": "http://minio/.../scan.pcd.gz?X-Amz-Signature=..."
+        },
+        {
+          "file_type": "datum",
+          "filename": "xxx.datum.yaml",
+          "upload_url": "http://minio/.../xxx.datum.yaml?X-Amz-Signature=..."
+        }
       ],
       "expire_at": 1757407376
     }
@@ -120,8 +138,13 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
       "map_id": "uuid-map-id",
       "version": 3,
       "results": [
-        { "file_type": "pgm", "success": true },
-        { "file_type": "pcd", "success": false, "message": "连接中断，稍后重试" }
+        { "file_type": "pgm", "filename": "map.pgm", "success": true },
+        {
+          "file_type": "pcd",
+          "filename": "scan.pcd.gz",
+          "success": false,
+          "message": "连接中断，稍后重试"
+        }
       ]
     }
   }
@@ -190,11 +213,11 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
 
 **广播与查询响应的区分**（同一 payload 结构，两个来源）：
 
-| 维度 | 广播 | 查询响应 |
-| ---- | ---- | ---- |
-| 到达 topic | `site/{site_id}/map/sync` | `device/{sn}/map/sync/resp` |
-| msg_id | 新消息 ID | 复用设备请求的 msg_id，可精确配对 |
-| force_update | 可能为 true | 恒为 false |
+| 维度         | 广播                      | 查询响应                          |
+| ------------ | ------------------------- | --------------------------------- |
+| 到达 topic   | `site/{site_id}/map/sync` | `device/{sn}/map/sync/resp`       |
+| msg_id       | 新消息 ID                 | 复用设备请求的 msg_id，可精确配对 |
+| force_update | 可能为 true               | 恒为 false                        |
 
 设备应按到达 topic 分流行为：广播且 `force_update=true` 时忽略本地 md5 比对，
 全量重新下载该设备相关的地图文件并覆盖本地；查询响应用于静默对齐，
@@ -244,13 +267,55 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
       "map_id": "uuid-map-id",
       "version": 3, // 实际准备的版本（req 缺省时为当前最新版本）
       "files": [
-        { "file_type": "yaml",        "url": "http://minio/...?X-Amz-Signature=...", "size": 128,      "md5": "d41d8cd9..." },
-        { "file_type": "pgm",         "url": "http://minio/...", "size": 1048576,  "md5": "..." },
-        { "file_type": "png",         "url": "http://minio/...", "size": 102400,   "md5": "..." },
-        { "file_type": "pcd",         "url": "http://minio/...", "size": 52428800, "md5": "..." },
-        { "file_type": "datum",       "url": "http://minio/...", "size": 96,       "md5": "..." },
-        { "file_type": "info",        "url": "http://minio/...", "size": 512,      "md5": "..." },
-        { "file_type": "route_graph", "url": "http://minio/...", "size": 8192,     "md5": "..." }
+        {
+          "file_type": "yaml",
+          "filename": "map.yaml",
+          "url": "http://minio/...?X-Amz-Signature=...",
+          "size": 128,
+          "md5": "d41d8cd9..."
+        },
+        {
+          "file_type": "pgm",
+          "filename": "map.pgm",
+          "url": "http://minio/...",
+          "size": 1048576,
+          "md5": "..."
+        },
+        {
+          "file_type": "png",
+          "filename": "map.png",
+          "url": "http://minio/...",
+          "size": 102400,
+          "md5": "..."
+        },
+        {
+          "file_type": "pcd",
+          "filename": "scan.pcd.gz",
+          "url": "http://minio/...",
+          "size": 52428800,
+          "md5": "..."
+        },
+        {
+          "file_type": "datum",
+          "filename": "map.datum.yaml",
+          "url": "http://minio/...",
+          "size": 96,
+          "md5": "..."
+        },
+        {
+          "file_type": "info",
+          "filename": "map_info.json",
+          "url": "http://minio/...",
+          "size": 512,
+          "md5": "..."
+        },
+        {
+          "file_type": "route_graph",
+          "filename": "map.route_graph.geojson",
+          "url": "http://minio/...",
+          "size": 8192,
+          "md5": "..."
+        }
       ],
       "expire_at": 1757407376 // URL 过期时间，Unix 时间戳（秒）
     }
@@ -265,20 +330,25 @@ download/req（建议指数退避）。
 
 设备需在 `expire_at` 前通过 HTTP GET 下载 files 列表中的**全部文件**并保存到**同一目录**：
 
-| 文件 | file_type | 来源 | 用途 | 必需性 |
-| ---- | --------- | ---- | ---- | ------ |
-| `{name}.pgm` | `pgm` | 设备上传 | ROS map_server 栅格地图；地图编辑的源文件 | 必需 |
-| `{name}.yaml` | `yaml` | 云端生成 | ROS map_server 标准元数据文件，与 pgm 同 basename | 必需 |
-| `{name}.png` | `png` | 平台保存（建图期间设备经 ROS2 topic 上报） | Web 展示预览 | 必需 |
-| `{name}.pcd.gz` | `pcd` | 设备上传 | 三维点云（gzip 压缩），设备端定位；下载后解压为 `{name}.pcd` | 视设备能力 |
-| `{name}.datum.yaml` | `datum` | 设备上传 | WGS84 与 local map 原点的对应关系，格式见 [navigation.md](../ros_msgs/navigation.md#datum-yaml) | 仅 align_wgs84 建图 |
-| `{name}.map_info.json` | `info` | 设备上传 | 设备端特有的地图补充信息（内容由设备自定义），随版本透传给同站点其他设备 | 视设备能力 |
-| `{name}.geojson` | `route_graph` | 云端编辑 | 路网（节点/边/区域），格式见 [route.md](./route.md) | 可选 |
+| 文件                             | file_type     | 来源                                       | 用途                                                                                            | 必需性              |
+| -------------------------------- | ------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------- | ------------------- |
+| `{filename}.pgm`                 | `pgm`         | 设备上传                                   | ROS map_server 栅格地图；地图编辑的源文件                                                       | 必需                |
+| `{filename}.yaml`                | `yaml`        | 云端生成                                   | ROS map_server 标准元数据文件，与 pgm 同 basename                                               | 必需                |
+| `{filename}.png`                 | `png`         | 平台保存（建图期间设备经 ROS2 topic 上报） | Web 展示预览                                                                                    | 必需                |
+| `{filename}.pcd.gz`               | `pcd`         | 设备上传                                   | 三维点云（gzip 压缩），设备端定位；下载后解压为 `{filename}.pcd`                                | 视设备能力          |
+| `{filename}.datum.yaml`          | `datum`       | 设备上传                                   | WGS84 与 local map 原点的对应关系，格式见 [navigation.md](../ros_msgs/navigation.md#datum-yaml) | 仅 align_wgs84 建图 |
+| `{filename}.map_info.json`       | `info`        | 设备上传                                   | 设备端特有的地图补充信息（内容由设备自定义），随版本透传给同站点其他设备                        | 视设备能力          |
+| `{filename}.route_graph.geojson` | `route_graph` | 云端编辑                                   | 路网（节点/边/区域），格式见 [route.md](./route.md)                                             | 可选                |
+
+**文件命名**：
+- 文件名由设备上传时决定，响应中 `files[].filename` 即实际存储/下载使用的文件名
+- 若设备未提供 `filename`，平台生成固定格式：`{version_id}.{ext}`（如 `01234567-89ab-cdef-0123-456789abcdef.pgm`）
+- yaml 的 `image` 字段指向同目录下的 pgm/png 文件名（由平台根据实际文件名生成）
 
 yaml 内容示例（阈值参数为 ROS 标准默认值）：
 
 ```yaml
-image: xxx.pgm           # 相对路径，yaml 与地图文件须放同一目录
+image: map.pgm  # 相对路径，yaml 与地图文件须放同一目录（文件名由设备上传决定）
 resolution: 0.05
 origin: [-10.5, 3.25, 1.5708]
 negate: 0
