@@ -78,7 +78,7 @@ sequenceDiagram
     - `filename`：设备本地文件名（可选）。提供则使用设备文件名，缺省则由平台生成 `{version_id}.{ext}`
   - 设备按自身能力声明：无点云定位能力的设备可不声明 `pcd`；
     仅 `align_wgs84=true` 建图产生 `datum`；`info` 为设备端特有文件，按需声明；
-    `yaml` 由平台生成，`route_graph` 由平台编辑，均不在声明范围内
+    `route_graph` 由平台编辑，不在声明范围内
 
 ### 地图上传响应
 
@@ -330,26 +330,28 @@ download/req（建议指数退避）。
 
 设备需在 `expire_at` 前通过 HTTP GET 下载 files 列表中的**全部文件**并保存到**同一目录**：
 
-| 文件                             | file_type     | 来源                                       | 用途                                                                                            | 必需性              |
-| -------------------------------- | ------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------- | ------------------- |
-| `{filename}.pgm`                 | `pgm`         | 设备上传                                   | ROS map_server 栅格地图；地图编辑的源文件                                                       | 必需                |
-| `{filename}.yaml`                | `yaml`        | 云端生成                                   | ROS map_server 标准元数据文件，与 pgm 同 basename                                               | 必需                |
-| `{filename}.png`                 | `png`         | 平台保存（建图期间设备经 ROS2 topic 上报） | Web 展示预览                                                                                    | 必需                |
+| 文件                             | file_type     | 来源                                       | 用意                                                                                           | 必需性              |
+| -------------------------------- | ------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- | ------------------- |
+| `{filename}.pgm`                 | `pgm`         | 设备上传                                   | ROS map_server 栅格地图；地图编辑的源文件                                                      | 必需                |
+| `{filename}.yaml`                | `yaml`        | 设备上传                                   | ROS map_server 标准元数据文件，与 pgm 同 basename                                              | 必需                |
+| `{filename}.png`                 | `png`         | 平台保存（建图期间设备经 ROS2 topic 上报） | Web 展示预览                                                                                   | 必需                |
 | `{filename}.pcd.gz`               | `pcd`         | 设备上传                                   | 三维点云（gzip 压缩），设备端定位；下载后解压为 `{filename}.pcd`                                | 视设备能力          |
 | `{filename}.datum.yaml`          | `datum`       | 设备上传                                   | WGS84 与 local map 原点的对应关系，格式见 [navigation.md](../ros_msgs/navigation.md#datum-yaml) | 仅 align_wgs84 建图 |
 | `{filename}.map_info.json`       | `info`        | 设备上传                                   | 设备端特有的地图补充信息（内容由设备自定义），随版本透传给同站点其他设备                        | 视设备能力          |
-| `route_graph.geojson`            | `route_graph` | 云端编辑                                   | 路网（节点/边/区域），格式见 [route.md](./route.md)                                             | 可选                |
+| `route_graph.geojson`            | `route_graph` | 云端编辑                                   | 路网（节点/边/区域），格式见 [route.md](./route.md)                                            | 可选                |
 
 **文件命名**：
 - 文件名由设备上传时决定，响应中 `files[].filename` 即实际存储/下载使用的文件名
 - 若设备未提供 `filename`，平台生成固定格式：`{version_id}.{ext}`（如 `01234567-89ab-cdef-0123-456789abcdef.pgm`）
-- `route_graph` 特殊处理：文件名固定为 `route_graph.geojson`，不包含 version_id 前缀（MinIO 已通过 `{map_id}/{version_id}/` 文件夹区分版本）
-- yaml 的 `image` 字段指向同目录下的 pgm/png 文件名（由平台根据实际文件名生成）
+- `route_graph` 特殊处理：文件名固定为 `route_graph.geojson`
+
+**存储路径**：`tenants/{tenant_id}/maps/{version_id}/{filename}`
+- 不同版本通过 `{version_id}` 子目录隔离，避免文件覆盖
 
 yaml 内容示例（阈值参数为 ROS 标准默认值）：
 
 ```yaml
-image: map.pgm  # 相对路径，yaml 与地图文件须放同一目录（文件名由设备上传决定）
+image: map.pgm  # 相对路径，yaml 与地图文件须放同一目录（文件名与上传的 pgm 一致）
 resolution: 0.05
 origin: [-10.5, 3.25, 1.5708]
 negate: 0
@@ -357,6 +359,8 @@ occupied_thresh: 0.65
 free_thresh: 0.196
 mode: trinary
 ```
+
+设备上传 yaml 时，`image` 字段必须与同版本上传的 pgm/png 文件名一致。
 
 datum.yaml 的格式定义与示例见 [navigation.md](../ros_msgs/navigation.md#datum-yaml)，
 仅 `align_wgs84=true` 建图的地图包含此文件。
