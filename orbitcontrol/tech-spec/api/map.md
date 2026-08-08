@@ -15,6 +15,10 @@
 直接复用，不重复上传（存储去重），设备按 md5 比对跳过下载（下载去重）。
 route_graph 的格式与编辑 API 见 [route.md](./route.md)。
 
+云端编辑 png 经 `PUT /v1/maps/{id}/image` 保存（请求体为 png 二进制，宽高须与
+地图元数据一致）：仅替换预览图（pgm 等未变文件平移引用），版本 +1 后设备按
+md5 差异重下 png。
+
 ```mermaid
 sequenceDiagram
     participant U as 用户(Web)
