@@ -288,7 +288,7 @@
     "data": {
       "site_id?": "uuid-site-001",
       "coordinate_frame?": "map", // map | wgs84
-      "map_id?": "uuid-map-id-111", // frame = wgs84: map_id/map_version null
+      "map_id?": "uuid-map-id-111", // frame=wgs84 时为世界区域图 ID；纯世界地图（无区域）时与 map_version 均为 null
       "map_version?": 1
     }
   }
