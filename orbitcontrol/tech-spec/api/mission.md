@@ -105,8 +105,8 @@
       "waypoints": [
         {
           "seq": 0,
-          "coordinate_frame": "earth",
-          "map_id?": "uuid-923", // 地图ID，earth frame 时为空
+          "coordinate_frame": "wgs84",
+          "map_id?": "uuid-923", // 地图ID，wgs84 frame 时为空
           "map_version?": "1", // 地图版本，int，和 map_id 组合进行地图加载和地图版本校验
           // 目标位置
           "position": {

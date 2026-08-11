@@ -176,9 +176,11 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
     "data": {
       // 站点内所有地图的当前版本清单
       // 设备本地无此 map_id、或版本号不一致，都需要下载更新
+      // kind：地图种类（map=本地栅格图 / wgs84=世界地图区域），
+      // 设备按种类走不同处理逻辑（wgs84 图无 pgm/png 等栅格文件）
       "versions": [
-        { "map_id": "uuid-map-id-1", "version": 3 },
-        { "map_id": "uuid-map-id-2", "version": 1 }
+        { "map_id": "uuid-map-id-1", "version": 3, "kind": "map" },
+        { "map_id": "uuid-map-id-2", "version": 1, "kind": "wgs84" }
       ],
       // 默认 false
       // true 表示强制全量重新下载：忽略本地 md5 比对，拉取版本全部文件并覆盖本地
