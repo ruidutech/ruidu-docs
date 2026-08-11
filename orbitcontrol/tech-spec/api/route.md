@@ -75,9 +75,9 @@
 | ---- | ---- | ---- |
 | `id` | properties | uint32，全文件唯一（含边/区域），必填 |
 | `frame` | properties | 坐标系，可选，缺省为地图 frame |
-| `coordinates` | geometry | `[x, y]` 或 `[x, y, z]`（z 为高度，无人机场景；地面机器人省略） |
+| `coordinates` | geometry | `[x, y]` 或 `[x, y, z]`（z 为高度，无人机场景；地面机器人省略）。轴序恒为 x=东向、y=北向：本地栅格图为米制（ROS ENU）；wgs84 地图为 `[经度, 纬度]`（GeoJSON RFC 7946 顺序） |
 | `metadata.class` | properties | 语义分类：`waypoint` / `charger` / `elevator` / `dock`，开放扩展 |
-| `metadata.yaw` | properties | 朝向（弧度），可选；纯路经点省略 |
+| `metadata.yaw` | properties | 朝向（弧度），可选；纯路经点省略。语义 yaw：0=东向，逆时针为正（即 atan2(dy, dx)），两个坐标帧通用 |
 | `operations` | properties | 动作集，可选（见"operations 约定"） |
 
 - `charger`：充电点（yaw 为入位朝向）
