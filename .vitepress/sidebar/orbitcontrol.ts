@@ -60,6 +60,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
       { text: "地图相关", link: "/orbitcontrol/tech-spec/api/map" },
       { text: "路网相关", link: "/orbitcontrol/tech-spec/api/route" },
       { text: "任务执行相关", link: "/orbitcontrol/tech-spec/api/mission" },
+      { text: "语音播报相关", link: "/orbitcontrol/tech-spec/api/voice" },
       { text: "事件上报", link: "/orbitcontrol/tech-spec/api/events" },
     ],
   },

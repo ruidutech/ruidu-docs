@@ -332,6 +332,19 @@
 | recall_gimbal    | RECALL_GIMBAL    | 云台回位（回到指定位置） |
 | start_capture    | START_CAPTURE    | 拍照                     |
 | start_record     | START_RECORD     | 录像                     |
+| play_voice       | PLAY_VOICE       | 播放语音                 |
+
+play_voice 参数定义：
+
+```json
+{
+  "type": "play_voice",
+  "key": "warn_obstacle_01", // 语音 key，须在站点语音清单中，见 voice.md
+  "volume": 80 // 音量 0-100，可选，缺省用设备默认
+}
+```
+
+语音文件的分发与 key 共识机制见 [voice.md](./voice.md)。
 
 ### 任务模式
 
