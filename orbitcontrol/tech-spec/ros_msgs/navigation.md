@@ -89,7 +89,7 @@ string message
 
 **前置条件**（不满足时返回 `success = false` 并在 `message` 中说明原因）：
 
-- GPS 处于 `rtk_fixed`（RTK 固定解）状态（见设备心跳 `sensors.gps`）
+- GPS 处于 `rtk_fixed`（RTK 固定解）状态（见设备心跳 `components["gps.main"].status`）
 - 当前加载的地图包含 datum.yaml（即 `align_wgs84=true` 建图的地图）
 
 **换算约定**：

@@ -13,6 +13,10 @@
 | Component ID | 组件类型 | 说明 | 代码示例 |
 |-------------|---------|------|---------|
 | 1 | MAV_COMP_ID_AUTOPILOT1 | 飞控/主控制器 | - |
+| 25 | MAV_COMP_ID_USER1 | 语音播报喇叭 | `audio.megaphone` |
+| 50 | LIDAR_MAIN | 主激光雷达 | `lidar_name: "main"` |
+| 51 | LIDAR_AUX | 辅助激光雷达 | `lidar_name: "aux"` |
+| 60-67 | RADAR | 毫米波雷达（前2/后2/左2/右2） | `radar_name: "front_left"` 等 |
 | 100 | CAMERA_FRONT | 前摄像头 | `camera_name: "front"` |
 | 101 | CAMERA_REAR | 后摄像头 | `camera_name: "rear"` |
 | 102 | CAMERA_LEFT | 左摄像头 | `camera_name: "left"` |
@@ -20,11 +24,18 @@
 | 104 | CAMERA_TOP | 顶部摄像头 | `camera_name: "top"` |
 | 105 | CAMERA_BOTTOM | 底部摄像头 | `camera_name: "bottom"` |
 | 106 | CAMERA_GIMBAL | 云台摄像头 | `camera_name: "gimbal"` |
-| 150 | LIDAR_MAIN | 主激光雷达 | `lidar_name: "main"` |
-| 151 | LIDAR_AUX | 辅助激光雷达 | `lidar_name: "aux"` |
-| 160-167 | RADAR | 毫米波雷达（前2/后2/左2/右2） | `radar_name: "front_left"` 等 |
-| 170 | IMU | 惯性测量单元 | `imu_name: "main"` |
-| 180 | GPS | GPS/RTK 定位模块 | `gps_name: "main"` |
+| 200 | IMU | 惯性测量单元 | `imu_name: "main"` |
+| 220 | GPS | GPS/RTK 定位模块 | `gps_name: "main"` |
+
+## 与 MAVLink 的对齐说明
+
+参考 [MAV_COMPONENT](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 枚举：
+
+- **`MAV_COMP_ID_ALL = 0`**：广播目标 id（target_component），不是合法的 source id，不可分配给具体组件
+- **`MAV_COMP_ID_USER1-USER75 = 25-99`**：MAVLink 预留的自定义段。标准中没有音频/雷达类组件，语音播报喇叭用 `25`，激光雷达用 `50-51`，毫米波雷达用 `60-67`
+- **100-105 = CAMERA1-6**：与 Orbit 摄像头段对齐；`106` 云台摄像头为 Orbit 自定义扩展（MAVLink 无 CAMERA7）
+- **140-153 = SERVO1-14**：Orbit 设备无舵机，为避免与未来 MAVLink 设备混淆，**不使用 140-153 段**
+- **200（IMU）/ 220（GPS）** 为 Orbit 自定义分配，MAVLink 标准中无对应组件（注意 180 在 MAVLink 中是 BATTERY，故 GPS 取 220）
 
 ## Component Type 枚举
 
@@ -33,6 +44,7 @@
 ```typescript
 enum ComponentType {
   CAMERA = 'camera',
+  AUDIO = 'audio',
   LIDAR = 'lidar',
   RADAR = 'radar',
   IMU = 'imu',
@@ -49,9 +61,14 @@ enum ComponentType {
 | Component Type | 命名模式 | 示例 |
 |----------------|---------|------|
 | Camera | 方向英文 | `front`, `rear`, `left`, `right`, `top`, `gimbal` |
+| Audio | 功能描述 | `megaphone` |
 | LiDAR | 功能描述 | `main`, `aux`, `front`, `rear` |
 | Radar | 位置+方向 | `front_left`, `front_right`, `rear_left`, `rear_right` |
 | IMU/GPS | 功能描述 | `main`, `primary`, `secondary` |
+
+> ⚠️ `component_name` 单独**不唯一**（如 `main` 有主控/激光雷达/IMU/GPS 四个），
+> 唯一约束是 `component_type + component_name`（心跳 `components` 的 key 即
+> `"{type}.{name}"` 点分复合键，见 [心跳](../api/device.md#心跳)）。
 
 ## Display Name 显示名
 
@@ -80,7 +97,7 @@ CREATE TABLE device_components (
   updated_at TIMESTAMP DEFAULT NOW() NOT NULL,
   
   UNIQUE(device_id, component_id),
-  UNIQUE(device_id, component_name)
+  UNIQUE(device_id, component_type, component_name)
 );
 ```
 
@@ -123,4 +140,4 @@ const mediaAsset = {
 
 ---
 
-**最后更新**: 2026-06-22
+**最后更新**: 2026-08-13

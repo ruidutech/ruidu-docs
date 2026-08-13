@@ -39,50 +39,6 @@
   }
   ```
 
-### 组件上报
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/components`
-- **接口方向**: 设备 -> 平台
-- **上报时机**:
-  - 设备启动后（注册成功后）
-  - 组件配置变更时
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {
-      "components": [
-        { "component_id": 100 },
-        { "component_id": 101 },
-        { "component_id": 150 },
-        { "component_id": 170 },
-        { "component_id": 180 }
-      ]
-    }
-  }
-  ```
-
-- **字段说明**
-  - `component_id`: 组件ID，遵循 [MAVLink Component ID](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 标准
-    - `100`: 前摄像头
-    - `101`: 后摄像头
-    - `102`: 左摄像头
-    - `103`: 右摄像头
-    - `150`: 主激光雷达
-    - `170`: IMU
-    - `180`: GPS
-    - 具体分配约定详见: [Component ID 分配规范](../design/component-id.md)
-
-- **接口说明**
-  - 设备上报其搭载的所有组件ID列表
-  - 组件的详细信息（类型、名称等）通过 `component_id` 与默认配置关联
-  - 平台将数据写入 `device_components` 表
-  - 与心跳解耦，心跳只上报传感器健康状态
-
 ### 心跳
 
 - **协议类型**: MQTT
@@ -98,18 +54,32 @@
       "device_type": "", // 设备类型
       "base_mode": "", // 当前模式
       "device_state": "", // 当前状态
-      // 传感器状态
-      "sensors": {
-        "laser": "not_present",
-        "gps": "rtk_fixed",
+      // 组件负载（组件清单 + 各组件状态）
+      "components": {
+        "gps.main": { "id": 220, "status": "rtk_fixed" },
+        "camera.gimbal": { "id": 106, "status": "ok" },
+        "camera.front": { "id": 100, "status": "ok" },
         ...
       }
     }
   }
   ```
 
+- **字段说明**
+  - `components`: 组件负载表。**key 为 `"{component_type}.{component_name}"` 点分复合键**（如 `camera.front` / `camera.gimbal` / `gps.main` / `imu.main`，取值见 [Component ID 分配规范](../design/component-id.md) 的 type / name 字段）
+    - name 单独**不唯一**（如 `main` 有主控/激光雷达/IMU/GPS 四个），唯一约束是 type + name
+    - 点分可逆：按首个 `.` 拆分，前段为 type、其余为 name
+    - 未知组件 key 约定为 `other.component_{id}`
+    - value 为对象：
+      - `id`: 组件 ID，遵循 [MAVLink Component ID](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 标准（摄像头 `100`-`106`、激光雷达 `50`-`51`、毫米波雷达 `60`-`67`、`IMU 200`、`GPS 220` 等）。**`id` 为权威标识**，平台解析以 value.id 为准，不依赖 key
+      - `status`: 组件状态。通用取值见 [传感器状态](#传感器状态)（`not_present` / `ok` / `emergency`）；GPS 专用取值见 [GPS状态](#gps状态)（`rtk_fixed` 等）
+      - 其他字段：组件可按需扩展（如电量、信号强度等）
+
 - **接口说明**
   - 心跳保持轻量，仅包含高频变更的设备状态信息
+  - **组件清单以心跳为准**：平台从 `components` 提取组件清单写入 `device_components` 表（仅在清单变化时落库）
+  - 未携带 `components` 字段时（如旧固件），平台维持该设备现有组件清单不变
+  - 平台对设备的能力判断（如有哪几路摄像头可推流）均基于该清单
 
 ### 模式设置
 

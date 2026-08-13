@@ -56,6 +56,7 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
       { text: "通用 API", link: "/orbitcontrol/tech-spec/api/common" },
       { text: "设备控制与状态", link: "/orbitcontrol/tech-spec/api/device" },
       { text: "云台相关", link: "/orbitcontrol/tech-spec/api/gimbal" },
+      { text: "视频流相关", link: "/orbitcontrol/tech-spec/api/stream" },
       { text: "机械臂相关", link: "/orbitcontrol/tech-spec/api/manipulator" },
       { text: "地图相关", link: "/orbitcontrol/tech-spec/api/map" },
       { text: "路网相关", link: "/orbitcontrol/tech-spec/api/route" },

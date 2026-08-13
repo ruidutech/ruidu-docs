@@ -193,8 +193,8 @@ sequenceDiagram
 ### 音频格式
 
 `mime_type` 声明音频格式（如 `audio/mpeg`、`audio/wav`）。
-平台应按设备解码能力生成（设备能力经组件上报声明，见
-[device.md](./device.md)「组件上报」与 component-id 分配规范）。
+平台应按设备解码能力生成（设备能力经心跳组件清单声明，见
+[device.md](./device.md)「心跳」的 `components` 字段与 component-id 分配规范）。
 
 ## 演进方向（未启用）
 

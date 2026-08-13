@@ -189,39 +189,9 @@
 
   > focus_type 参考 [对焦模式](#对焦模式)
 
-### 开始推流
+### 开始推流 / 结束推流
 
-WHIP -> LiveKit
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/start_stream`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "DEVICE-001",
-    "data": {
-      "whip_url": ""
-    }
-  }
-  ```
-
-### 结束推流
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/stop_stream`
-- **请求参数**
-
-  ```json
-  {
-    "msg_id": "uuid-789",
-    "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "DEVICE-001",
-    "data": {}
-  }
-  ```
+视频推流信令（含多路摄像头）已移至 [视频流相关 API](./stream.md)。
 
 ## 字典定义
 
