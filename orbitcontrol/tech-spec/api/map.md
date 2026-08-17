@@ -177,7 +177,7 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
       // 站点内所有地图的当前版本清单
       // 设备本地无此 map_id、或版本号不一致，都需要下载更新
       // kind：地图种类（map=本地栅格图 / wgs84=世界地图区域），
-      // 设备按种类走不同处理逻辑（wgs84 图无 pgm/png 等栅格文件）
+      // 设备按种类走不同处理逻辑（wgs84 图无 pgm/png 等栅格文件，仅携带 map_info.json）
       "versions": [
         { "map_id": "uuid-map-id-1", "version": 3, "kind": "map" },
         { "map_id": "uuid-map-id-2", "version": 1, "kind": "wgs84" }
@@ -343,13 +343,14 @@ download/req（建议指数退避）。
 | `{filename}.png`                 | `png`         | 平台保存（建图期间设备经 ROS2 topic 上报） | Web 展示预览                                                                                   | 必需                |
 | `{filename}.pcd.gz`               | `pcd`         | 设备上传                                   | 三维点云（gzip 压缩），设备端定位；下载后解压为 `{filename}.pcd`                                | 视设备能力          |
 | `{filename}.datum.yaml`          | `datum`       | 设备上传                                   | WGS84 与 local map 原点的对应关系，格式见 [navigation.md](../ros_msgs/navigation.md#datum-yaml) | 仅 align_wgs84 建图 |
-| `{filename}.map_info.json`       | `info`        | 设备上传                                   | 设备端特有的地图补充信息（内容由设备自定义），随版本透传给同站点其他设备                        | 视设备能力          |
+| `{filename}.map_info.json`       | `info`        | 设备上传 / 平台生成（wgs84 区域图）        | 地图补充信息；本地地图内容由设备自定义，wgs84 区域图由平台生成（见下文示例），随版本透传给同站点其他设备 | 视设备能力          |
 | `route_graph.geojson`            | `route_graph` | 云端编辑                                   | 路网（节点/边/区域），格式见 [route.md](./route.md)                                            | 可选                |
 
 **文件命名**：
 - 文件名由设备上传时决定，响应中 `files[].filename` 即实际存储/下载使用的文件名
 - 若设备未提供 `filename`，平台生成固定格式：`{version_id}.{ext}`（如 `01234567-89ab-cdef-0123-456789abcdef.pgm`）
 - `route_graph` 特殊处理：文件名固定为 `route_graph.geojson`
+- 平台生成的 `info`（wgs84 区域图）文件名固定为 `map_info.json`
 
 **存储路径**：`tenants/{tenant_id}/maps/{version_id}/{filename}`
 - 不同版本通过 `{version_id}` 子目录隔离，避免文件覆盖
@@ -370,6 +371,20 @@ mode: trinary
 
 datum.yaml 的格式定义与示例见 [navigation.md](../ros_msgs/navigation.md#datum-yaml)，
 仅 `align_wgs84=true` 建图的地图包含此文件。
+
+map_info.json 的来源按地图种类区分：本地栅格图（kind=map）由设备生成上传，
+内容由设备自定义，平台不解析、随版本透传；wgs84 区域图由平台在创建站点时
+生成，站点坐标变化时 bump 版本刷新。平台生成的内容示例：
+
+```json
+{"x": 0.0, "y": 0.0, "id": "2026-08-17-09-39-58", "yaw": 0.0, "area": 0.0, "name": "0198c7d2-3abf-7cc3-9d2e-5f6a7b8c9d0e", "time": "2026-08-17 09:39:58", "type": "wgs84", "range": "0", "width": 0, "height": 0, "latitude": "23.150054569", "sub_type": null, "longitude": "113.0191812281667", "resolution": 0.0}
+```
+
+- `id` / `time`：版本创建时间（格式分别为 `YYYY-MM-DD-HH-MM-SS` / `YYYY-MM-DD HH:MM:SS`）
+- `name`：地图 ID（maps 表 id）
+- `type`：固定 `wgs84`
+- `latitude` / `longitude`：站点坐标（区域中心），字符串形式
+- 本地栅格相关字段（`x` / `y` / `yaw` / `area` / `range` / `width` / `height` / `resolution` / `sub_type`）：置初始值
 
 **文件校验**：响应中携带各文件的 `size` 与 `md5`（hex）。设备先与本地文件比对 md5，
 一致的文件跳过下载（如路网编辑后仅需重下 geojson 文件，未变化的 pcd 可跳过）；
