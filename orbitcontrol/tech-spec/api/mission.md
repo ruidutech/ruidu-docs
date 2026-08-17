@@ -333,6 +333,8 @@
 | start_capture    | START_CAPTURE    | 拍照                     |
 | start_record     | START_RECORD     | 录像                     |
 | play_voice       | PLAY_VOICE       | 播放语音                 |
+| start_charging   | START_CHARGING   | 开始充电                 |
+| stop_charging    | STOP_CHARGING    | 停止充电（预留）         |
 
 play_voice 参数定义：
 
@@ -343,6 +345,18 @@ play_voice 参数定义：
   "volume": 80 // 音量 0-100，可选，缺省用设备默认
 }
 ```
+
+start_charging 参数定义：
+
+```json
+{
+  "type": "start_charging",
+  "target_soc": 80 // 目标电量百分比（0-100），可选；充至该值后设备自动停止充电并继续任务
+}
+```
+
+`target_soc` 缺省表示持续充电、不自动退出（区别于 `100`：后者充满即自动停止）。
+`stop_charging` 无参数，动作预留，暂不接入任务配置；到达 `target_soc` 后的停止充电由设备端自动执行。
 
 语音文件的分发与 key 共识机制见 [voice.md](./voice.md)。
 
