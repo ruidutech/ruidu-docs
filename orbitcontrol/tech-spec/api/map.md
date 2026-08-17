@@ -377,14 +377,16 @@ map_info.json 的来源按地图种类区分：本地栅格图（kind=map）由�
 生成，站点坐标变化时 bump 版本刷新。平台生成的内容示例：
 
 ```json
-{"x": 0.0, "y": 0.0, "id": "2026-08-17-09-39-58", "yaw": 0.0, "area": 0.0, "name": "0198c7d2-3abf-7cc3-9d2e-5f6a7b8c9d0e", "time": "2026-08-17 09:39:58", "type": "wgs84", "range": "0", "width": 0, "height": 0, "latitude": "23.150054569", "sub_type": null, "longitude": "113.0191812281667", "resolution": 0.0}
+{"x": 0.0, "y": 0.0, "id": "2026-08-17-09-39-58", "yaw": 0.0, "area": 0.0, "name": "0198c7d2-3abf-7cc3-9d2e-5f6a7b8c9d0e", "time": "2026-08-17 09:39:58", "type": "wgs84", "range": "0", "width": 100000, "height": 100000, "latitude": "23.150054569", "sub_type": null, "longitude": "113.0191812281667", "resolution": 0.05}
 ```
 
 - `id` / `time`：版本创建时间（格式分别为 `YYYY-MM-DD-HH-MM-SS` / `YYYY-MM-DD HH:MM:SS`）
 - `name`：地图 ID（maps 表 id）
 - `type`：固定 `wgs84`
 - `latitude` / `longitude`：站点坐标（区域中心），字符串形式
-- 本地栅格相关字段（`x` / `y` / `yaw` / `area` / `range` / `width` / `height` / `resolution` / `sub_type`）：置初始值
+- `resolution`：固定 `0.05`（米/像素）
+- `width` / `height`：区域像素数（bbox 跨度折算米数 / 分辨率，如 5000m / 0.05 = 100000）
+- 其余本地栅格相关字段（`x` / `y` / `yaw` / `area` / `range` / `sub_type`）：置初始值
 
 **文件校验**：响应中携带各文件的 `size` 与 `md5`（hex）。设备先与本地文件比对 md5，
 一致的文件跳过下载（如路网编辑后仅需重下 geojson 文件，未变化的 pcd 可跳过）；
