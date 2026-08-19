@@ -225,6 +225,24 @@
   }
   ```
 
+- **无任务上报**：设备在任务结束（或初始无任务）时会以 `mission_state: "no_mission"` 上报，此时无关联任务，`mission_id` / `execution_id` 为空字符串（或省略），进度类字段（`navigation_time` / `estimated_time_remaining` / `distance_remaining`）为 `null`
+
+  ```json
+  {
+    "data": {
+      "mission_id": "",
+      "execution_id": "",
+      "seq": 0,
+      "total": 0,
+      "mission_state": "no_mission",
+      "mission_mode": "unknown",
+      "navigation_time": null,
+      "estimated_time_remaining": null,
+      "distance_remaining": null
+    }
+  }
+  ```
+
 - **字典参考**
   - [mission_state](#任务状态)
   - [mission_mode](#任务模式)
