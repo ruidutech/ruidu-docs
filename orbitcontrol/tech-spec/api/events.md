@@ -54,6 +54,7 @@
 | 1101 | 推流服务异常           | error     |             |
 | 1102 | 设备状态不支持当前指令 | error     |             |
 | 1103 | 语音播放失败           | error     | key, reason |
+| 1104 | 语音对讲连接异常       | error     | reason      |
 
 ### 云台相关
 
@@ -64,11 +65,11 @@
 
 ### 导航相关
 
-| ID   | Text             | Log Level | Arguments               |
-| ---- | ---------------- | --------- | ----------------------- |
-| 3001 | 导航任务执行失败 | error     |                         |
-| 3002 | 导航被阻挡       | warning   | scene=obstacle_blocked  |
-| 3005 | 地图下载失败     | error     |                         |
+| ID   | Text             | Log Level | Arguments              |
+| ---- | ---------------- | --------- | ---------------------- |
+| 3001 | 导航任务执行失败 | error     |                        |
+| 3002 | 导航被阻挡       | warning   | scene=obstacle_blocked |
+| 3005 | 地图下载失败     | error     |                        |
 
 ### 任务执行相关
 

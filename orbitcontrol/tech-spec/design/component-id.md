@@ -14,6 +14,7 @@
 |-------------|---------|------|---------|
 | 1 | MAV_COMP_ID_AUTOPILOT1 | 飞控/主控制器 | - |
 | 25 | MAV_COMP_ID_USER1 | 语音播报喇叭 | `audio.megaphone` |
+| 26 | MAV_COMP_ID_USER2 | 语音对讲模块（麦克风+回声消除） | `audio.intercom` |
 | 50 | LIDAR_MAIN | 主激光雷达 | `lidar_name: "main"` |
 | 51 | LIDAR_AUX | 辅助激光雷达 | `lidar_name: "aux"` |
 | 60-67 | RADAR | 毫米波雷达（前2/后2/左2/右2） | `radar_name: "front_left"` 等 |
@@ -32,7 +33,7 @@
 参考 [MAV_COMPONENT](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 枚举：
 
 - **`MAV_COMP_ID_ALL = 0`**：广播目标 id（target_component），不是合法的 source id，不可分配给具体组件
-- **`MAV_COMP_ID_USER1-USER75 = 25-99`**：MAVLink 预留的自定义段。标准中没有音频/雷达类组件，语音播报喇叭用 `25`，激光雷达用 `50-51`，毫米波雷达用 `60-67`
+- **`MAV_COMP_ID_USER1-USER75 = 25-99`**：MAVLink 预留的自定义段。标准中没有音频/雷达类组件，语音播报喇叭用 `25`，语音对讲模块用 `26`，激光雷达用 `50-51`，毫米波雷达用 `60-67`
 - **100-105 = CAMERA1-6**：与 Orbit 摄像头段对齐；`106` 云台摄像头为 Orbit 自定义扩展（MAVLink 无 CAMERA7）
 - **140-153 = SERVO1-14**：Orbit 设备无舵机，为避免与未来 MAVLink 设备混淆，**不使用 140-153 段**
 - **200（IMU）/ 220（GPS）** 为 Orbit 自定义分配，MAVLink 标准中无对应组件（注意 180 在 MAVLink 中是 BATTERY，故 GPS 取 220）
@@ -61,7 +62,7 @@ enum ComponentType {
 | Component Type | 命名模式 | 示例 |
 |----------------|---------|------|
 | Camera | 方向英文 | `front`, `rear`, `left`, `right`, `top`, `gimbal` |
-| Audio | 功能描述 | `megaphone` |
+| Audio | 功能描述 | `megaphone`, `intercom` |
 | LiDAR | 功能描述 | `main`, `aux`, `front`, `rear` |
 | Radar | 位置+方向 | `front_left`, `front_right`, `rear_left`, `rear_right` |
 | IMU/GPS | 功能描述 | `main`, `primary`, `secondary` |
@@ -140,4 +141,4 @@ const mediaAsset = {
 
 ---
 
-**最后更新**: 2026-08-13
+**最后更新**: 2026-08-20
