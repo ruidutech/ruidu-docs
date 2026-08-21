@@ -10,23 +10,23 @@
 
 参考 MAVLink 标准，Orbit 系统的 Component ID 分配如下：
 
-| Component ID | 组件类型 | 说明 | 代码示例 |
+| Component ID | 组件类型 | 说明 | 复合键（`{type}.{name}`，心跳 components 的 key） |
 |-------------|---------|------|---------|
-| 1 | MAV_COMP_ID_AUTOPILOT1 | 飞控/主控制器 | - |
+| 1 | MAV_COMP_ID_AUTOPILOT1 | 飞控/主控制器 | `device.main` |
 | 25 | MAV_COMP_ID_USER1 | 语音播报喇叭 | `audio.megaphone` |
 | 26 | MAV_COMP_ID_USER2 | 语音对讲模块（麦克风+回声消除） | `audio.intercom` |
-| 50 | LIDAR_MAIN | 主激光雷达 | `lidar_name: "main"` |
-| 51 | LIDAR_AUX | 辅助激光雷达 | `lidar_name: "aux"` |
-| 60-67 | RADAR | 毫米波雷达（前2/后2/左2/右2） | `radar_name: "front_left"` 等 |
-| 100 | CAMERA_FRONT | 前摄像头 | `camera_name: "front"` |
-| 101 | CAMERA_REAR | 后摄像头 | `camera_name: "rear"` |
-| 102 | CAMERA_LEFT | 左摄像头 | `camera_name: "left"` |
-| 103 | CAMERA_RIGHT | 右摄像头 | `camera_name: "right"` |
-| 104 | CAMERA_TOP | 顶部摄像头 | `camera_name: "top"` |
-| 105 | CAMERA_BOTTOM | 底部摄像头 | `camera_name: "bottom"` |
-| 106 | CAMERA_GIMBAL | 云台摄像头 | `camera_name: "gimbal"` |
-| 200 | IMU | 惯性测量单元 | `imu_name: "main"` |
-| 220 | GPS | GPS/RTK 定位模块 | `gps_name: "main"` |
+| 50 | LIDAR_MAIN | 主激光雷达 | `lidar.main` |
+| 51 | LIDAR_AUX | 辅助激光雷达 | `lidar.aux` |
+| 60-67 | RADAR | 毫米波雷达 | `radar.front_left` / `radar.front_right` / `radar.rear_left` / `radar.rear_right` / `radar.left_front` / `radar.right_front` / `radar.left_rear` / `radar.right_rear` |
+| 100 | CAMERA_FRONT | 前摄像头 | `camera.front` |
+| 101 | CAMERA_REAR | 后摄像头 | `camera.rear` |
+| 102 | CAMERA_LEFT | 左摄像头 | `camera.left` |
+| 103 | CAMERA_RIGHT | 右摄像头 | `camera.right` |
+| 104 | CAMERA_TOP | 顶部摄像头 | `camera.top` |
+| 105 | CAMERA_BOTTOM | 底部摄像头 | `camera.bottom` |
+| 106 | CAMERA_GIMBAL | 云台摄像头 | `camera.gimbal` |
+| 200 | IMU | 惯性测量单元 | `imu.main` |
+| 220 | GPS | GPS/RTK 定位模块 | `gps.main` |
 
 ## 与 MAVLink 的对齐说明
 
@@ -78,7 +78,7 @@ enum ComponentType {
 ```typescript
 {component_name: "front", display_name: "前摄像头"}
 {component_name: "rear", display_name: "后摄像头"}
-{component_name: "lidar_main", display_name: "主激光雷达"}
+{component_name: "main", component_type: "lidar", display_name: "主激光雷达"}
 ```
 
 ## 数据库表结构

@@ -58,7 +58,8 @@
       "components": {
         "gps.main": { "id": 220, "status": "rtk_fixed" },
         "camera.gimbal": { "id": 106, "status": "ok" },
-        "camera.front": { "id": 100, "status": "ok" },
+        "camera.rear": { "id": 101, "status": "ok" },
+        "lidar.main": { "id": 50, "status": "ok" },
         ...
       }
     }
