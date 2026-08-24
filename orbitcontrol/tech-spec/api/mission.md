@@ -374,7 +374,7 @@ start_charging 参数定义：
 ```
 
 `target_soc` 缺省表示持续充电、不自动退出（区别于 `100`：后者充满即自动停止）。
-`stop_charging` 无参数，动作预留，暂不接入任务配置；到达 `target_soc` 后的停止充电由设备端自动执行。
+`stop_charging` 无参数，作为 waypoint 动作预留、暂不接入任务配置；到达 `target_soc` 后的停止充电由设备端自动执行。平台即时发起充电控制走[统一命令通道](./charging.md)。
 
 语音文件的分发与 key 共识机制见 [voice.md](./voice.md)。
 

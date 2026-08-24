@@ -230,6 +230,8 @@
 
 ### 充电
 
+> **已废弃**：平台已不再下发此别名 topic，充电控制统一走[命令通道](./charging.md)（`start_charging` / `stop_charging`，带受理回执）。
+
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/charge`
 - **请求参数**
