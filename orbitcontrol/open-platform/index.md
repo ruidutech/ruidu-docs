@@ -473,6 +473,8 @@ Content-Type: application/json
 | GET  | /devices/`{id}`          | 获取设备详情 | device:read    | -          |
 | PUT  | /devices/`{id}`          | 更新设备信息 | device:write   | -          |
 | POST | /devices/`{id}`/set_mode | 设置设备模式 | device:control | 控制类接口 |
+| POST | /devices/`{id}`/start_path_recording | 开始路径录制 | device:control | 平台侧采样遥测，无设备命令 |
+| POST | /devices/`{id}`/stop_path_recording | 停止路径录制 | device:control | - |
 
 ### 6.6 站点管理 /sites
 
@@ -558,8 +560,6 @@ Content-Type: application/json
 | GET    | /missions/`{id}`                      | 获取任务详情 | mission:read    | -                  |
 | PUT    | /missions/`{id}`                      | 更新任务     | mission:write   | -                  |
 | DELETE | /missions/`{id}`                      | 删除任务     | mission:write   | -                  |
-| POST   | /missions/`{id}`/start_path_recording | 开始路径记录 | mission:write   | -                  |
-| POST   | /missions/`{id}`/stop_path_recording  | 停止路径记录 | mission:write   | -                  |
 | POST   | /missions/`{id}`/execute              | 执行任务     | mission:execute | 控制类接口，有回调 |
 
 ### 6.12 调度管理 /schedules
