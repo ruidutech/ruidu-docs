@@ -228,21 +228,65 @@
   }
   ```
 
-### 充电
+### 开始充电
 
-> **已废弃**：平台已不再下发此别名 topic，充电控制统一走[命令通道](./charging.md)（`start_charging` / `stop_charging`，带受理回执）。
-
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/charge`
+- **协议类型**: MQTT（统一命令通道）
+- **接口地址**: `device/:serial_number/command`（`data.type = start_charging`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
 - **请求参数**
   ```json
   {
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
-    "data": {}
+    "serial_number": "DEVICE-001",
+    "data": {
+      "type": "start_charging",
+      "target_soc": 80 // 目标电量百分比（0-100），可选
+    }
   }
   ```
+
+- **字段说明**
+  - `target_soc`: 目标电量（State of Charge，百分比 0-100），充至该值后设备自动停止充电。缺省表示持续充电、不自动退出（区别于 `100`：后者充满即自动停止）
+
+- **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见 [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
+
+  | result        | 设备侧场景                          |
+  | ------------- | ----------------------------------- |
+  | accepted      | 校验通过（充电桩对接正常），开始充电 |
+  | temp_rejected | 充电桩暂时不可用，可退避重试        |
+  | denied        | 当前状态不允许充电（如不在充电位）  |
+  | failed        | 充电启动失败（message 携带原因）    |
+  | unsupported   | 固件不支持充电控制                  |
+
+- **接口说明**
+
+  - 回执为**受理**语义：`accepted` 不代表已充满，充电进度经[电池](#电池)上报感知
+  - 幂等（QoS 1 可能重复投递）：已在充电中收到相同 `start_charging` → 忽略但**仍须回执** `accepted`
+  - 参数语义与任务 waypoint 动作 `start_charging` 一致（见[任务执行](./mission.md)）
+
+### 停止充电
+
+- **协议类型**: MQTT（统一命令通道）
+- **接口地址**: `device/:serial_number/command`（`data.type = stop_charging`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
+- **请求参数**
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "DEVICE-001",
+    "data": { "type": "stop_charging" }
+  }
+  ```
+
+- **接口说明**
+
+  - 幂等：未在充电中收到 `stop_charging` 仍回执 `accepted`
+  - 设备停止充电并按自身策略决定后续动作（如保持原位待命）
+  - 作为任务 waypoint 动作仍为预留（暂不接入任务配置），仅本命令通道可用
 
 ## 部署环境同步
 
