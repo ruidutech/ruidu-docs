@@ -18,6 +18,7 @@
 | 50 | LIDAR_MAIN | 主激光雷达 | `lidar.main` |
 | 51 | LIDAR_AUX | 辅助激光雷达 | `lidar.aux` |
 | 60-67 | RADAR | 毫米波雷达 | `radar.front_left` / `radar.front_right` / `radar.rear_left` / `radar.rear_right` / `radar.left_front` / `radar.right_front` / `radar.left_rear` / `radar.right_rear` |
+| 70-79 | LIGHT | 灯光（MAVLink 无灯组件，段内预留各方位灯；当前仅 70 前大灯，见[车灯设置](../api/device.md#车灯设置)） | `light.front`（预留 `light.rear` / `light.fog` 等） |
 | 100 | CAMERA_FRONT | 前摄像头 | `camera.front` |
 | 101 | CAMERA_REAR | 后摄像头 | `camera.rear` |
 | 102 | CAMERA_LEFT | 左摄像头 | `camera.left` |
@@ -33,7 +34,7 @@
 参考 [MAV_COMPONENT](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 枚举：
 
 - **`MAV_COMP_ID_ALL = 0`**：广播目标 id（target_component），不是合法的 source id，不可分配给具体组件
-- **`MAV_COMP_ID_USER1-USER75 = 25-99`**：MAVLink 预留的自定义段。标准中没有音频/雷达类组件，语音播报喇叭用 `25`，语音对讲模块用 `26`，激光雷达用 `50-51`，毫米波雷达用 `60-67`
+- **`MAV_COMP_ID_USER1-USER75 = 25-99`**：MAVLink 预留的自定义段。标准中没有音频/雷达/灯光类组件，语音播报喇叭用 `25`，语音对讲模块用 `26`，激光雷达用 `50-51`，毫米波雷达用 `60-67`，灯光用 `70-79`
 - **100-105 = CAMERA1-6**：与 Orbit 摄像头段对齐；`106` 云台摄像头为 Orbit 自定义扩展（MAVLink 无 CAMERA7）
 - **140-153 = SERVO1-14**：Orbit 设备无舵机，为避免与未来 MAVLink 设备混淆，**不使用 140-153 段**
 - **200（IMU）/ 220（GPS）** 为 Orbit 自定义分配，MAVLink 标准中无对应组件（注意 180 在 MAVLink 中是 BATTERY，故 GPS 取 220）
@@ -50,6 +51,7 @@ enum ComponentType {
   RADAR = 'radar',
   IMU = 'imu',
   GPS = 'gps',
+  LIGHT = 'light',
   ODOMETRY = 'odometry',
   OTHER = 'other'
 }
@@ -65,6 +67,7 @@ enum ComponentType {
 | Audio | 功能描述 | `megaphone`, `intercom` |
 | LiDAR | 功能描述 | `main`, `aux`, `front`, `rear` |
 | Radar | 位置+方向 | `front_left`, `front_right`, `rear_left`, `rear_right` |
+| Light | 方位/功能 | `front`（前大灯），预留 `rear`、`fog`（雾灯）等 |
 | IMU/GPS | 功能描述 | `main`, `primary`, `secondary` |
 
 > ⚠️ `component_name` 单独**不唯一**（如 `main` 有主控/激光雷达/IMU/GPS 四个），
@@ -141,4 +144,4 @@ const mediaAsset = {
 
 ---
 
-**最后更新**: 2026-08-20
+**最后更新**: 2026-08-25
