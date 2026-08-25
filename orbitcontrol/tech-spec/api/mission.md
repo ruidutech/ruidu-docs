@@ -264,8 +264,7 @@
 | start_capture    | START_CAPTURE    | 拍照                     |
 | start_record     | START_RECORD     | 录像                     |
 | play_voice       | PLAY_VOICE       | 播放语音                 |
-| start_charging   | START_CHARGING   | 开始充电                 |
-| stop_charging    | STOP_CHARGING    | 停止充电（预留）         |
+| set_charging     | SET_CHARGING     | 充电设置                 |
 
 play_voice 参数定义：
 
@@ -277,17 +276,17 @@ play_voice 参数定义：
 }
 ```
 
-start_charging 参数定义：
+set_charging 参数定义（与统一命令通道 `set_charging` 同一词表，参数语义一致，见[设备协议](./device.md#充电设置)）：
 
 ```json
 {
-  "type": "start_charging",
+  "type": "set_charging",
+  "on": true, // 期望充电状态：true 开启 / false 停止
   "target_soc": 80 // 目标电量百分比（0-100），可选；充至该值后设备自动停止充电并继续任务
 }
 ```
 
-`target_soc` 缺省表示持续充电、不自动退出（区别于 `100`：后者充满即自动停止）。
-`stop_charging` 无参数，作为 waypoint 动作预留、暂不接入任务配置；到达 `target_soc` 后的停止充电由设备端自动执行。平台即时发起充电控制走[统一命令通道](./device.md#开始充电)。
+`target_soc` 仅 `on = true` 时有效，`on = false` 时必须缺省；携带 = 设置/更新目标，缺省 = 空闲启动则为持续充电、不自动退出（区别于 `100`：后者充满即自动停止），充电中则保持现目标。任务中到达 `target_soc` 后的停止充电由设备端自动执行。
 
 语音文件的分发与 key 共识机制见 [voice.md](./voice.md)。
 

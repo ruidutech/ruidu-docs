@@ -72,7 +72,7 @@
     - 点分可逆：按首个 `.` 拆分，前段为 type、其余为 name
     - 未知组件 key 约定为 `other.component_{id}`
     - value 为对象：
-      - `id`: 组件 ID，遵循 [MAVLink Component ID](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 标准（摄像头 `100`-`106`、激光雷达 `50`-`51`、毫米波雷达 `60`-`67`、`IMU 200`、`GPS 220` 等）。**`id` 为权威标识**，平台解析以 value.id 为准，不依赖 key
+      - `id`: 组件 ID，遵循 [MAVLink Component ID](https://mavlink.io/en/messages/common.html#MAV_COMPONENT) 标准（摄像头 `100`-`106`、激光雷达 `50`-`51`、毫米波雷达 `60`-`67`、灯光 `70`-`79`、`IMU 200`、`GPS 220` 等）。**`id` 为权威标识**，平台解析以 value.id 为准，不依赖 key
       - `status`: 组件状态。通用取值见 [传感器状态](#传感器状态)（`not_present` / `ok` / `emergency`）；GPS 专用取值见 [GPS状态](#gps状态)（`rtk_fixed` 等）
       - 其他字段：组件可按需扩展（如电量、信号强度等）
 
@@ -228,10 +228,10 @@
   }
   ```
 
-### 开始充电
+### 充电设置
 
 - **协议类型**: MQTT（统一命令通道）
-- **接口地址**: `device/:serial_number/command`（`data.type = start_charging`）
+- **接口地址**: `device/:serial_number/command`（`data.type = set_charging`）
 - **接口方向**: 平台 -> 设备
 - **QoS**: 1
 - **请求参数**
@@ -241,35 +241,39 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "DEVICE-001",
     "data": {
-      "type": "start_charging",
-      "target_soc": 80 // 目标电量百分比（0-100），可选
+      "type": "set_charging",
+      "on": true,          // 期望充电状态（必填）
+      "target_soc": 80     // 目标电量百分比（0-100），可选
     }
   }
   ```
 
 - **字段说明**
-  - `target_soc`: 目标电量（State of Charge，百分比 0-100），充至该值后设备自动停止充电。缺省表示持续充电、不自动退出（区别于 `100`：后者充满即自动停止）
+
+  - `on`: 期望充电状态，`true` = 开启充电 / `false` = 停止充电
+  - `target_soc`: 目标电量（State of Charge，百分比 0-100），充至该值后设备自动停止充电。仅 `on = true` 时有效，**部分更新语义**：携带 = 设置/更新目标（充电中可改），缺省 = 空闲启动则为持续充电、不自动退出（区别于 `100`：后者充满即自动停止），充电中则保持现目标
+  - `on = false` 时 `target_soc` 必须缺省，否则设备回执 `denied`
 
 - **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见 [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
 
   | result        | 设备侧场景                          |
   | ------------- | ----------------------------------- |
-  | accepted      | 校验通过（充电桩对接正常），开始充电 |
+  | accepted      | 校验通过（充电桩对接正常），已按命令进入/退出充电 |
   | temp_rejected | 充电桩暂时不可用，可退避重试        |
-  | denied        | 当前状态不允许充电（如不在充电位）  |
-  | failed        | 充电启动失败（message 携带原因）    |
+  | denied        | 参数不合法（如 `on = false` 携带 `target_soc`）或当前状态不允许充电（如不在充电位） |
+  | failed        | 充电启动/停止失败（message 携带原因）|
   | unsupported   | 固件不支持充电控制                  |
 
 - **接口说明**
 
-  - 回执为**受理**语义：`accepted` 不代表已充满，充电进度经[电池](#电池)上报感知
-  - 幂等（QoS 1 可能重复投递）：已在充电中收到相同 `start_charging` → 忽略但**仍须回执** `accepted`
-  - 参数语义与任务 waypoint 动作 `start_charging` 一致（见[任务执行](./mission.md)）
+  - **期望状态语义**：命令声明期望充电状态，`accepted` 即受理生效；实际充电进程（进行中/目标达成/故障）经[电池](#电池)上报感知
+  - 天然幂等（QoS 1 可能重复投递）：收到与当前一致的目标态 → 忽略但仍须回执 `accepted`
+  - 参数语义与任务 waypoint 动作 `set_charging` 一致（见[任务执行](./mission.md)）
 
-### 停止充电
+### 车灯设置
 
 - **协议类型**: MQTT（统一命令通道）
-- **接口地址**: `device/:serial_number/command`（`data.type = stop_charging`）
+- **接口地址**: `device/:serial_number/command`（`data.type = set_light`）
 - **接口方向**: 平台 -> 设备
 - **QoS**: 1
 - **请求参数**
@@ -278,15 +282,40 @@
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "DEVICE-001",
-    "data": { "type": "stop_charging" }
+    "data": {
+      "type": "set_light",
+      "component_id": 70,   // 目标灯组件 ID（必填）
+      "on": true,           // 开关，可选
+      "beam": "high",       // 远近光，可选
+      "brightness": 80,     // 亮度 0-100，可选
+      "mode": "steady"      // 工作模式，可选
+    }
   }
   ```
 
+- **字段说明**
+
+  - `component_id`: 目标灯组件 ID，取值见 [Component ID 分配规范](../design/component-id.md) 灯光段（`70`-`79`），当前 `70` = 前大灯
+  - `on`: 开（`true`）/ 关（`false`）
+  - `beam`: 远近光，`high` = 远光 / `low` = 近光（仅大灯支持）
+  - `brightness`: 亮度，百分比 `0`-`100`，设备映射到实际调光范围
+  - `mode`: 工作模式，`steady` = 常亮 / `strobe` = 爆闪
+  - **部分更新语义**：`on` / `beam` / `brightness` / `mode` 均可选，**缺省字段设备保持现状**；四者须至少携带一项（全缺省为非法命令）
+
+- **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见 [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
+
+  | result        | 设备侧场景                          |
+  | ------------- | ----------------------------------- |
+  | accepted      | 参数校验通过，灯已按命令设置        |
+  | denied        | 参数不合法（brightness 超范围、缺省全部控制字段等） |
+  | unsupported   | 固件不支持车灯控制 / `component_id` 非灯组件 / 该灯不支持 `beam` 等字段 |
+  | failed        | 设置失败（message 携带原因）        |
+
 - **接口说明**
 
-  - 幂等：未在充电中收到 `stop_charging` 仍回执 `accepted`
-  - 设备停止充电并按自身策略决定后续动作（如保持原位待命）
-  - 作为任务 waypoint 动作仍为预留（暂不接入任务配置），仅本命令通道可用
+  - 设置类命令无长执行过程，`accepted` 即已生效；回执仅表达受理结果，如需观测实际灯态以设备状态上报为准（灯态上报通道当前版本未定义，预留）
+  - 幂等（QoS 1 可能重复投递）：收到与当前状态相同的设置 → 忽略但仍须回执 `accepted`
+  - 转向灯、示宽灯等其他灯光由设备端自主控制，不经本命令
 
 ## 部署环境同步
 
