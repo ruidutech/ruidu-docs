@@ -155,6 +155,8 @@
   }
   ```
 
+- **任务失败上报**：设备端任务失败时以 `mission_state: "failed"` 上报终态（关联任务时进度类字段仍需携带）；`mission_current` 不含具体失败原因，原因通过[事件上报](./events.md) `3001`（`arguments` 携带 `reason`）补充，平台生成站内信展示
+
 - **字典参考**
   - [mission_state](#任务状态)
   - [mission_mode](#任务模式)
@@ -312,3 +314,5 @@ mission_state
 | active      | ACTIVE      | 运行   |
 | paused      | PAUSED      | 暂停   |
 | complete    | COMPLETE    | 完成   |
+| aborted     | ABORTED     | 终止（平台侧推断：安全模式/监管抢占，设备不上报） |
+| failed      | FAILED      | 失败（设备上报终态；或平台推断：任务上报超时） |
