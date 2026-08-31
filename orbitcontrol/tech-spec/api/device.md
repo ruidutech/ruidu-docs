@@ -84,21 +84,29 @@
 
 ### 模式设置
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/set_mode`
+- **协议类型**: MQTT（统一命令通道）
+- **接口地址**: `device/:serial_number/command`（`data.type = set_mode`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
 - **请求参数**
   ```json
   {
     "msg_id": "uuid-789",
     "timestamp": 1757403776, // Unix 时间戳
-    "serial_number": "sn-191",
+    "serial_number": "DEVICE-001",
     "data": {
+      "type": "set_mode",
       "base_mode": ""
     }
   }
   ```
+- **字段说明**
+  - `base_mode`: 目标模式，平台按模式状态机校验合法迁移后下发
 - **字典参考**
   - [base_mode](#设备控制模式)
+- **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见 [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
+- **接口说明**
+  - ack 仅表达受理结果，实际生效模式以[心跳](#心跳) `base_mode` 上报为准
 - **Mavlink 参考**
   - [MAV_CMD_DO_SET_MODE](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_SET_MODE)
 
@@ -316,6 +324,48 @@
   - 设置类命令无长执行过程，`accepted` 即已生效；回执仅表达受理结果，如需观测实际灯态以设备状态上报为准（灯态上报通道当前版本未定义，预留）
   - 幂等（QoS 1 可能重复投递）：收到与当前状态相同的设置 → 忽略但仍须回执 `accepted`
   - 转向灯、示宽灯等其他灯光由设备端自主控制，不经本命令
+
+### 播放语音
+
+- **协议类型**: MQTT（统一命令通道）
+- **接口地址**: `device/:serial_number/command`（`data.type = play_voice`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
+- **请求参数**
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "DEVICE-001",
+    "data": {
+      "type": "play_voice",
+      "key": "warn_obstacle_01", // 或 "text": "前方施工，请绕行"（二选一）
+      "volume": 80 // 音量 0-100，可选，缺省用设备默认
+    }
+  }
+  ```
+
+- **字段说明**
+
+  - `key` / `text` **恰好其二一**，同时携带或均缺省为非法命令：
+    - `key`: 语音 key，播放设备本地已同步的语音文件（清单共识与分发见 [voice.md](./voice.md)）
+    - `text`: 实时播报文本，设备端实时 TTS 播放，**需设备具备 TTS 能力**（平台不合成，原样透传）
+  - `volume`: 音量，百分比 `0`-`100`，缺省用设备默认
+
+- **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见 [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
+
+  | result        | 设备侧场景                          |
+  | ------------- | ----------------------------------- |
+  | accepted      | 参数校验通过，已开始播放            |
+  | denied        | 参数不合法（key/text 同时携带或均缺省、volume 超范围等） |
+  | unsupported   | 固件不支持播放语音，或 `text` 模式但设备无 TTS 能力 |
+  | failed        | 播放启动失败（message 携带原因）    |
+
+- **接口说明**
+
+  - ack 仅表达受理结果，无播放进度状态流；播放失败经事件 `1103` 上报
+  - `key` 模式下本地文件缺失的降级策略（内置兜底音/忽略）见 [voice.md](./voice.md)「播放与降级」
+  - 与任务 waypoint 动作 `play_voice` 同一词表，参数语义一致（见[任务执行](./mission.md)）
 
 ## 部署环境同步
 

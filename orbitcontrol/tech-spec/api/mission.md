@@ -268,12 +268,15 @@
 | play_voice       | PLAY_VOICE       | 播放语音                 |
 | set_charging     | SET_CHARGING     | 充电设置                 |
 
-play_voice 参数定义：
+play_voice 参数定义（与统一命令通道 `play_voice` 同一词表，参数语义一致，见[设备协议](./device.md#播放语音)）：
 
 ```json
 {
   "type": "play_voice",
-  "key": "warn_obstacle_01", // 语音 key，须在站点语音清单中，见 voice.md
+  // 播放源，key / text 恰好其二一：
+  //   key：语音 key，须在站点语音清单中，见 voice.md
+  //   text：实时文本，设备端实时 TTS，需设备具备 TTS 能力
+  "key": "warn_obstacle_01",
   "volume": 80 // 音量 0-100，可选，缺省用设备默认
 }
 ```
