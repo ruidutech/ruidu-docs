@@ -30,15 +30,14 @@ Orbit 开放平台为第三方应用提供标准化的 API 接口，允许开发
 
 ### 2.1 获取访问令牌
 
-使用平台分配的 `app_id` 和 `app_secret` 调用 Token 接口：
+使用平台分配的 `app_key` 和 `app_secret` 调用 Token 接口：
 
 ```bash
-POST /api/v1/oauth/token
+POST /api/v1/auth/tenant-access-token
 Content-Type: application/json
 
 {
-  "grant_type": "client_credentials",
-  "app_id": "app_1234567890",
+  "app_key": "app_1234567890",
   "app_secret": "secret_abcdefg"
 }
 ```
@@ -47,14 +46,11 @@ Content-Type: application/json
 
 ```json
 {
-  "code": 0,
-  "message": "success",
-  "data": {
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "token_type": "Bearer",
-    "expires_in": 7200,
-    "refresh_token": "ref_1234567890"
-  }
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "rt_1234567890abcdef",
+  "refresh_expires_in": 604800
 }
 ```
 
@@ -75,7 +71,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 flowchart LR
     A[第三方厂商] --> B[Orbit 平台]
     B --> C[审核通过]
-    C --> D[获得 app_id, app_secret]
+    C --> D[获得 app_key, app_secret]
 ```
 
 ### 3.2 申请材料
@@ -113,7 +109,7 @@ flowchart LR
 审核通过后，平台会提供：
 
 - **测试环境地址**：用于开发测试
-- **测试凭证**：`app_id` 和 `app_secret`
+- **测试凭证**：`app_key` 和 `app_secret`
 - **测试设备**：可用的测试设备列表
 
 测试通过后，提供生产环境凭证。
@@ -124,8 +120,8 @@ flowchart LR
 
 Orbit 开放平台采用 **API Key + JWT Token** 双重鉴权模式：
 
-1. **API Key 阶段**：使用 `app_id` 和 `app_secret` 获取 `access_token`
-2. **JWT Token 阶段**：使用 `access_token` 调用业务 API
+1. **API Key 阶段**：使用 `app_key` 和 `app_secret` 获取 `access_token` 与 `refresh_token`
+2. **JWT Token 阶段**：使用 `access_token` 调用业务 API，过期后用 `refresh_token` 换新
 
 ### 4.2 鉴权流程
 
@@ -133,15 +129,21 @@ Orbit 开放平台采用 **API Key + JWT Token** 双重鉴权模式：
 sequenceDiagram
     participant TP as 第三方应用
     participant API as Orbit API
-    TP->>API: POST /oauth/token<br/>app_id + app_secret
+    TP->>API: POST /auth/tenant-access-token<br/>app_key + app_secret
     activate API
     Note right of API: 验证凭证
-    API-->>TP: 返回 access_token
+    API-->>TP: 返回 access_token + refresh_token
     deactivate API
     TP->>API: 调用业务 API<br/>Authorization: Bearer token
     activate API
     Note right of API: 验证 Token 和权限
     API-->>TP: 返回业务数据
+    deactivate API
+    Note over TP: access_token 过期（1 小时）
+    TP->>API: POST /auth/integration-refresh<br/>refresh_token
+    activate API
+    Note right of API: 轮换验证
+    API-->>TP: 新 access_token + 新 refresh_token
     deactivate API
 ```
 
@@ -150,12 +152,11 @@ sequenceDiagram
 **请求：**
 
 ```http
-POST /api/v1/oauth/token
+POST /api/v1/auth/tenant-access-token
 Content-Type: application/json
 
 {
-  "grant_type": "client_credentials",
-  "app_id": "app_abc123xyz",
+  "app_key": "app_abc123xyz",
   "app_secret": "secret_abcdef123456"
 }
 ```
@@ -164,14 +165,11 @@ Content-Type: application/json
 
 ```json
 {
-  "code": 0,
-  "message": "success",
-  "data": {
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "token_type": "Bearer",
-    "expires_in": 7200,
-    "refresh_token": "ref_xyz123abc456"
-  }
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "rt_xyz123abc456",
+  "refresh_expires_in": 604800
 }
 ```
 
@@ -179,24 +177,26 @@ Content-Type: application/json
 
 ```json
 {
-  "code": 401,
-  "message": "Invalid app_id or app_secret"
+  "code": 400,
+  "success": false,
+  "message": "Invalid integration key/secret format"
 }
 ```
 
 ### 4.4 刷新访问令牌
 
-当 `access_token` 过期后，使用 `refresh_token` 获取新的令牌：
+当 `access_token` 过期后，使用 `refresh_token` 获取新的令牌。
+
+刷新令牌采用**严格轮换制**：每次刷新返回全新的 `access_token` 与 `refresh_token`，旧 `refresh_token` 立即作废。**复用已作废的 `refresh_token` 会被视为令牌泄漏**，该应用全部刷新令牌将被吊销，需重新用 `app_key`/`app_secret` 认证。
 
 **请求：**
 
 ```http
-POST /api/v1/oauth/refresh
+POST /api/v1/auth/integration-refresh
 Content-Type: application/json
 
 {
-  "grant_type": "refresh_token",
-  "refresh_token": "ref_xyz123abc456"
+  "refresh_token": "rt_xyz123abc456"
 }
 ```
 
@@ -204,16 +204,19 @@ Content-Type: application/json
 
 ```json
 {
-  "code": 0,
-  "message": "success",
-  "data": {
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "token_type": "Bearer",
-    "expires_in": 7200,
-    "refresh_token": "ref_new_xyz789"
-  }
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "rt_new_xyz789",
+  "refresh_expires_in": 604800
 }
 ```
+
+**令牌吊销说明：**
+
+- 重新生成 `app_secret` 会吊销该应用全部刷新令牌，此后需用新凭证重新认证
+- 也可调用 `POST /api/v1/auth/logout`（body 携带 `refresh_token`，幂等）主动吊销单个刷新令牌
+- 吊销不影响已签发的 `access_token`，其最迟在自然过期（1 小时）后失效
 
 ### 4.5 使用令牌调用 API
 
@@ -227,29 +230,37 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### 4.6 代码示例
 
 ```javascript
-// 1. 获取 access_token
+// 1. 获取 access_token 与 refresh_token
 const authResponse = await fetch(
-  "https:/api.orbit.example.com/api/v1/oauth/token",
+  "https://api.orbit.example.com/api/v1/auth/tenant-access-token",
   {
     method: "POST",
-    headers: "Content-Type": "application/json",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      grant_type: "client_credentials",
-      app_id: "app_abc123xyz",
-      app_secret: "secret_abcdef123456",
-    }),
-  },
+      app_key: "app_abc123xyz",
+      app_secret: "secret_abcdef123456"
+    })
+  }
 );
-const {
-  data: `{access_token}`,
-} = await authResponse.json();
+const { access_token, refresh_token } = await authResponse.json();
 
 // 2. 调用业务 API
-const missions = await fetch("https:/api.orbit.example.com/api/v1/missions", {
-  headers: `Authorization: Bearer ${access_token}` },
+const missions = await fetch("https://api.orbit.example.com/api/v1/missions", {
+  headers: { Authorization: `Bearer ${access_token}` }
 });
 const missionsData = await missions.json();
 console.log(missionsData);
+
+// 3. access_token 过期后，用 refresh_token 换新（旧 refresh_token 立即作废，请保存新值）
+const refreshResponse = await fetch(
+  "https://api.orbit.example.com/api/v1/auth/integration-refresh",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh_token })
+  }
+);
+const newTokens = await refreshResponse.json();
 ```
 
 ## 5. 控制类指令说明
@@ -635,7 +646,7 @@ Content-Type: application/json
 | ------ | -------------------------- | ------------------------------ |
 | 0      | 成功                       | -                              |
 | 400    | 请求参数错误               | 检查请求参数格式和内容         |
-| 401    | 未授权（Token 无效或过期） | 重新获取 access_token          |
+| 401    | 未授权（Token 无效或过期） | 用 refresh_token 换新，或重新获取访问令牌 |
 | 403    | 权限不足                   | 检查应用权限范围               |
 | 404    | 资源不存在                 | 检查资源 ID 是否正确           |
 | 409    | 资源冲突                   | 检查资源状态或是否存在         |
