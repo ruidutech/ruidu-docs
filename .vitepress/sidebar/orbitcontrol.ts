@@ -5,8 +5,8 @@ export const orbitcontrolSidebar: DefaultTheme.SidebarItem[] = [
     text: "产品介绍",
     collapsed: false,
     items: [
-      { text: "概述", link: "/orbitcontrol/" },
-      { text: "产品介绍", link: "/orbitcontrol/introduction/whatis.md" },
+      { text: "什么是 OrbitControl", link: "/orbitcontrol/introduction/whatis" },
+      { text: "OrbitControl 的优势", link: "/orbitcontrol/introduction/advantage" },
     ],
   },
   {
