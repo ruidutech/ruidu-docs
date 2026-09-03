@@ -1,50 +1,68 @@
 /* Custom CSS to make images display inline */
-p img, li img {
-  display: inline;
-  vertical-align: top;
-  margin: 0;
+p img,
+li img {
+    display: inline;
+    vertical-align: top;
+    margin: 0;
 }
 
-img.inline {
-  height: 28px;
+/* /icons/ 下的内联图标自动按 28px 显示，无需逐个加 class */
+img[src*="/icons/"] {
+    display: inline;
+    vertical-align: middle;
+    height: 24px;
 }
 
-img.panel {
-  width: 50%;
+/* 图片宽度工具类（Tailwind 风格，斜杠在选择器中需转义）：
+   用法：![](xxx.png){.w-1/2} */
+img.w-1\/4 {
+    width: 25%;
+}
+
+img.w-1\/3 {
+    width: 33.333%;
+}
+
+img.w-1\/2 {
+    width: 50%;
+}
+
+img.w-2\/3 {
+    width: 66.667%;
 }
 
 /* 强制表格不换行 */
 .vp-doc table {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 /* 允许有 <br> 的单元格换行 */
 .vp-doc table td br {
-  white-space: normal;
-  display: block;
-  content: " ";
+    white-space: normal;
+    display: block;
+    content: " ";
 }
 
 /* ASCII 图表优化样式 */
 .vp-doc pre,
 .vp-doc code {
-  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
-  line-height: 1.2;
-  letter-spacing: 0;
+    font-family: "Menlo", "Monaco", "Consolas", "Courier New", monospace;
+    line-height: 1.2;
+    letter-spacing: 0;
 }
 
 .vp-doc pre {
-  padding: 16px;
-  overflow-x: auto;
-  background-color: var(--vp-c-bg-soft);
-  border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    background-color: var(--vp-c-bg-soft);
+    border-radius: 8px;
 }
 
 /* 确保 ASCII 图表字符对齐 */
 .vp-doc pre code {
-  display: block;
-  font-variant-ligatures: none;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    display: block;
+    font-variant-ligatures: none;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
