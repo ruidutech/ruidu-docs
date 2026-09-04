@@ -2,6 +2,14 @@
   "baseUrl": "http://localhost:5173/ruidu-docs",
   "outputDir": "./tmp",
   "defaultModule": "orbitcontrol",
+  "docx": {
+    "cover": {
+      "brand": "睿度智能",
+      "logo": "./templates/ruidu-logo.png",
+      "title": "ORBIT 无人车管理平台",
+      "subtitle": "用户手册"
+    }
+  },
   "pdf": {
     "format": "A4",
     "margin": {

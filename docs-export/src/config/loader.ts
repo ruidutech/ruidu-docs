@@ -25,6 +25,7 @@ export function loadConfig(configPath: string): Config {
     chrome: { ...defaultConfig.chrome, ...userConfig.chrome },
     pageWaitTime: userConfig.pageWaitTime || defaultConfig.pageWaitTime,
     navigationTimeout: userConfig.navigationTimeout || defaultConfig.navigationTimeout,
+    docx: { ...defaultConfig.docx, ...userConfig.docx },
   };
 }
 

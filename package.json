@@ -15,7 +15,7 @@
     "docs:dev": "vitepress dev .",
     "docs:build": "vitepress build .",
     "docs:preview": "vitepress preview .",
-    "docs:export": "cd pdf-export && npx tsx src/index.ts"
+    "docs:export": "cd docs-export && npx tsx src/index.ts"
   },
   "dependencies": {
     "markdown-it-attrs": "^4.3.1",

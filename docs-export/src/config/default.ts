@@ -39,4 +39,8 @@ export const defaultConfig: Config = {
   },
   pageWaitTime: 2000,
   navigationTimeout: 60000,
+  docx: {
+    referenceDoc: './templates/orbit-reference.docx',
+    tableAutofit: true,
+  },
 };

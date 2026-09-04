@@ -41,6 +41,19 @@ export interface Config {
     executablePath: string;
     args?: string[];
   };
+  docx?: {
+    /** pandoc --reference-doc 样式模板（相对 docs-export 目录），空字符串 表示禁用 */
+    referenceDoc?: string;
+    /** 表格宽度按内容自适应（Word「根据内容调整表格」），false 时占满文本宽度 */
+    tableAutofit?: boolean;
+    /** 品牌封面（替换 pandoc 默认 Title 页）：logo + 品牌名 / 标题 / 页底年月 */
+    cover?: {
+      brand: string;
+      logo: string;
+      title: string;
+      subtitle: string;
+    };
+  };
   pageWaitTime: number;
   navigationTimeout: number;
 }
