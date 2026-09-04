@@ -49,6 +49,15 @@ export default withMermaid({
       copyright: "Copyright © 2025 Ruidu Intelligence Technology",
     },
   },
+  // fastdom（mermaid 传递依赖，CJS）不在 vitepress-plugin-mermaid 的
+  // optimizeDeps.include 硬编码名单里，不预打包会以裸 CJS 直出导致
+  // "does not provide an export named 'default'" 白屏；主入口与
+  // promised 子路径都要列上
+  vite: {
+    optimizeDeps: {
+      include: ["fastdom", "fastdom/extensions/fastdom-promised.js"],
+    },
+  },
   mermaid: {
     theme: "default",
     fontSize: 14,
