@@ -2,12 +2,12 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/markdown-it-attrs": "^4.1.3",
-    "@types/node": "^22.15.30",
-    "mermaid": "^11.16.0",
+    "@types/node": "^22.20.1",
+    "mermaid": "^11.17.2",
     "pdf-lib": "^1.17.1",
-    "puppeteer": "^24.10.0",
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3",
+    "puppeteer": "^24.43.1",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3",
     "vitepress": "1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17"
   },
@@ -18,8 +18,8 @@
     "docs:export": "cd docs-export && npx tsx src/index.ts"
   },
   "dependencies": {
-    "markdown-it-attrs": "^4.3.1",
-    "puppeteer-core": "^24.10.0",
-    "vitepress-plugin-tabs": "^0.7.1"
+    "markdown-it-attrs": "^4.5.0",
+    "puppeteer-core": "^24.43.1",
+    "vitepress-plugin-tabs": "^0.7.3"
   }
 }
