@@ -1,3 +1,8 @@
+shamefullyHoist: true
+# vite dev 预打包（optimizeDeps）以裸包名从项目根解析 mermaid 的传递依赖
+# （dayjs/cytoscape/debug 等），pnpm 严格隔离布局不提升传递依赖会解析失败；
+# 提升到根 node_modules 恢复可达（docs 站点场景无严格隔离诉求）
+
 allowBuilds:
   # esbuild: tsx 依赖，postinstall 安装平台二进制
   esbuild: true
