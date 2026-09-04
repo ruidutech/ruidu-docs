@@ -1,0 +1,1 @@
+import{_ as o,o as t,c as r,a7 as a}from"./chunks/framework.Bn19FVGY.js";const g=JSON.parse('{"title":"睿度文档工程","description":"","frontmatter":{},"headers":[],"relativePath":"CLAUDE.md","filePath":"CLAUDE.md"}'),s={name:"CLAUDE.md"};function i(n,e,l,d,c,p){return t(),r("div",null,[...e[0]||(e[0]=[a("",7)])])}const h=o(s,[["render",i]]);export{g as __pageData,h as default};

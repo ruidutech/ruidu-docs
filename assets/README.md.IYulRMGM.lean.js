@@ -1,0 +1,1 @@
+import{_ as a,o as i,c as n,a7 as e}from"./chunks/framework.Bn19FVGY.js";const k=JSON.parse('{"title":"睿度文档中心","description":"","frontmatter":{},"headers":[],"relativePath":"README.md","filePath":"README.md"}'),p={name:"README.md"};function l(t,s,h,r,d,o){return i(),n("div",null,[...s[0]||(s[0]=[e("",17)])])}const g=a(p,[["render",l]]);export{k as __pageData,g as default};
