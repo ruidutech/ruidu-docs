@@ -1,3 +1,6 @@
 allowBuilds:
-  esbuild: set this to true or false
-  puppeteer: set this to true or false
+  # esbuild: tsx 依赖，postinstall 安装平台二进制
+  esbuild: true
+  # puppeteer: postinstall 仅下载自带 Chrome（约 150MB），
+  # 导出工具通过 config.json chrome.executablePath 使用系统 Chrome，无需下载
+  puppeteer: false
