@@ -511,7 +511,6 @@ Content-Type: application/json
 | GET    | /organizations/`{id}`                          | 获取组织详情   | organization:read  |
 | PUT    | /organizations/`{id}`                          | 更新组织       | organization:write |
 | DELETE | /organizations/`{id}`                          | 删除组织       | organization:write |
-| GET    | /organizations/code/`{code}`                   | 按代码查询组织 | organization:read  |
 | GET    | /organizations/tree                            | 获取组织树结构 | organization:read  |
 | GET    | /organizations/roots                           | 获取顶层组织   | organization:read  |
 | GET    | /organizations/`{id}`/children                 | 获取子组织列表 | organization:read  |
