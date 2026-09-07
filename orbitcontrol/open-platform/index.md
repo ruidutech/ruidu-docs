@@ -625,6 +625,56 @@ Content-Type: application/json
 | GET  | /galleries        | 获取媒体画廊列表 | -        |
 | GET  | /galleries/`{id}` | 获取媒体资产详情 | -        |
 
+### 6.17 警报上报 /alarms/report
+
+第三方系统（火灾报警主机、门禁控制器、周界传感器、VMS/CCTV 等）向平台上报
+安防警报的统一入口。车端算法识别经设备 MQTT 通道上报（见 tech-spec
+`api/alarm.md`），与本接口**共用同一上报信封，仅接入层不同**。
+
+**前置条件**：第三方系统须先注册为平台**告警源**——平台管理端创建告警源
+（命名并绑定部署站点）后生成上报 token（`asrc_` 前缀）。告警源凭 token 即可
+上报，**不使用** integration access token，也无需感知平台站点信息。
+
+**鉴权**：`Authorization: Bearer <告警源 token>`（token 即身份，站点归属由
+平台按告警源绑定解析）。
+
+| 方法 | 路径                | 功能                       | 所需权限 |
+| ---- | ------------------- | -------------------------- | -------- |
+| POST | /alarms/report      | 上报告警                   | 源 token |
+| POST | /alarms/heartbeat   | 心跳（源在线状态依据）     | 源 token |
+
+**请求体**（`/alarms/report`）：
+
+```json
+{
+  "alarm_type": "fire_alarm",
+  "confidence": 0.95,
+  "media_id": "uuid-xxx",
+  "external_event_id": "upstream-evt-42"
+}
+```
+
+| 字段 | 必填 | 说明 |
+| ---- | ---- | ---- |
+| `alarm_type` | 是 | 警报类型，开放词表，未知类型平台原样存储展示 |
+| `confidence` | 否 | 置信度 [0,1]，超出范围请求被拒绝 |
+| `media_id` | 否 | 关联媒体证据 |
+| 其他字段 | 否 | 原样保留进警报上下文（如 `external_event_id` 上游事件号） |
+
+**响应**：
+
+```json
+{ "status": "created", "alarm_id": "uuid-901" }
+```
+
+`status=suppressed` 表示同站点同类型处于去重冷却窗口（60 秒），未生成新警报。
+
+**处理规则**：
+
+- 同站点同类型 60 秒去重冷却；
+- token 无效（告警源被删除或 token 已重新生成）时返回 403，接入方需更新配置；
+- 建议接入方周期调用 `/alarms/heartbeat`（如 60 秒一次），平台据此展示源在线状态。
+
 ## 7. 错误码
 
 ### 7.1 错误响应格式
