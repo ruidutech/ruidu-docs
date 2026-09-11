@@ -112,6 +112,42 @@
 - **Mavlink 参考**
   - [MAV_CMD_DO_PAUSE_CONTINUE](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_PAUSE_CONTINUE)
 
+### 停止任务
+
+终止设备当前正在执行的任务。经统一命令通道下发，设备须回复命令回执。
+
+- **协议类型**: MQTT（统一命令通道）
+- **接口地址**: `device/:serial_number/command`（`data.type = mission_stop`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "type": "mission_stop"
+    }
+  }
+  ```
+
+- **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见 [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
+
+  | result        | 设备侧场景                          |
+  | ------------- | ----------------------------------- |
+  | accepted      | 已停止当前任务                      |
+  | denied        | 当前无执行中的任务，或当前模式不允许停止 |
+  | failed        | 停止失败（message 携带原因）        |
+  | unsupported   | 固件不支持停止任务                  |
+
+- **接口说明**
+
+  - **无命令参数**：设备按当前执行中的任务处理，不指定任务标识
+  - 与暂停（[pause_continue](#暂停继续任务)）的区别：停止为终止性操作，任务不再继续；暂停可经 `continue` 恢复
+  - 回执仅表达受理结果，任务终止终态经[任务状态上报](#任务状态上报)以 `mission_state: "aborted"` 上报
+
 ### 任务状态上报
 
 - **协议类型**: MQTT
@@ -317,5 +353,5 @@ mission_state
 | active      | ACTIVE      | 运行   |
 | paused      | PAUSED      | 暂停   |
 | complete    | COMPLETE    | 完成   |
-| aborted     | ABORTED     | 终止（平台侧推断：安全模式/监管抢占，设备不上报） |
+| aborted     | ABORTED     | 终止（[停止任务](#停止任务)受理后设备上报；或平台侧推断：安全模式/监管抢占） |
 | failed      | FAILED      | 失败（设备上报终态；或平台推断：任务上报超时） |
