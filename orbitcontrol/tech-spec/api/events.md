@@ -73,6 +73,7 @@
 | 3001 | 导航任务执行失败 | error     | reason                  |
 | 3002 | 导航被阻挡       | warning   | scene=obstacle_blocked |
 | 3005 | 地图下载失败     | error     |                        |
+| 3006 | 建图失败         | error     | reason                  |
 
 ### 任务执行相关
 
