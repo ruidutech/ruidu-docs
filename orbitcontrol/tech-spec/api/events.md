@@ -58,6 +58,8 @@
 | 1102 | 设备状态不支持当前指令 | error     |             |
 | 1103 | 语音播放失败           | error     | key/text, reason |
 | 1104 | 语音对讲连接异常       | error     | reason      |
+| 1302 | 电量过低               | warning   | battery_remaining |
+| 1501 | 媒体文件上传失败       | error     | filename, stage, reason, attempt_count?, max_attempts?, http_status? |
 
 ### 云台相关
 
@@ -72,8 +74,9 @@
 | ---- | ---------------- | --------- | ---------------------- |
 | 3001 | 导航任务执行失败 | error     | reason                  |
 | 3002 | 导航被阻挡       | warning   | scene=obstacle_blocked |
-| 3005 | 地图同步/下载失败 | error     | reason                  |
-| 3006 | 建图失败         | error     | reason                  |
+| 3004 | 地图上传失败     | error     | detail                  |
+| 3005 | 地图同步/下载失败 | error     | detail                  |
+| 3006 | 进入建图模式失败 | error     | operation, failure_stage, reason, exit_mapping_result |
 
 ### 任务执行相关
 
