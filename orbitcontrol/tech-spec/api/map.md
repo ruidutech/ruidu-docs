@@ -19,6 +19,12 @@ route_graph 的格式与编辑 API 见 [route.md](./route.md)。
 地图元数据一致）：仅替换预览图（pgm 等未变文件平移引用），版本 +1 后设备按
 md5 差异重下 png。
 
+**地图状态门控**（平台 `maps.map_status`，显式状态机）：`save_map` / `reupload_map`
+命令后地图进入 `awaiting_upload`（等待设备上传），**仅此状态平台受理 upload/req**
+（其余状态不发放上传地址——设备不能任由主动上传）；upload/done 全部成功后置
+`ready`（可进同步清单）。云端图片编辑为后台任务：进行中 `processing`、失败
+`failed`，两者版本均为最后成功版，仍在清单中正常下发。
+
 ```mermaid
 sequenceDiagram
     participant U as 用户(Web)
@@ -53,8 +59,11 @@ sequenceDiagram
 
 ### 地图上传请求
 
-设备收到 `/save_map` 调用并完成本地产物落盘后，声明待上传的文件类型与文件名，
-请求上传地址。设备无需知晓平台侧版本号，由平台在响应中告知。
+设备收到 `/save_map` 或 `reupload_map` 命令并完成本地产物落盘后，声明待上传的
+文件类型与文件名，请求上传地址。设备无需知晓平台侧版本号，由平台在响应中告知。
+
+**门控**：仅地图处于 `awaiting_upload` 状态时受理（见开头「地图状态门控」）；
+其余状态平台不响应（设备按超时重试，地图进入等待状态后自然恢复）。
 
 - **协议类型**: MQTT
 - **接口地址**: `device/:serial_number/map/upload/req`
@@ -154,12 +163,67 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
   }
   ```
 
-平台逐文件校验（HEAD 对象存储确认文件就绪），以实际 size/ETag 登记文件清单。
-全部上传成功后生成 yaml 并登记。存在失败或缺失文件的版本不生成 yaml
-（平台侧告警）；设备重传完成后再次发送本通知（done 始终为全量结果）。
+平台逐文件校验（HEAD 对象存储确认文件就绪），以实际 size/ETag 登记文件清单，
+并反写版本元数据（yaml 解析 → metadata，png IHDR → 宽高）。全部上传成功后
+地图状态置 `ready`（恢复进同步清单）；存在失败或缺失文件时状态保持
+`awaiting_upload`（平台侧告警），设备重传完成后再次发送本通知
+（done 始终为全量结果）。
 
 站点同步不在本流程触发：由管理端调用 `POST /maps/sync` 手动广播
 （见「地图同步广播」）。
+
+### 地图重传
+
+运维修复入口（区别于建图保存 `save_map`）：要求持有该地图的设备将本地文件
+重新上传平台。适用场景：`save_map` 后设备未完成上传（地图滞留
+`awaiting_upload`）、平台侧文件缺失等。
+
+- **触发方式**: 管理端 `POST /v1/devices/{id}/reupload_map`，请求体 `{ "map_id": "uuid" }`
+- **协议类型**: MQTT（统一命令通道，与 `save_map` 的 ROS2 路径不同）
+- **接口地址**: `device/:serial_number/command`（`data.type = reupload_map`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
+- **请求参数**
+  ```json
+  {
+    "msg_id": "uuid-789",
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "DEVICE-001",
+    "data": {
+      "type": "reupload_map",
+      "map_id": "uuid-map-id"
+    }
+  }
+  ```
+
+- **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见
+  [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
+
+  | result        | 设备侧场景                          |
+  | ------------- | ----------------------------------- |
+  | accepted      | 本地存在该地图，开始上传流程        |
+  | denied        | 参数不合法（map_id 缺失等）        |
+  | unsupported   | 固件不支持重传                      |
+  | temp_rejected | 设备忙（正在建图/上传中），稍后可重试 |
+  | failed        | 本地不存在该地图或读取失败（message 携带原因） |
+
+- **流程说明**
+
+  1. 平台先将地图置 `awaiting_upload`：此前为 `ready/failed` 时 bump 占位新版本
+     （旧版本文件平移引用，设备重传的文件覆盖同类型记录，route_graph 等设备
+     不持有的类型保持引用），随后下发命令
+  2. 设备受理后按「地图上传请求」流程声明本地实有文件并上传，upload/done
+     全部成功后平台置 `ready`，地图恢复进同步清单（版本号已 +1，设备按
+     差异重新对齐）
+  3. **未受理自动回滚**：命令未受理（回执 denied/failed/超时）时平台回滚占位
+     版本——上一版本元数据拷入当前版本、状态恢复 `ready`，地图不留滞留
+     `awaiting_upload`（版本号不回退，文件 md5 全同，设备无感知）
+  4. 幂等重入：地图已在 `awaiting_upload` 时平台仅重发命令（不重复 bump 版本）；
+     云端图片编辑进行中（`processing`）时拒绝重传
+
+> **滞留恢复**：`save_map` 后设备一直未完成上传时，地图停留在
+> `awaiting_upload`（前端徽标可见，不进同步清单）——恢复入口即本接口：
+> 待设备上线后重传；设备本地也无该地图文件时删除地图重建。
 
 ### 地图同步广播
 
@@ -174,9 +238,10 @@ pcd 为 gzip 压缩后字节）。上传失败或 URL 过期的文件，重新�
     "msg_id": "uuid-789",
     "timestamp": 1757403776000, // Unix 时间戳（毫秒）
     "data": {
-      // 站点内所有就绪地图的当前版本清单
-      // （就绪 = 版本文件与元数据完整：设备建图须上传完成（upload/done 反写），
-      // 云端图片编辑须后台保存任务成功；未就绪地图不进清单，暂不下发）
+      // 站点内所有可下发地图的当前版本清单
+      // （不含 awaiting_upload 的地图：save_map/reupload_map 后设备上传未完成，
+      // 占位版本暂不下发，upload/done 全部成功后自动回归清单；
+      // 云端图片编辑 processing/failed 以最后成功版本留在清单正常下发）
       // 设备本地无此 map_id、或版本号不一致，都需要下载更新
       // kind：地图种类（map=本地栅格图 / wgs84=世界地图区域），
       // 设备按种类走不同处理逻辑（wgs84 图无 pgm/png 等栅格文件，仅携带 map_info.json）
@@ -397,4 +462,5 @@ map_info.json 的来源按地图种类区分：本地栅格图（kind=map）由�
 
 **清单外地图处理**：设备本地存在、但同步清单中不包含的地图（如云端已删除），
 由设备端策略处理（建议清理）。注意：清理不得波及设备自身建图/上传中的地图
-（save_map 已告知 map_id，属正常未就绪状态，云端就绪后会重新进清单）。
+（save_map / reupload_map 已告知 map_id，属正常的 `awaiting_upload` 状态，
+上传完成后会重新进清单）。
