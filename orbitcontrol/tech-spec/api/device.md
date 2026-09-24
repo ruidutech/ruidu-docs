@@ -54,6 +54,7 @@
       "device_type": "", // 设备类型
       "base_mode": "", // 当前模式
       "device_state": "", // 当前状态
+      "initialization_state": "initialized", // 初始化状态（initialized = 位姿就绪，点云与环境匹配）
       // 组件负载（组件清单 + 各组件状态）
       "components": {
         "gps.main": { "id": 220, "status": "rtk_fixed" },
@@ -67,6 +68,7 @@
   ```
 
 - **字段说明**
+  - `initialization_state`: 初始化状态。`initialized` 表示当前设备位姿已就绪（激光雷达点云与环境匹配，具备任务执行前提）。仅在 [部署环境同步](#部署环境同步) 的 `coordinate_frame = map`（本地地图模式）下有意义；wgs84 模式的定位状态看 GPS 组件的 [GPS状态](#gps状态)。未携带时视为未知（如旧固件）。取值见 [初始化状态](#初始化状态)
   - `components`: 组件负载表。**key 为 `"{component_type}.{component_name}"` 点分复合键**（如 `camera.front` / `camera.gimbal` / `gps.main` / `imu.main`，取值见 [Component ID 分配规范](../design/component-id.md) 的 type / name 字段）
     - name 单独**不唯一**（如 `main` 有主控/激光雷达/IMU/GPS 四个），唯一约束是 type + name
     - 点分可逆：按首个 `.` 拆分，前段为 type、其余为 name
@@ -518,3 +520,13 @@ gps_status，对齐 sensor_msgs/NavSatStatus 语义：
 | rtk_fixed        | RTK_FIXED        | 4   | RTK 固定解，可用于 RTK 建锚点和重定位   |
 | rtk_float        | RTK_FLOAT        | 5   | RTK 浮点解，仅用于展示和诊断            |
 | estimated        | ESTIMATED        | 6   | 接收机正在估算位置，不可用于 RTK 重定位 |
+
+### 初始化状态
+
+initialization_state，与 Autoware AD API 的 [localization/initialization_state](https://tier4.github.io/autoware-documentation/latest/design/autoware-interfaces/ad-api/features/localization/) 对齐：
+
+| value         | name          | desc                                                 |
+| ------------- | ------------- | ---------------------------------------------------- |
+| uninitialized | UNINITIALIZED | 未初始化（上电后尚未获得初始位姿）                   |
+| initializing  | INITIALIZING  | 初始化中（重定位进行中，点云匹配尚未收敛）           |
+| initialized   | INITIALIZED   | 已初始化（点云与环境匹配，位姿就绪，具备任务执行前提） |
