@@ -215,6 +215,7 @@
       "component_id": 106, // 组件ID，默认106(云台相机) [!code ++]
       "mission_id?": "uuid-xxx", // 不传或传 null 时表示手动模式下的媒体文件
       "execution_id?": "uuid-987", // 同上
+      "alarm_id?": "uuid-301", // 告警关联键：与 device/:sn/alarm 上报的 alarm_id 同值（即平台告警 ID），标识本文件为告警证据（截图/clip），优先级高于 mission_id
       "filename": "patrol_01.mp4",
       "file_size": 104857600,
       "mime_type": "video/mp4",
