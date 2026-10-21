@@ -73,7 +73,7 @@ MQTT 标准 不支持 `{}` 占位符，需使用 `显式路径`， 通配符仅�
 设备命令的统一通道与逐命令回执机制：
 
 - **下发**：命令可经专属 topic（如 `device/:serial_number/set_mode`，由各命令接口文档定义）或统一命令 topic `device/:serial_number/command` 下发，两者并存，某命令采用哪种以该命令的接口文档为准
-- **回执**：经统一 topic 下发的命令，设备**必须**回复 `device/:serial_number/command_ack`，以 `msg_id` 与命令关联
+- **回执**：经统一 topic 下发的命令，设备**必须**回复 `device/:serial_number/command_ack`，以 `msg_id` 与命令关联；**例外仅一处**——`mission_items` 设备单播（任务数据传输事务）回 `device/:serial_number/mission_ack`，见[任务协议](./mission.md#任务回执)（2026-10-20 起）；mission 控制命令（`mission_start` / `pause_continue` / `mission_stop`）仍走 command/command_ack
 
 ### 命令下发（command）
 

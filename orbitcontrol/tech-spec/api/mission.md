@@ -3,7 +3,8 @@
 ### 任务下发
 
 - **协议类型**: MQTT
-- **接口地址**: `site/:site_id/mission_items`
+- **接口地址**: `site/:site_id/mission_items`（站点广播）/ `device/:serial_number/mission_items`（启动单播，payload 同）
+- **QoS**: 1
 - **请求参数**
 
   ```json
@@ -12,7 +13,7 @@
     "timestamp": 1757403776, // Unix 时间戳
     "data": {
       "mission_id": "uuid-901", // 任务ID，和任务配置关联，小车端可以配合任务详情进行缓存
-      "updated_at": 1757403776, // Unix 时间戳，辅助判断任务版本
+      "updated_at": 1757403776, // Unix 时间戳，版本比对锚点：启动单播时设备与本地已缓存版本一致则跳过重写
       "waypoints": [
         {
           "seq": 0,
@@ -67,12 +68,57 @@
   - [MISSION_ITEM_INT](https://mavlink.io/en/messages/common.html#MISSION_ITEM_INT)
   - [MAV_CMD_NAV_WAYPOINT](https://mavlink.io/en/messages/common.html#MAV_CMD_NAV_WAYPOINT)
 
+::: tip 变更 2026-10-20（mission 启动事务化）
+- **新增启动单播通道** `device/:serial_number/mission_items`：任务启动时平台必达重推全量内容（设备级信封，携带 `serial_number`，`data` 结构与广播一致），等待[任务回执](#任务回执)确认后才下发[任务开始](#任务开始)。站点广播保留，定位为编辑后的缓存预热（尽力而为、允许丢失、不回执）
+- **版本快速路径**：单播携带的 `updated_at` 为版本锚点，与设备本地已缓存版本一致时设备跳过重写、直接回 `accepted`
+- 设备仅对**单播**回执（[任务回执](#任务回执)，`type = mission_items`）；站点广播不回执
+:::
+
+### 任务回执
+
+::: tip 新增 2026-10-20（mission 启动事务化）
+任务内容单播的事务确认通道，设计动机对标 MAVLink [MISSION_ACK](https://mavlink.io/en/messages/common.html#MISSION_ACK)：任务数据传输的最终确认语义，解决设备离线期间编辑导致的平台/设备任务不同步（下发失败或静默跑旧航线）。
+:::
+
+- **协议类型**: MQTT
+- **接口地址**: `device/:serial_number/mission_ack`
+- **协议方向**: 设备 -> 平台
+- **QoS**: 1
+- **请求参数**
+
+  ```json
+  {
+    "msg_id": "uuid-789", // 被响应指令的 msg_id，原样回显
+    "timestamp": 1757403776, // Unix 时间戳
+    "serial_number": "sn-191",
+    "data": {
+      "type": "mission_items", // 指令标识，与下行单播指令对应
+      "result": "accepted", // 受理结果，复用 command_ack_result 字典（见 MQTT 协议规范）
+      "message": "" // 可选，补充说明（失败原因等）
+    }
+  }
+  ```
+
+- **result 场景**（其余取值语义同 [command_ack_result 字典](./mqtt_convention.md#result-字典)）
+
+  | type          | accepted                                 | denied                | failed                                                | temp_rejected           |
+  | ------------- | ---------------------------------------- | --------------------- | ----------------------------------------------------- | ----------------------- |
+  | mission_items | 任务数据已写入本地（或版本一致跳过重写） | 航点/参数校验失败     | 地图缺失或解析失败、底盘写入失败（message 携带原因） | mission worker 忙，可重试 |
+
+- **接口说明**
+  - 本通道仅承载 `mission_items` 设备单播的回执；任务控制命令（mission_start / pause_continue / mission_stop）经统一命令通道下发、回执走 `command_ack`——对标 MAVLink 通道划分：MAV_CMD 命令回 COMMAND_ACK，任务内容传输（MISSION_COUNT/ITEMS）回 MISSION_ACK
+  - 回执表达**数据落地**结果：执行进度与终态走[任务状态上报](#任务状态上报)，不进回执（同 command_ack 约定）
+  - `temp_rejected` 表示暂时性拒绝（如 mission worker 正忙），平台可原参重试
+  - 平台对启动单播等待回执（默认 5s，同 command_ack 约定），超时即视为本次执行失败，不下发 mission_start；`set_mode` 已回执成功而 `mission_items` 超时，通常表示设备固件未升级至支持 mission_ack 的版本
+
 ### 任务开始
 
 设备端保存任务后，由云端下发此指令触发任务执行。
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/mission_start`
+- **协议类型**: MQTT（统一命令通道）
+- **接口地址**: `device/:serial_number/command`（`data.type = mission_start`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
 - **请求参数**
 
   ```json
@@ -81,21 +127,30 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
+      "type": "mission_start", // [!code ++]
       "mission_id": "uuid-901", // 任务ID，需与任务下发时一致
       "execution_id": "uuid-912" // 任务执行ID，唯一标志单次执行实例，车载端上传媒体数据时，需要与其关联
     }
   }
   ```
 
+- **回执**: `device/:serial_number/command_ack`（`type = mission_start`）——设备完成准入检查（模式/预约互斥）后回执
+
 - **Mavlink 参考**
   - [MAV_CMD_MISSION_START](https://mavlink.io/en/messages/common.html#MAV_CMD_MISSION_START)
+
+::: tip 变更 2026-10-20（mission 启动事务化）
+下发通道由独立 topic `device/:serial_number/mission_start` 迁移至统一命令通道；新增受理回执（原为无回执下发）。启动事务时序：平台 `set_mode(auto)`（command_ack）→ `mission_items` 启动单播（[mission_ack](#任务回执)）→ `mission_start`（command_ack），三步全部确认后由[任务状态上报](#任务状态上报)跟踪执行。控制命令与任务数据传输分通道回执，对标 MAVLink：MAV_CMD 走 COMMAND_ACK、任务内容走 MISSION_ACK。
+:::
 
 ### 暂停/继续任务
 
 适用于任务执行过程中调用。
 
-- **协议类型**: MQTT
-- **接口地址**: `device/:serial_number/pause_continue`
+- **协议类型**: MQTT（统一命令通道）
+- **接口地址**: `device/:serial_number/command`（`data.type = pause_continue`）
+- **接口方向**: 平台 -> 设备
+- **QoS**: 1
 - **请求参数**
 
   ```json
@@ -104,13 +159,20 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
+      "type": "pause_continue", // [!code ++]
       "action": "pause|continue"
     }
   }
   ```
 
+- **回执**: `device/:serial_number/command_ack`（`type = pause_continue`）——受理结果
+
 - **Mavlink 参考**
   - [MAV_CMD_DO_PAUSE_CONTINUE](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_PAUSE_CONTINUE)
+
+::: tip 变更 2026-10-20（mission 启动事务化）
+下发通道由独立 topic `device/:serial_number/pause_continue` 迁移至统一命令通道；新增受理回执（原为无回执下发）。
+:::
 
 ### 停止任务
 
@@ -133,7 +195,7 @@
   }
   ```
 
-- **回执**: `device/:serial_number/command_ack`（`msg_id` 回显，格式见 [MQTT 协议规范](./mqtt_convention.md)的 command_ack 章节）
+- **回执**: `device/:serial_number/command_ack`（`type = mission_stop`）
 
   | result        | 设备侧场景                          |
   | ------------- | ----------------------------------- |
@@ -212,7 +274,7 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "component_id": 106, // 组件ID，默认106(云台相机) [!code ++]
+      "component_id": 106, // 组件ID，默认106(云台相机)
       "mission_id?": "uuid-xxx", // 不传或传 null 时表示手动模式下的媒体文件
       "execution_id?": "uuid-987", // 同上
       "alarm_id?": "uuid-301", // 告警关联键：与 device/:sn/alarm 上报的 alarm_id 同值（即平台告警 ID），标识本文件为告警证据（截图/clip），优先级高于 mission_id
