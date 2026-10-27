@@ -127,7 +127,7 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "type": "mission_start", // [!code ++]
+      "type": "mission_start",
       "mission_id": "uuid-901", // 任务ID，需与任务下发时一致
       "execution_id": "uuid-912" // 任务执行ID，唯一标志单次执行实例，车载端上传媒体数据时，需要与其关联
     }
@@ -159,7 +159,7 @@
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "type": "pause_continue", // [!code ++]
+      "type": "pause_continue",
       "action": "pause|continue"
     }
   }
@@ -319,17 +319,21 @@
 
   ```json
   {
-    "msg_id": "uuid-789", // 要和 media_uplaod/req 接口对应
+    "msg_id": "uuid-789", // 要和 media_upload/req 接口对应
     "timestamp": 1757403776, // Unix 时间戳
     "serial_number": "sn-191",
     "data": {
-      "upload_id": "uuid-for-db-record", // 平台生成的媒体资源 ID
+      "result": "accepted", // [!code ++] 处理结果，字典同 command_ack 的 result：accepted / denied（请求被拒，勿原样重试）/ failed（平台故障，可退避重试）
+      "message": "device not found: sn-191", // [!code ++] 仅 result != accepted 时携带，失败原因
+      "upload_id": "uuid-for-db-record", // 平台生成的媒体资源 ID（以下凭证字段仅 accepted 时携带）
       "upload_url": "http://115.29.200.60:9000/orbit-private/xxxx.jpg?X-Amz-Signature=...",
       "thumbnail_upload_url?": "http://115.29.200.60:9000/orbit-private/xxxx_thumb.jpg?X-Amz-Signature=...",
       "expire_at": 1700000600
     }
   }
   ```
+
+- **失败必答**（新增 `result` / `message` 字段，**平台已实现、设备端待适配**）：`media_upload/req` 处理失败时平台同样经由本接口应答（msg_id 回显关联，不再静默中断），设备按 `result` 分流——`denied` 为请求侧问题（未知设备 / 参数 / 业务规则），修正后重发；`failed` 为平台侧故障，可退避后重新发起 `media_upload/req`。失败时凭证字段缺省。`result` 字典与 MAVLink [COMMAND_ACK](https://mavlink.io/en/messages/common.html#COMMAND_ACK) 对齐，与 `command_ack` 接口共用同一词表
 
 ### 媒体文件上传完成通知
 
